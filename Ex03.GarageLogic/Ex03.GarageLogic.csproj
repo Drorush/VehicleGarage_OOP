@@ -54,14 +54,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Car.cs" />
-    <Compile Include="ElectricEngine.cs" />
     <Compile Include="Engine.cs" />
-    <Compile Include="FuelEngine.cs" />
     <Compile Include="Garage.cs" />
     <Compile Include="MotorCycle.cs" />
     <Compile Include="Truck.cs" />
     <Compile Include="Vehicle.cs" />
     <Compile Include="VehicleDetails.cs" />
+    <Compile Include="VehiclesCreator.cs" />
     <Compile Include="Wheel.cs" />
   </ItemGroup>
   <ItemGroup>

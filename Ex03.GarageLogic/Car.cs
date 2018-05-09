@@ -8,19 +8,28 @@ namespace Ex03.GarageLogic
 {
     public class Car : Vehicle
     {
-        private enum eColor
+        private int m_NumOfDoors;
+        private eColor m_Color;
+        public enum eColor
         {
             Grey,
             Blue,
             White,
             Black
         };
-        private enum eNumOfDoors
+        internal enum eNumOfDoors
         {
             Two,
             Three,
             Four,
             Five
         };
+
+        public Car(eColor i_Color, int i_NumOfDoors, VehiclesCreator.eEnergyType i_EnergyType)
+        {
+            m_Color = i_Color;
+            m_NumOfDoors = i_NumOfDoors;
+        }
+
     }
 }
