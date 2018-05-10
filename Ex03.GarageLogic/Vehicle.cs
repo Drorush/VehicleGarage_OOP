@@ -23,6 +23,18 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public string LicenseNumber
+        {
+            get
+            {
+                return m_LicenseNumber;
+            }
+            set
+            {
+                m_LicenseNumber = value;
+            }
+        }
+
         /**
          * Refuel a fuel-based vehicle (Prompting the user for the license number, fuel type and amount to fill)
          * or, Charge an electric-based vehicle (Prompting the user for the license number 
