@@ -86,7 +86,42 @@ Please choose an action
 
         public void Insert()
         {
-            Console.WriteLine(@"Please chose the type of the vehicle");
+            Console.WriteLine(
+@"Please choose the type of the vehicle
+1 - Fuel-BasedMotorcycle
+2 - Electric Motorcycle
+3 - Fuel-BasedCar
+4 - Electric Car
+5 - Fuel-Based Truck");
+            string input = Console.ReadLine();
+            Console.WriteLine("Please enter a license number");
+            string licenseNum = Console.ReadLine();
+            try
+            {
+              int vehicleType = int.Parse(input);
+
+                if (vehicleType > 0 && vehicleType < 6)
+                {
+                    if (garage.Contains(licenseNum))
+                    {
+                        garage.SetDefaultState(licenseNum);
+                    }
+                    else
+                    {
+                        switch (vehicleType)
+                        {
+                            case 1:
+
+                        }
+                    }
+                    
+                    
+                }
+            }
+            catch(FormatException e)
+            {
+                throw new FormatException();
+            }
 
 
 
