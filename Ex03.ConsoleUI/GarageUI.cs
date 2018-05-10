@@ -112,6 +112,8 @@ Please choose an action
                         string modelName = getModelName();
                         string manufacturerName = getmanufacturerName();
                         float curPressure = getCurrentPressure();
+                        string ownersName = getOwnersName();
+                        string phoneNumber = getPhoneNumber();
                         switch (vehicleType)
                         {
                             case 1:
@@ -120,7 +122,8 @@ Please choose an action
                                 int engineVol = getEngineVolume();
                                 if(vehicleType == 1)
                                 {
-                                   MotorCycle m = VehiclesCreator.CreateFuelBasedMotorCycle(modelName, licenseNum, manufacturerName, getCurrentPressure,type,engineVol);
+                                   MotorCycle m = VehiclesCreator.CreateFuelBasedMotorCycle(modelName, licenseNum, manufacturerName, curPressure,type,engineVol);
+                                    Garage.Insert(m, ownersName, phoneNumber);
                                 }
                                 break;
                             case 3:
@@ -142,6 +145,18 @@ Please choose an action
 
 
 
+        }
+
+        private string getPhoneNumber()
+        {
+            Console.WriteLine("Please enter your phone number");
+            return Console.ReadLine();
+        }
+
+        private string getOwnersName()
+        {
+            Console.WriteLine("Please enter your full name");
+            return Console.ReadLine();
         }
 
         private int getEngineVolume()
