@@ -36,6 +36,7 @@ namespace Ex03.GarageLogic
             {
                 return m_CurrentAirPressure;
             }
+
             set
             {
                 if (value > 0 && value <= m_MaximalAirPressure)

@@ -19,6 +19,7 @@ namespace Ex03.GarageLogic
         }
 
         public bool CarriesDangerousMaterials { get => m_CarriesDangerousMaterials; set => m_CarriesDangerousMaterials = value; }
+
         public float VolumeOfCargo { get => m_VolumeOfCargo; set => m_VolumeOfCargo = value; }
     }
 }

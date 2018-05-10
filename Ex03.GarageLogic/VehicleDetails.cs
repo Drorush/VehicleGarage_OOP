@@ -91,6 +91,7 @@ vehicleDetails);
             {
                 return m_VehicleStatus;
             }
+
             set
             {
                 m_VehicleStatus = value;

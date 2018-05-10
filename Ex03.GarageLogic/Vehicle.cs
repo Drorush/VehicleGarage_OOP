@@ -23,6 +23,7 @@ namespace Ex03.GarageLogic
             {
                 return m_RemainingEnergyPercentage;
             }
+
             set
             {
                 m_RemainingEnergyPercentage = value;
@@ -35,6 +36,7 @@ namespace Ex03.GarageLogic
             {
                 return m_ModelName;
             }
+
             set
             {
                 m_ModelName = value;
@@ -47,6 +49,7 @@ namespace Ex03.GarageLogic
             {
                 return m_Wheels;
             }
+
             set
             {
                 m_Wheels = value;
@@ -59,6 +62,7 @@ namespace Ex03.GarageLogic
             {
                 return m_Engine;
             }
+
             set
             {
                 m_Engine = value;
@@ -71,6 +75,7 @@ namespace Ex03.GarageLogic
             {
                 return m_LicenseNumber;
             }
+
             set
             {
                 m_LicenseNumber = value;
