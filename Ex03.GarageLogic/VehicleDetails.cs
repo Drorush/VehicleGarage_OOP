@@ -20,6 +20,41 @@ namespace Ex03.GarageLogic
             PaidFor
         };
 
+        public Vehicle Vehicle
+        {
+            get
+            {
+                return m_currentVehicle;
+            }
+            set
+            {
+                m_currentVehicle = value;
+            }
+        }
+        public string OwnersName
+        {
+            get
+            {
+                return m_OwnersName;
+            }
+            set
+            {
+                m_OwnersName = value;
+            }
+        }
+
+        public string OwnersPhoneNumber
+        {
+            get
+            {
+                return m_OwnersPhoneNumber;
+            }
+            set
+            {
+                m_OwnersPhoneNumber = value;
+            }
+        }
+
         public eVehicleStatus VehicleStatus
         {
             get

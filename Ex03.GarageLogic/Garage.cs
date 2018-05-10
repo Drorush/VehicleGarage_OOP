@@ -20,9 +20,15 @@ namespace Ex03.GarageLogic
          * otherwise create a new vehicle object and the user will be prompted to input the values for the properties of his vehicle,
          * according to the type of vehicle he wishes to add. 
          * */
-        public void Insert()
+        public void Insert(Vehicle i_Vehicle, string i_OwnersName, string i_OwnersPhoneNumber)
         {
+            VehicleDetails VehicleDetails = new VehicleDetails();
+            VehicleDetails.Vehicle = i_Vehicle;
+            VehicleDetails.VehicleStatus = VehicleDetails.eVehicleStatus.InRepair;
+            VehicleDetails.OwnersName = i_OwnersName;
+            VehicleDetails.OwnersPhoneNumber = i_OwnersPhoneNumber;
 
+            m_VehiclesList.Add(i_Vehicle.LicenseNumber, VehicleDetails);
         }
 
         public bool Contains(string i_LicenseNumber)
@@ -35,11 +41,18 @@ namespace Ex03.GarageLogic
             m_VehiclesList[i_LicenseNumber].VehicleStatus = VehicleDetails.eVehicleStatus.InRepair;
         }
 
-      
          /* Display a list of license numbers currently in the garage, with a filtering option based on the status of each vehicle */
-        public void Display()
+        public String[] Display()
         {
+            String[] licenseNumbers = new String[m_VehiclesList.Count];
+            int i = 0;
 
+            foreach(KeyValuePair<String, VehicleDetails> pair in m_VehiclesList)
+            {
+                licenseNumbers[i++] = pair.Key;
+            }
+
+            return licenseNumbers;
         }
 
         /* Change a certain vehicle’s status (Prompting the user for the license number and new desired status) */
@@ -55,13 +68,13 @@ namespace Ex03.GarageLogic
         }
 
         /* Refuel a fuel-based vehicle (Prompting the user for the license number, fuel type and amount to fill) */
-        public void Refuel()
+        public void Refuel(string i_LicenseNumber, Engine.eFuelType i_FuelType, float i_AmountToFill)
         {
 
         }
 
         /* Charge an electric-based vehicle (Prompting the user for the license number and number of minutes to charge) */
-        public void Charge()
+        public void Charge(string i_LicenseNumber,  float i_MinutesToCharge)
         {
 
         }
