@@ -8,9 +8,9 @@ using static Ex03.GarageLogic.MotorCycle;
 
 namespace Ex03.ConsoleUI
 {
-    class GarageUI
-    
+    public class GarageUI
     {
+
         /**
        * inserts a new vehicle into the garage,
        * user will be asked to select a vehicle type out of the supported vehicle types
@@ -146,7 +146,7 @@ Please choose an action
                 switch (num)
                 {
                     case 1:
-                        e =  eLicenseType.A;
+                        e = eLicenseType.A;
                         break;
                     case 2:
                         e = eLicenseType.A1;

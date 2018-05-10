@@ -26,15 +26,22 @@ namespace Ex03.GarageLogic
             string fuelType = getFuelTypeInfo();
             string vehicleDetails = getVehicleDetails();
             string vehicleInfo = string.Format(
-                (@"License Number: {0}
+@"License Number: {0}
 Model Name: {1}
 Owners Name: {2}
 Owners Phone-Number: {3}
 Vehicle Status: {4}
 Tire specifications- {5}
 Charging details: {6}
-other details: {7}"), m_currentVehicle.LicenseNumber, m_currentVehicle.ModelName, m_OwnersName,
-                m_OwnersPhoneNumber, m_VehicleStatus.ToString(), wheelDetails, fuelType, vehicleDetails);
+other details: {7}",
+m_currentVehicle.LicenseNumber,
+m_currentVehicle.ModelName,
+m_OwnersName,
+m_OwnersPhoneNumber,
+m_VehicleStatus.ToString(),
+wheelDetails,
+fuelType,
+vehicleDetails);
 
             return vehicleInfo;
         }
@@ -51,6 +58,7 @@ other details: {7}"), m_currentVehicle.LicenseNumber, m_currentVehicle.ModelName
                 m_currentVehicle = value;
             }
         }
+
         public string OwnersName
         {
             get
@@ -127,7 +135,7 @@ other details: {7}"), m_currentVehicle.LicenseNumber, m_currentVehicle.ModelName
             else if(m_currentVehicle is Car)
             {
                 vehicleDetails = "Color: " + ((Car)m_currentVehicle).Color.ToString() 
-                    + " Number of doors: " + ((Car)(m_currentVehicle)).NumOfDoors;
+                    + " Number of doors: " + ((Car)m_currentVehicle).NumOfDoors;
             }
             else
             {

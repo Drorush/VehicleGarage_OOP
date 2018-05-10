@@ -22,7 +22,7 @@ Please choose an action
 5 - Refuel (refuel based vehicle
 6 - Charge (an electric based vehicle
 7 - Display a vehicle information");
-            string input =  Console.ReadLine();
+            string input = Console.ReadLine();
             int.TryParse(input, out int num);
             Test t = (Test)num;
             Console.WriteLine(num);

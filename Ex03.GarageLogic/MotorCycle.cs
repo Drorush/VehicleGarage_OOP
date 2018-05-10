@@ -10,6 +10,7 @@ namespace Ex03.GarageLogic
     {
         private eLicenseType m_LicenseType;
         private int m_EngineVolume;
+
         public enum eLicenseType
         {
             A,

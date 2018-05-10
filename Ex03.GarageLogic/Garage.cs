@@ -8,7 +8,7 @@ namespace Ex03.GarageLogic
 {
     public class Garage
     {
-        private Dictionary<String, VehicleDetails> m_VehiclesList;
+        private Dictionary<string, VehicleDetails> m_VehiclesList;
 
 
         public Garage()
@@ -38,12 +38,12 @@ namespace Ex03.GarageLogic
         }
 
         /* Display a list of license numbers currently in the garage, with a filtering option based on the status of each vehicle */
-        public String[] Display()
+        public string[] Display()
         {
-            String[] licenseNumbers = new String[m_VehiclesList.Count];
+            string[] licenseNumbers = new string[m_VehiclesList.Count];
             int i = 0;
 
-            foreach(KeyValuePair<String, VehicleDetails> pair in m_VehiclesList)
+            foreach(KeyValuePair<string, VehicleDetails> pair in m_VehiclesList)
             {
                 licenseNumbers[i++] = pair.Key;
             }
