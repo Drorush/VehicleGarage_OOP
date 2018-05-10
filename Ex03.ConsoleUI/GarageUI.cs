@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ex03.GarageLogic;
+using static Ex03.GarageLogic.MotorCycle;
 
 namespace Ex03.ConsoleUI
 {
@@ -20,7 +21,7 @@ namespace Ex03.ConsoleUI
        * otherwise create a new vehicle object and the user will be prompted to input the values for the properties of his vehicle,
        * according to the type of vehicle he wishes to add. 
        * */
-        Garage garage = new Garage();
+        Garage Garage = new Garage();
         public void StartGarge()
         {
             while (true)
@@ -102,15 +103,27 @@ Please choose an action
 
                 if (vehicleType > 0 && vehicleType < 6)
                 {
-                    if (garage.Contains(licenseNum))
+                    if (Garage.Contains(licenseNum))
                     {
-                        garage.SetDefaultState(licenseNum);
+                        Garage.SetDefaultState(licenseNum);
                     }
                     else
                     {
+                        string modelName = getModelName();
+                        string manufacturerName = getmanufacturerName();
+                        float curPressure = getCurrentPressure();
                         switch (vehicleType)
                         {
                             case 1:
+                            case 2:
+                                eLicenseType type = getLicenseType();
+
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                            default:
+                                break;
 
                         }
                     }
@@ -120,12 +133,78 @@ Please choose an action
             }
             catch(FormatException e)
             {
-                throw new FormatException();
+                throw e;
             }
 
 
 
         }
+
+        private eLicenseType getLicenseType()
+        {
+            Console.Write(
+@"Please enter your's driving license type
+1 - A
+2 - A1
+3 - B1
+4 - B2");
+            string input = Console.ReadLine();
+            try
+            {
+                int num = int.Parse(input);
+                eLicenseType e;
+                switch (num)
+                {
+                    case 1:
+                        e =  eLicenseType.A;
+                        break;
+                    case 2:
+                        e = eLicenseType.A1;
+                        break;
+                    case 3:
+                        e = eLicenseType.B1;
+                        break;
+                    default:
+                        e = eLicenseType.B2;
+                        break;
+                   
+                }
+                return e;
+            }
+            catch (FormatException e)
+            {
+                throw e;
+            }
+
+            
+        }
+
+        private float getCurrentPressure()
+        {
+            Console.WriteLine("Please enter your's car wheels current air pressure");
+            string input = Console.ReadLine();
+            try
+            {
+                return float.Parse(input);
+            }
+            catch (FormatException e)
+            {
+                throw new FormatException();
+            }
+        }
+
+        private string getmanufacturerName()
+        {
+            Console.WriteLine("Please enter your's car wheels manufacurer name");
+            return Console.ReadLine();
+        }
+
+        private string getModelName()
+        {
+            Console.WriteLine("Please enter your's car model name");
+            return Console.ReadLine();
+        }
+
 
 
         /* Display a list of license numbers currently in the garage, with a filtering option based on the status of each vehicle */
