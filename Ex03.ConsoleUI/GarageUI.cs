@@ -8,19 +8,88 @@ using Ex03.GarageLogic;
 namespace Ex03.ConsoleUI
 {
     class GarageUI
+    
     {
-      /**
-     * inserts a new vehicle into the garage,
-     * user will be asked to select a vehicle type out of the supported vehicle types
-     * and to input the license number of the vehicle.
-     * if the vehicle is already in the garage (based on license number)
-     * the system will display an appropriate message and will use the existing vehicle
-     * and will change the existing vehicle state to In Repair,
-     * otherwise create a new vehicle object and the user will be prompted to input the values for the properties of his vehicle,
-     * according to the type of vehicle he wishes to add. 
-     * */
+        /**
+       * inserts a new vehicle into the garage,
+       * user will be asked to select a vehicle type out of the supported vehicle types
+       * and to input the license number of the vehicle.
+       * if the vehicle is already in the garage (based on license number)
+       * the system will display an appropriate message and will use the existing vehicle
+       * and will change the existing vehicle state to In Repair,
+       * otherwise create a new vehicle object and the user will be prompted to input the values for the properties of his vehicle,
+       * according to the type of vehicle he wishes to add. 
+       * */
+        Garage garage = new Garage();
+        public void StartGarge()
+        {
+            while (true)
+            {
+                firstStep();
+            }
+        }
+        private void firstStep()
+        {
+            Console.WriteLine(
+@"Welcome to John's Garage
+Please choose an action
+1 - Insert a new vehicle
+2 - Display a list of license numbers currently in the garage
+3 - Change a certain vehicle's status
+4 - Inflate tires to maximum
+5 - Refuel (refuel based vehicle
+6 - Charge (an electric based vehicle
+7 - Display a vehicle information");
+            string input = Console.ReadLine();
+            try
+            {
+                int num = int.Parse(input);
+                if (num > 0 && num < 8)
+                {
+                    switch (num)
+                    {
+                        case 1:
+                            Insert();
+                            break;
+                        case 2:
+                            Display();
+                            break;
+                        case 3:
+                            ChangeVehicleStatus();
+                            break;
+                        case 4:
+                            InflateToMaximum();
+                            break;
+                        case 5:
+                            Refuel();
+                            break;
+                        case 6:
+                            Charge();
+                            break;
+                        default:
+                            DisplayVehicleInformation();
+                            break;
+                    }
+                }
+                else
+                {
+                    firstStep();
+                }
+                   
+            }
+            catch(FormatException e)
+            {
+                throw new FormatException();
+            }
+        }
+
+
         public void Insert()
         {
+            Console.WriteLine(@"Please chose the type of the vehicle");
+
+
+
         }
 
 
