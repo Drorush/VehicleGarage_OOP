@@ -76,12 +76,7 @@ Please choose an action
                 else
                 {
                     firstStep();
-<<<<<<< HEAD
                 }
-
-=======
-                }   
->>>>>>> cd0629efb0e88b1ba841f5a3d7a53ea46682f7c7
             }
             catch (FormatException e)
             {
@@ -139,19 +134,12 @@ Please choose an action
                                 break;
                         }
                     }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> cd0629efb0e88b1ba841f5a3d7a53ea46682f7c7
                 }
             }
             catch (FormatException e)
             {
                 throw e;
             }
-<<<<<<< HEAD
-
         }
 
         private int getNumOfDoors()
@@ -182,7 +170,7 @@ Please choose an action
                     case 3:
                         color = "White";
                         break;
-                    default :
+                    default:
                         color = "Black";
                         break;
                 }
@@ -193,9 +181,6 @@ Please choose an action
             {
                 throw e;
             }
-
-=======
->>>>>>> cd0629efb0e88b1ba841f5a3d7a53ea46682f7c7
         }
 
         private string getPhoneNumber()
@@ -251,10 +236,6 @@ Please choose an action
                     default:
                         e = eLicenseType.B2;
                         break;
-<<<<<<< HEAD
-
-=======
->>>>>>> cd0629efb0e88b1ba841f5a3d7a53ea46682f7c7
                 }
 
                 return e;
@@ -263,11 +244,6 @@ Please choose an action
             {
                 throw e;
             }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> cd0629efb0e88b1ba841f5a3d7a53ea46682f7c7
         }
 
         private float getCurrentPressure()
