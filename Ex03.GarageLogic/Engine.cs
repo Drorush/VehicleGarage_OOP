@@ -12,6 +12,7 @@ namespace Ex03.GarageLogic
         private eFuelType m_FuelType;
         private float m_CurrentAmountOfEnergy;
         private float m_MaximalAmountOfEnergy;
+
         public enum eEnergyType
         {
             FuelBased,
@@ -26,6 +27,20 @@ namespace Ex03.GarageLogic
             Octane98,
             None
         }
+
+        public float MaximalAmountOfEnergy
+        { 
+            get
+            {
+                return m_MaximalAmountOfEnergy;
+            }
+            set
+            {
+                m_MaximalAmountOfEnergy = value;
+            }
+        }
+
+
 
         // constructor for electric based engine
         public Engine(eEnergyType i_EnergyType)
