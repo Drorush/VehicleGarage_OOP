@@ -29,7 +29,6 @@ namespace Ex03.ConsoleUI
                 firstStep();
             }
         }
-
         private void firstStep()
         {
             Console.WriteLine(
@@ -113,12 +112,29 @@ Please choose an action
                         string modelName = getModelName();
                         string manufacturerName = getmanufacturerName();
                         float curPressure = getCurrentPressure();
+                        string ownersName = getOwnersName();
+                        string phoneNumber = getPhoneNumber();
                         switch (vehicleType)
                         {
                             case 1:
+                            case 2:
+                                eLicenseType type = getLicenseType();
+                                int engineVol = getEngineVolume();
+                                if(vehicleType == 1)
+                                {
+                                    Garage.Insert(VehiclesCreator.CreateFuelBasedMotorCycle(modelName, licenseNum, manufacturerName, curPressure, type, engineVol), ownersName, phoneNumber);
+                                }
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                            default:
+                                break;
 
                         }
                     }
+                    
+                    
                 }
             }
             catch(FormatException e)
@@ -128,6 +144,32 @@ Please choose an action
 
 
 
+        }
+
+        private string getPhoneNumber()
+        {
+            Console.WriteLine("Please enter your phone number");
+            return Console.ReadLine();
+        }
+
+        private string getOwnersName()
+        {
+            Console.WriteLine("Please enter your full name");
+            return Console.ReadLine();
+        }
+
+        private int getEngineVolume()
+        {
+            Console.WriteLine("Please enter your motorcycle's engine volume ");
+            string input = Console.ReadLine();
+            try
+            {
+                return int.Parse(input);
+            }
+            catch(FormatException e)
+            {
+                throw e;
+            }
         }
 
         private eLicenseType getLicenseType()
