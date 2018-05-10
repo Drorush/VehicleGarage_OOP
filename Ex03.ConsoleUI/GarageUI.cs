@@ -122,8 +122,7 @@ Please choose an action
                                 int engineVol = getEngineVolume();
                                 if(vehicleType == 1)
                                 {
-                                   MotorCycle m = VehiclesCreator.CreateFuelBasedMotorCycle(modelName, licenseNum, manufacturerName, curPressure,type,engineVol);
-                                    Garage.Insert(m, ownersName, phoneNumber);
+                                    Garage.Insert(VehiclesCreator.CreateFuelBasedMotorCycle(modelName, licenseNum, manufacturerName, curPressure, type, engineVol), ownersName, phoneNumber);
                                 }
                                 break;
                             case 3:
