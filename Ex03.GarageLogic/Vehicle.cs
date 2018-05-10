@@ -11,6 +11,48 @@ namespace Ex03.GarageLogic
         private List<Wheel> m_Wheels;
         private Engine m_Engine;
 
+        public Vehicle(string i_ModelName, string i_LicenseNumber)
+        {
+            m_ModelName = i_ModelName;
+            m_LicenseNumber = i_LicenseNumber;
+        }
+
+        public float RemainingEnergy
+        {
+            get
+            {
+                return m_RemainingEnergyPercentage;
+            }
+            set
+            {
+                m_RemainingEnergyPercentage = value;
+            }
+        }
+
+        public string ModelName
+        {
+            get
+            {
+                return m_ModelName;
+            }
+            set
+            {
+                m_ModelName = value;
+            }
+        }
+
+        public List<Wheel> Wheels
+        {
+            get
+            {
+                return m_Wheels;
+            }
+            set
+            {
+                m_Wheels = value;
+            }
+        }
+
         public Engine Engine
         {
             get
@@ -39,9 +81,9 @@ namespace Ex03.GarageLogic
          * Refuel a fuel-based vehicle (Prompting the user for the license number, fuel type and amount to fill)
          * or, Charge an electric-based vehicle (Prompting the user for the license number 
          * and number of minutes to charge)  **/
-        internal void reFuel()
+        internal void reFuel(float i_AmountToFill)
         {
-
+            this.Engine.reFuel(i_AmountToFill);
         }
 
         internal void insertWheel(Wheel i_WheelToInsert)
@@ -52,7 +94,10 @@ namespace Ex03.GarageLogic
         /* Inflate tires to maximum (Prompting the user for the license number) */
         internal void inflateWheelsToMaximum()
         {
-
+            foreach(Wheel wheel in m_Wheels)
+            {
+                wheel.inflateToMaximum();
+            }
         }
 
         /**
@@ -61,9 +106,6 @@ namespace Ex03.GarageLogic
          * other relevant information based on vehicle type) **/
         internal void displayVehicleInfo()
         {
-
         }
     }
 }
- 
- 

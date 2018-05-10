@@ -17,14 +17,50 @@ namespace Ex03.GarageLogic
             m_MaximalAirPressure = i_MaximalAirPressure;
         }
 
+        public string ManufacturerName
+        {
+            get
+            {
+                return m_ManufacturerName;
+            }
+
+            set
+            {
+                m_ManufacturerName = value;
+            }
+        }
+
+        internal float AirPressure
+        {
+            get
+            {
+                return m_CurrentAirPressure;
+            }
+            set
+            {
+                if (value > 0 && value <= m_MaximalAirPressure)
+                {
+                    m_CurrentAirPressure = value;
+                }
+                else
+                {
+                    throw new ValueOutOfRangeException(0, m_MaximalAirPressure, value);
+                }
+            }
+        }
+
         /* inflates the air pressure with i_AirPressureToAdd if it doesnt exceed the maximal air pressure */
         private void inflate(float i_AirPressureToAdd)
         {
             float newAirPressure = m_CurrentAirPressure + i_AirPressureToAdd;
             if (newAirPressure > m_MaximalAirPressure || newAirPressure < 0)
             {
-                throw new ValueOutOfRangeException(i_AirPressureToAdd, 0, m_MaximalAirPressure);
-            }
+                throw new ValueOutOfRangeException(0, m_MaximalAirPressure, i_AirPressureToAdd);            }
+        }
+
+        internal void inflateToMaximum()
+        {
+            m_CurrentAirPressure = m_MaximalAirPressure;
         }
     }
 }

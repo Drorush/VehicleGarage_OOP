@@ -28,6 +28,7 @@ namespace Ex03.ConsoleUI
                 firstStep();
             }
         }
+
         private void firstStep()
         {
             Console.WriteLine(
@@ -110,12 +111,10 @@ Please choose an action
                     {
                         switch (vehicleType)
                         {
-                            case 1:
+                            //case 1:
 
                         }
                     }
-                    
-                    
                 }
             }
             catch(FormatException e)

@@ -10,6 +10,12 @@ namespace Ex03.GarageLogic
     {
         private Dictionary<String, VehicleDetails> m_VehiclesList;
 
+
+        public Garage()
+        {
+            m_VehiclesList = new Dictionary<string, VehicleDetails>();
+        }
+
         /**
          * inserts a new vehicle into the garage,
          * user will be asked to select a vehicle type out of the supported vehicle types
@@ -31,17 +37,7 @@ namespace Ex03.GarageLogic
             m_VehiclesList.Add(i_Vehicle.LicenseNumber, VehicleDetails);
         }
 
-        public bool Contains(string i_LicenseNumber)
-        {
-            return m_VehiclesList.ContainsKey(i_LicenseNumber);
-        }
-
-        public void SetDefaultState(string i_LicenseNumber)
-        {
-            m_VehiclesList[i_LicenseNumber].VehicleStatus = VehicleDetails.eVehicleStatus.InRepair;
-        }
-
-         /* Display a list of license numbers currently in the garage, with a filtering option based on the status of each vehicle */
+        /* Display a list of license numbers currently in the garage, with a filtering option based on the status of each vehicle */
         public String[] Display()
         {
             String[] licenseNumbers = new String[m_VehiclesList.Count];
@@ -55,36 +51,89 @@ namespace Ex03.GarageLogic
             return licenseNumbers;
         }
 
-        /* Change a certain vehicle’s status (Prompting the user for the license number and new desired status) */
-        public void ChangeVehicleStatus()
-        {
-
-        }
-
         /* Inflate tires to maximum (Prompting the user for the license number) */
-        public void InflateToMaximum()
+        public void InflateToMaximum(string i_LicenseNumber)
         {
-
+            if(Contains(i_LicenseNumber))
+            {
+                Vehicle VehicleToFuel = m_VehiclesList[i_LicenseNumber].Vehicle;
+                VehicleToFuel.inflateWheelsToMaximum();
+            }
+            else
+            {
+                throw new ArgumentException("Vehicle does not exist");
+            }
         }
 
         /* Refuel a fuel-based vehicle (Prompting the user for the license number, fuel type and amount to fill) */
         public void Refuel(string i_LicenseNumber, Engine.eFuelType i_FuelType, float i_AmountToFill)
         {
-
+            if(Contains(i_LicenseNumber))
+            {
+                Vehicle VehicleToFuel = m_VehiclesList[i_LicenseNumber].Vehicle;
+                if(VehicleToFuel.Engine.m_EnergyType != Engine.eEnergyType.FuelBased || VehicleToFuel.Engine.m_FuelType != i_FuelType)
+                {
+                    throw new ArgumentException("Vehicle is not FuelBased or FuelType is wrong");
+                }
+                else
+                {
+                    VehicleToFuel.reFuel(i_AmountToFill);
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Vehicle does not exist");
+            }
         }
 
         /* Charge an electric-based vehicle (Prompting the user for the license number and number of minutes to charge) */
-        public void Charge(string i_LicenseNumber,  float i_MinutesToCharge)
+        public void Charge(string i_LicenseNumber,  float i_AmountToFill)
         {
-
+            if (Contains(i_LicenseNumber))
+            {
+                Vehicle VehicleToFuel = m_VehiclesList[i_LicenseNumber].Vehicle;
+                if (VehicleToFuel.Engine.m_EnergyType != Engine.eEnergyType.ElectricBased)
+                {
+                    throw new ArgumentException("Vehicle is not ElectricBased");
+                }
+                else
+                {
+                    VehicleToFuel.reFuel(i_AmountToFill);
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Vehicle does not exist");
+            }
         }
 
         /* Display vehicle information (License number, Model name, Owner name, Status in garage,
          * Tire specifications (manufacturer and air pressure), Fuel status + Fuel type / Battery status,
          * other relevant information based on vehicle type) */
-         public void DisplayVehicleInformation()
+         public string DisplayVehicleInformation(string i_LicenseNumber)
         {
+            return m_VehiclesList[i_LicenseNumber].getVehicleInfo();
+        }
 
+        public bool Contains(string i_LicenseNumber)
+        {
+            return m_VehiclesList.ContainsKey(i_LicenseNumber);
+        }
+
+        /* Change a certain vehicle’s status (Prompting the user for the license number and new desired status) */
+        public void SetDefaultState(string i_LicenseNumber)
+        {
+            m_VehiclesList[i_LicenseNumber].VehicleStatus = VehicleDetails.eVehicleStatus.InRepair;
+        }
+
+        public void SetRepairedState(string i_LicenseNumber)
+        {
+            m_VehiclesList[i_LicenseNumber].VehicleStatus = VehicleDetails.eVehicleStatus.Repaired;
+        }
+
+        public void SetPaidState(string i_LicenseNumber)
+        {
+            m_VehiclesList[i_LicenseNumber].VehicleStatus = VehicleDetails.eVehicleStatus.PaidFor;
         }
     }
 }

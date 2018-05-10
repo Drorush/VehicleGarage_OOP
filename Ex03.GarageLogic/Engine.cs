@@ -8,8 +8,8 @@ namespace Ex03.GarageLogic
 {
     public class Engine
     {
-        private eEnergyType m_EnergyType;
-        private eFuelType m_FuelType;
+        public eEnergyType m_EnergyType;
+        public eFuelType m_FuelType;
         private float m_CurrentAmountOfEnergy;
         private float m_MaximalAmountOfEnergy;
 
@@ -29,18 +29,17 @@ namespace Ex03.GarageLogic
         }
 
         public float MaximalAmountOfEnergy
-        { 
+        {
             get
             {
                 return m_MaximalAmountOfEnergy;
             }
+
             set
             {
                 m_MaximalAmountOfEnergy = value;
             }
         }
-
-
 
         // constructor for electric based engine
         public Engine(eEnergyType i_EnergyType)
@@ -55,13 +54,18 @@ namespace Ex03.GarageLogic
             m_FuelType = i_FuelType;
         }
 
-        private void reFuel()
+        internal void reFuel(float i_AmountToFill)
         {
             // case of fuel (octane, soler .. )
-            // some code here
-
-            // case of electric charge
-            // some code here
+            float fueledTank = m_CurrentAmountOfEnergy + i_AmountToFill;
+            if (fueledTank < 0 || fueledTank > m_MaximalAmountOfEnergy)
+            {
+                throw new ValueOutOfRangeException(0, m_MaximalAmountOfEnergy, i_AmountToFill);
+            }
+            else
+            {
+                m_CurrentAmountOfEnergy = fueledTank;
+            }
         }
     }
 }
