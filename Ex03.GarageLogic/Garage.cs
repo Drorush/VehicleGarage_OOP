@@ -62,7 +62,6 @@ namespace Ex03.GarageLogic
                 {
                     licenseNumbers[i++] = pair.Key;
                 }
-
             }
 
             return licenseNumbers;
@@ -79,7 +78,6 @@ namespace Ex03.GarageLogic
                 {
                     licenseNumbers[i++] = pair.Key;
                 }
-
             }
 
             return licenseNumbers;
@@ -96,7 +94,6 @@ namespace Ex03.GarageLogic
                 {
                     licenseNumbers[i++] = pair.Key;
                 }
-
             }
 
             return licenseNumbers;
