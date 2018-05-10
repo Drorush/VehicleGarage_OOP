@@ -32,6 +32,11 @@ namespace Ex03.GarageLogic
 
         }
 
+        internal void insertWheel(Wheel i_WheelToInsert)
+        {
+            m_Wheels.Add(i_WheelToInsert);
+        }
+
         /* Inflate tires to maximum (Prompting the user for the license number) */
         internal void inflateWheelsToMaximum()
         {

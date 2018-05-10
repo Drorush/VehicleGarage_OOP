@@ -8,7 +8,7 @@ namespace Ex03.GarageLogic
 {
     public class Garage
     {
-        private Dictionary<Vehicle, VehicleDetails> m_VehiclesList;
+        private Dictionary<String, VehicleDetails> m_VehiclesList;
 
         /**
          * inserts a new vehicle into the garage,
@@ -23,6 +23,16 @@ namespace Ex03.GarageLogic
         public void Insert()
         {
 
+        }
+
+        public bool Contains(string i_LicenseNumber)
+        {
+            return m_VehiclesList.ContainsKey(i_LicenseNumber);
+        }
+
+        public void SetDefaultState(string i_LicenseNumber)
+        {
+            m_VehiclesList[i_LicenseNumber].VehicleStatus = VehicleDetails.eVehicleStatus.InRepair;
         }
 
       

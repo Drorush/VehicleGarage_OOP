@@ -17,7 +17,7 @@ namespace Ex03.GarageLogic
             White,
             Black
         };
-        internal enum eNumOfDoors
+        public enum eNumOfDoors
         {
             Two,
             Three,
@@ -25,10 +25,28 @@ namespace Ex03.GarageLogic
             Five
         };
 
-        public Car(eColor i_Color, int i_NumOfDoors, VehiclesCreator.eEnergyType i_EnergyType)
+        public eColor Color
         {
-            m_Color = i_Color;
-            m_NumOfDoors = i_NumOfDoors;
+            get
+            {
+                return m_Color;
+            }
+            set
+            {
+                m_Color = value;
+            }
+        }
+
+        public int numOfDoors
+        {
+            get
+            {
+                return m_NumOfDoors;
+            }
+            set
+            {
+                m_NumOfDoors = value;
+            }
         }
 
     }
