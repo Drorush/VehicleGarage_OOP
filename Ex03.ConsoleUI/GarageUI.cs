@@ -10,7 +10,6 @@ namespace Ex03.ConsoleUI
 {
     public class GarageUI
     {
-
         /**
        * inserts a new vehicle into the garage,
        * user will be asked to select a vehicle type out of the supported vehicle types
@@ -21,7 +20,8 @@ namespace Ex03.ConsoleUI
        * otherwise create a new vehicle object and the user will be prompted to input the values for the properties of his vehicle,
        * according to the type of vehicle he wishes to add. 
        * */
-        Garage Garage = new Garage();
+        public Garage Garage = new Garage();
+
         public void StartGarge()
         {
             while (true)
@@ -29,6 +29,7 @@ namespace Ex03.ConsoleUI
                 firstStep();
             }
         }
+
         private void firstStep()
         {
             Console.WriteLine(
@@ -75,15 +76,13 @@ Please choose an action
                 else
                 {
                     firstStep();
-                }
-                   
+                }   
             }
             catch(FormatException e)
             {
-                throw new FormatException();
+                throw e;
             }
         }
-
 
         public void Insert()
         {
@@ -124,26 +123,21 @@ Please choose an action
                                 {
                                     Garage.Insert(VehiclesCreator.CreateFuelBasedMotorCycle(modelName, licenseNum, manufacturerName, curPressure, type, engineVol), ownersName, phoneNumber);
                                 }
+
                                 break;
                             case 3:
                                 break;
                             case 4:
                             default:
                                 break;
-
                         }
                     }
-                    
-                    
                 }
             }
             catch(FormatException e)
             {
                 throw e;
             }
-
-
-
         }
 
         private string getPhoneNumber()
@@ -199,16 +193,14 @@ Please choose an action
                     default:
                         e = eLicenseType.B2;
                         break;
-                   
                 }
+
                 return e;
             }
             catch (FormatException e)
             {
                 throw e;
             }
-
-            
         }
 
         private float getCurrentPressure()
@@ -221,7 +213,7 @@ Please choose an action
             }
             catch (FormatException e)
             {
-                throw new FormatException();
+                throw e;
             }
         }
 
@@ -237,36 +229,29 @@ Please choose an action
             return Console.ReadLine();
         }
 
-
-
         /* Display a list of license numbers currently in the garage, with a filtering option based on the status of each vehicle */
         public void Display()
         {
-
         }
 
         /* Change a certain vehicle’s status (Prompting the user for the license number and new desired status) */
         public void ChangeVehicleStatus()
         {
-
         }
 
         /* Inflate tires to maximum (Prompting the user for the license number) */
         public void InflateToMaximum()
         {
-
         }
 
         /* Refuel a fuel-based vehicle (Prompting the user for the license number, fuel type and amount to fill) */
         public void Refuel()
         {
-
         }
 
         /* Charge an electric-based vehicle (Prompting the user for the license number and number of minutes to charge) */
         public void Charge()
         {
-
         }
 
         /* Display vehicle information (License number, Model name, Owner name, Status in garage,
@@ -274,7 +259,6 @@ Please choose an action
          * other relevant information based on vehicle type) */
         public void DisplayVehicleInformation()
         {
-
         }
     }
 }
