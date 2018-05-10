@@ -29,7 +29,6 @@ namespace Ex03.ConsoleUI
                 firstStep();
             }
         }
-
         private void firstStep()
         {
             Console.WriteLine(
@@ -116,9 +115,24 @@ Please choose an action
                         switch (vehicleType)
                         {
                             case 1:
+                            case 2:
+                                eLicenseType type = getLicenseType();
+                                int engineVol = getEngineVolume();
+                                if(vehicleType == 1)
+                                {
+                                   MotorCycle m = VehiclesCreator.CreateFuelBasedMotorCycle(modelName, licenseNum, manufacturerName, getCurrentPressure,type,engineVol);
+                                }
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                            default:
+                                break;
 
                         }
                     }
+                    
+                    
                 }
             }
             catch(FormatException e)
@@ -128,6 +142,20 @@ Please choose an action
 
 
 
+        }
+
+        private int getEngineVolume()
+        {
+            Console.WriteLine("Please enter your motorcycle's engine volume ");
+            string input = Console.ReadLine();
+            try
+            {
+                return int.Parse(input);
+            }
+            catch(FormatException e)
+            {
+                throw e;
+            }
         }
 
         private eLicenseType getLicenseType()
