@@ -76,11 +76,11 @@ Please choose an action
                 {
                     firstStep();
                 }
-                   
+
             }
-            catch(FormatException e)
+            catch (FormatException e)
             {
-                throw new FormatException();
+                throw e;
             }
         }
 
@@ -99,7 +99,7 @@ Please choose an action
             string licenseNum = Console.ReadLine();
             try
             {
-              int vehicleType = int.Parse(input);
+                int vehicleType = int.Parse(input);
 
                 if (vehicleType > 0 && vehicleType < 6)
                 {
@@ -120,29 +120,71 @@ Please choose an action
                             case 2:
                                 eLicenseType type = getLicenseType();
                                 int engineVol = getEngineVolume();
-                                if(vehicleType == 1)
+                                if (vehicleType == 1)
                                 {
                                     Garage.Insert(VehiclesCreator.CreateFuelBasedMotorCycle(modelName, licenseNum, manufacturerName, curPressure, type, engineVol), ownersName, phoneNumber);
                                 }
                                 break;
                             case 3:
-                                break;
                             case 4:
+                                string Color = getCarColor();
+                                int numOfDoors = getNumOfDoors();
+                                break;
                             default:
                                 break;
 
                         }
                     }
-                    
-                    
+
+
                 }
+            }
+            catch (FormatException e)
+            {
+                throw e;
+            }
+
+        }
+
+        private int getNumOfDoors()
+        {
+            throw new NotImplementedException();
+        }
+
+        private string getCarColor()
+        {
+            Console.WriteLine(
+ @"Please enter your car's color
+1 - Grey
+2 - Blue
+3 - White
+4 - Black");
+          string color = Console.ReadLine();
+            try
+            {
+                int num = int.Parse(color);
+                switch (num)
+                {
+                    case 1:
+                        color = "Grey";
+                        break;
+                    case 2:
+                        color = "Blue";
+                        break;
+                    case 3:
+                        color = "White";
+                        break;
+                    default :
+                        color = "Black";
+                        break;
+                }
+
+                return color; 
             }
             catch(FormatException e)
             {
                 throw e;
             }
-
-
 
         }
 
@@ -166,7 +208,7 @@ Please choose an action
             {
                 return int.Parse(input);
             }
-            catch(FormatException e)
+            catch (FormatException e)
             {
                 throw e;
             }
@@ -199,7 +241,7 @@ Please choose an action
                     default:
                         e = eLicenseType.B2;
                         break;
-                   
+
                 }
                 return e;
             }
@@ -208,7 +250,7 @@ Please choose an action
                 throw e;
             }
 
-            
+
         }
 
         private float getCurrentPressure()
@@ -221,7 +263,7 @@ Please choose an action
             }
             catch (FormatException e)
             {
-                throw new FormatException();
+                throw e;
             }
         }
 
