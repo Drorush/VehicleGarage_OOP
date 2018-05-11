@@ -486,7 +486,7 @@ Please choose an action
             if (Garage.Contains(licenseNum))
             {
                 Garage.InflateToMaximum(licenseNum);
-                Console.WriteLine("Infalting...");
+                Console.WriteLine("Inflating...");
             }
             else
             {
