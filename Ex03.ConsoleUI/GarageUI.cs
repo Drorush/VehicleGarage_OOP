@@ -23,7 +23,7 @@ namespace Ex03.ConsoleUI
        * according to the type of vehicle he wishes to add. 
        * */
         Garage Garage = new Garage();
-        public void StartGarge()
+        public void StartGarage()
         {
             while (true)
             {
@@ -39,8 +39,8 @@ Please choose an action
 2 - Display a list of license numbers currently in the garage
 3 - Change a certain vehicle's status
 4 - Inflate tires to maximum
-5 - Refuel (refuel based vehicle
-6 - Charge (an electric based vehicle
+5 - Refuel (refuel based vehicle)
+6 - Charge (an electric based vehicle)
 7 - Display a vehicle information");
             string input = Console.ReadLine();
             try
@@ -228,23 +228,31 @@ Please choose an action
                 eColor color;
 
                 int num = int.Parse(input);
-                switch (num)
+                if (num > 0 && num < 5)
                 {
-                    case 1:
-                        color = eColor.Grey;
-                        break;
-                    case 2:
-                        color = eColor.Blue;
-                        break;
-                    case 3:
-                        color = eColor.White;
-                        break;
-                    default:
-                        color = eColor.Black;
-                        break;
-                }
+                    switch (num)
+                    {
+                        case 1:
+                            color = eColor.Grey;
+                            break;
+                        case 2:
+                            color = eColor.Blue;
+                            break;
+                        case 3:
+                            color = eColor.White;
+                            break;
+                        default:
+                            color = eColor.Black;
+                            break;
+                    }
 
-                return color;
+                    return color;
+                }
+                else
+                {
+                    throw new ArgumentException();
+                }
+                
             }
             catch (FormatException e)
             {
@@ -291,24 +299,32 @@ Please choose an action
             try
             {
                 int num = int.Parse(input);
-                eLicenseType e;
-                switch (num)
+                if(num > 0 && num < 5)
                 {
-                    case 1:
-                        e = eLicenseType.A;
-                        break;
-                    case 2:
-                        e = eLicenseType.A1;
-                        break;
-                    case 3:
-                        e = eLicenseType.B1;
-                        break;
-                    default:
-                        e = eLicenseType.B2;
-                        break;
+                    eLicenseType e;
+                    switch (num)
+                    {
+                        case 1:
+                            e = eLicenseType.A;
+                            break;
+                        case 2:
+                            e = eLicenseType.A1;
+                            break;
+                        case 3:
+                            e = eLicenseType.B1;
+                            break;
+                        default:
+                            e = eLicenseType.B2;
+                            break;
 
+                    }
+                    return e;
                 }
-                return e;
+                else
+                {
+                    throw new ArgumentException();
+                }
+                
             }
             catch (FormatException e)
             {
@@ -358,23 +374,31 @@ Please choose an action
             try
             {
                 int num = int.Parse(input);
-                string[] licenseNumbers;
-                switch (num)
+                if(num > 0 && num < 5)
                 {
-                    case 1:
-                        licenseNumbers = Garage.DisplayInRepair();
-                        break;
-                    case 2:
-                        licenseNumbers = Garage.DisplayRepaired();
-                        break;
-                    case 3:
-                        licenseNumbers = Garage.DisplayPaid();
-                        break;
-                    default:
-                        licenseNumbers = Garage.DisplayAll();
-                        break;
+                    string[] licenseNumbers;
+                    switch (num)
+                    {
+                        case 1:
+                            licenseNumbers = Garage.DisplayInRepair();
+                            break;
+                        case 2:
+                            licenseNumbers = Garage.DisplayRepaired();
+                            break;
+                        case 3:
+                            licenseNumbers = Garage.DisplayPaid();
+                            break;
+                        default:
+                            licenseNumbers = Garage.DisplayAll();
+                            break;
+                    }
+                    printLicenseNumbers(licenseNumbers);
                 }
-                printLicenseNumbers(licenseNumbers);
+                else
+                {
+                    throw new ArgumentException();
+                }
+                
             }
             catch(FormatException e)
             {
@@ -406,18 +430,26 @@ Please choose an action
 2 - Repaired
 3 - Paid");
                 string input = Console.ReadLine();
-                if(input == "1")
+                if (input == "1" || input == "2" || input == "3")
                 {
-                    Garage.SetDefaultState(licenseNum);
-                }
-                else if(input == "2")
-                {
-                    Garage.SetRepairedState(licenseNum);
+                    if (input == "1")
+                    {
+                        Garage.SetDefaultState(licenseNum);
+                    }
+                    else if (input == "2")
+                    {
+                        Garage.SetRepairedState(licenseNum);
+                    }
+                    else
+                    {
+                        Garage.SetPaidState(licenseNum);
+                    }
                 }
                 else
                 {
-                    Garage.SetPaidState(licenseNum);
+                    throw new ArgumentException();
                 }
+      
             }
             else
             {
@@ -425,14 +457,22 @@ Please choose an action
 1 - Try again 
 2 - Go back to the main manu");
                 string input = Console.ReadLine();
-                if(input == "1")
+                if (input == "1" || input == "2")
                 {
-                    ChangeVehicleStatus();
+                    if (input == "1")
+                    {
+                        ChangeVehicleStatus();
+                    }
+                    else
+                    {
+                        firstStep();
+                    }
                 }
                 else
                 {
-                    firstStep();
+                    throw new ArgumentException();
                 }
+
             }
 
 
@@ -447,6 +487,7 @@ Please choose an action
             if (Garage.Contains(licenseNum))
             {
                 Garage.InflateToMaximum(licenseNum);
+                Console.WriteLine("Infalting...");
             }
             else
             {
@@ -454,13 +495,20 @@ Please choose an action
 1 - Try again 
 2 - Go back to the main manu");
                 string input = Console.ReadLine();
-                if (input == "1")
+                if (input == "1" || input == "2")
                 {
-                    InflateToMaximum();
+                    if (input == "1")
+                    {
+                        InflateToMaximum();
+                    }
+                    else
+                    {
+                        firstStep();
+                    }
                 }
                 else
                 {
-                    firstStep();
+                    throw new ArgumentException();
                 }
             }
 
@@ -480,6 +528,7 @@ Please choose an action
                     float addLiters = float.Parse(Console.ReadLine());
 
                     Garage.Refuel(licenseNum, fuelType ,addLiters);
+                    Console.WriteLine("Adding fuel...");
                 }
                 catch (FormatException e)
                 {
@@ -492,13 +541,20 @@ Please choose an action
 1 - Try again 
 2 - Go back to the main manu");
                 string input = Console.ReadLine();
-                if (input == "1")
+                if (input == "1" || input == "2")
                 {
-                    Refuel();
+                    if (input == "1")
+                    {
+                        Refuel();
+                    }
+                    else
+                    {
+                        firstStep();
+                    }
                 }
                 else
                 {
-                    firstStep();
+                    throw new ArgumentException();
                 }
 
             }
@@ -552,7 +608,8 @@ Please choose an action
                 try
                 {
                     float minutesToCharge = float.Parse(Console.ReadLine());
-                    Garage.Charge(licenseNum, minutesToCharge);  
+                    Garage.Charge(licenseNum, minutesToCharge);
+                    Console.WriteLine("Charging...");
                 }
                 catch(FormatException e)
                 {
@@ -565,14 +622,22 @@ Please choose an action
 1 - Try again 
 2 - Go back to the main manu");
                 string input = Console.ReadLine();
-                if (input == "1")
+                if (input == "1" || input == "2")
                 {
-                    Charge();
+                    if (input == "1")
+                    {
+                        Charge();
+                    }
+                    else
+                    {
+                        firstStep();
+                    }
                 }
                 else
                 {
-                    firstStep();
+                    throw new ArgumentException();
                 }
+
 
             }
 
@@ -595,13 +660,20 @@ Please choose an action
 1 - Try again 
 2 - Go back to the main manu");
                 string input = Console.ReadLine();
-                if (input == "1")
+                if (input == "1" || input == "2")
                 {
-                    DisplayVehicleInformation();
+                    if (input == "1")
+                    {
+                        DisplayVehicleInformation();
+                    }
+                    else
+                    {
+                        firstStep();
+                    }
                 }
                 else
                 {
-                    firstStep();
+                    throw new ArgumentException();
                 }
 
             }
