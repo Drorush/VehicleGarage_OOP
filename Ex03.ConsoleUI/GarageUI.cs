@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ex03.GarageLogic;
+using static Ex03.GarageLogic.Car;
 using static Ex03.GarageLogic.MotorCycle;
 
 namespace Ex03.ConsoleUI
@@ -76,10 +77,7 @@ Please choose an action
                 {
                     firstStep();
                 }
-<<<<<<< HEAD
 
-=======
->>>>>>> dd89c666ebf86905e75eb3bbcef3bb46b22467bb
             }
             catch (FormatException e)
             {
@@ -130,37 +128,78 @@ Please choose an action
                                 break;
                             case 3:
                             case 4:
-                                string Color = getCarColor();
+                                eColor color = getCarColor();
                                 int numOfDoors = getNumOfDoors();
+                                if (vehicleType == 3)
+                                {
+                                    Garage.Insert(VehiclesCreator.CreateFuelBasedCar(modelName, licenseNum, manufacturerName, curPressure, color, numOfDoors), ownersName, phoneNumber);
+                                }
+                                else
+                                {
+                                    Garage.Insert(VehiclesCreator.CreateElectricCar(modelName, licenseNum, manufacturerName, curPressure, color, numOfDoors), ownersName, phoneNumber);
+                                }
                                 break;
                             default:
+                                float volOfCargo = getVolOfCargo();
+                                bool dangerous = isDangerous();
+                                Garage.Insert(VehiclesCreator.CreateFuelBasedTruck(modelName, licenseNum, manufacturerName, curPressure, dangerous, volOfCargo), ownersName, phoneNumber);
                                 break;
 
                         }
                     }
-<<<<<<< HEAD
 
-
-=======
->>>>>>> dd89c666ebf86905e75eb3bbcef3bb46b22467bb
                 }
             }
             catch (FormatException e)
             {
                 throw e;
             }
-<<<<<<< HEAD
 
-=======
->>>>>>> dd89c666ebf86905e75eb3bbcef3bb46b22467bb
+        }
+
+        private bool isDangerous()
+        {
+            bool dangerous = false;
+            Console.WriteLine(
+ @"The truck contains dangerous materials
+1 - Yes
+2 - No");
+            string input = Console.ReadLine();
+
+            return (dangerous = (input == "1"));
+        }
+
+        private float getVolOfCargo()
+        {
+            Console.WriteLine("Please enter the volume of cargo");
+            try
+            {
+                return float.Parse(Console.ReadLine());
+            }
+            catch (FormatException e)
+            {
+                throw e;
+            }
         }
 
         private int getNumOfDoors()
         {
+            Console.WriteLine("How many doors do you have in your car - 2/3/4/5");
+            string input = Console.ReadLine();
+            try
+            {
+
+                return int.Parse(input);
+            }
+            catch (FormatException e)
+            {
+                throw e;
+            }
+
             throw new NotImplementedException();
         }
 
-        private string getCarColor()
+        private eColor getCarColor()
         {
             Console.WriteLine(
  @"Please enter your car's color
@@ -168,36 +207,34 @@ Please choose an action
 2 - Blue
 3 - White
 4 - Black");
-          string color = Console.ReadLine();
+            string input = Console.ReadLine();
             try
             {
-                int num = int.Parse(color);
+                eColor color;
+
+                int num = int.Parse(input);
                 switch (num)
                 {
                     case 1:
-                        color = "Grey";
+                        color = eColor.Grey;
                         break;
                     case 2:
-                        color = "Blue";
+                        color = eColor.Blue;
                         break;
                     case 3:
-                        color = "White";
+                        color = eColor.White;
                         break;
                     default:
-                        color = "Black";
+                        color = eColor.Black;
                         break;
                 }
 
-                return color; 
+                return color;
             }
-            catch(FormatException e)
+            catch (FormatException e)
             {
                 throw e;
             }
-<<<<<<< HEAD
-
-=======
->>>>>>> dd89c666ebf86905e75eb3bbcef3bb46b22467bb
         }
 
         private string getPhoneNumber()
@@ -253,10 +290,7 @@ Please choose an action
                     default:
                         e = eLicenseType.B2;
                         break;
-<<<<<<< HEAD
 
-=======
->>>>>>> dd89c666ebf86905e75eb3bbcef3bb46b22467bb
                 }
                 return e;
             }
@@ -264,11 +298,7 @@ Please choose an action
             {
                 throw e;
             }
-<<<<<<< HEAD
 
-
-=======
->>>>>>> dd89c666ebf86905e75eb3bbcef3bb46b22467bb
         }
 
         private float getCurrentPressure()
