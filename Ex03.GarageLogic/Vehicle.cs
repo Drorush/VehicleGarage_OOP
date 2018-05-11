@@ -15,6 +15,7 @@ namespace Ex03.GarageLogic
         {
             m_ModelName = i_ModelName;
             m_LicenseNumber = i_LicenseNumber;
+            m_Wheels = new List<Wheel>();
         }
 
         public float RemainingEnergy
