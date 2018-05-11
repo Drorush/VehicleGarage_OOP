@@ -149,6 +149,10 @@ Please choose an action
                     }
 
                 }
+                else
+                {
+                    throw new ArgumentException();
+                }
             }
             catch (FormatException e)
             {
@@ -165,8 +169,14 @@ Please choose an action
 1 - Yes
 2 - No");
             string input = Console.ReadLine();
-
-            return (dangerous = (input == "1"));
+            if(input == "1" || input == "2")
+            {
+                return (dangerous = (input == "1"));
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
         }
 
         private float getVolOfCargo()
@@ -188,7 +198,7 @@ Please choose an action
             string input = Console.ReadLine();
             try
             {
-
+                
                 return int.Parse(input);
             }
             catch (FormatException e)
@@ -332,30 +342,220 @@ Please choose an action
         /* Display a list of license numbers currently in the garage, with a filtering option based on the status of each vehicle */
         public void Display()
         {
-
+            Console.WriteLine(
+@"Please pick a group for display
+1 - display vehicles in repair
+2 - display vehicles repaired
+3 - dispaly Paid vehicles
+4 - display all");
+            string input = Console.ReadLine();
+            try
+            {
+                int num = int.Parse(input);
+                switch (num)
+                {
+                    case 1:
+                        Garage.DisplayInRepair();
+                        break;
+                    case 2:
+                        Garage.DisplayRepaired();
+                        break;
+                    case 3:
+                        Garage.DisplayPaid();
+                        break;
+                    default:
+                        Garage.DisplayAll();
+                        break;
+                }
+            }
+            catch(FormatException e)
+            {
+                throw e;
+            }
         }
 
         /* Change a certain vehicle’s status (Prompting the user for the license number and new desired status) */
         public void ChangeVehicleStatus()
         {
+            Console.WriteLine("Please enter license numer");
+            string licenseNum = Console.ReadLine();
+            if (Garage.Contains(licenseNum))
+            {
+                Console.WriteLine(
+ @"Please choose the new status :
+1 - In repair
+2 - Repaired
+3 - Paid");
+                string input = Console.ReadLine();
+                if(input == "1")
+                {
+                    Garage.SetDefaultState(licenseNum);
+                }
+                else if(input == "2")
+                {
+                    Garage.SetRepairedState(licenseNum);
+                }
+                else
+                {
+                    Garage.SetPaidState(licenseNum);
+                }
+            }
+            else
+            {
+                Console.WriteLine(@"The vehicle does not exist in the garage
+1 - Try again 
+2 - Go back to the main manu");
+                string input = Console.ReadLine();
+                if(input == "1")
+                {
+                    ChangeVehicleStatus();
+                }
+                else
+                {
+                    firstStep();
+                }
+            }
+
+
 
         }
 
         /* Inflate tires to maximum (Prompting the user for the license number) */
         public void InflateToMaximum()
         {
+            Console.WriteLine("Please enter license numer");
+            string licenseNum = Console.ReadLine();
+            if (Garage.Contains(licenseNum))
+            {
+                Garage.InflateToMaximum(licenseNum);
+            }
+            else
+            {
+                Console.WriteLine(@"The vehicle does not exist in the garage
+1 - Try again 
+2 - Go back to the main manu");
+                string input = Console.ReadLine();
+                if (input == "1")
+                {
+                    InflateToMaximum();
+                }
+                else
+                {
+                    firstStep();
+                }
+            }
 
         }
 
         /* Refuel a fuel-based vehicle (Prompting the user for the license number, fuel type and amount to fill) */
         public void Refuel()
         {
+            Console.WriteLine("Please enter license numer");
+            string licenseNum = Console.ReadLine();
+            if (Garage.Contains(licenseNum))
+            {
+                Console.WriteLine("How many liters would you like to fuel");
+                try
+                {
+                    Engine.eFuelType fuelType = getEngineFuelType();
+                    float addLiters = float.Parse(Console.ReadLine());
 
+                    Garage.Refuel(licenseNum, fuelType ,addLiters);
+                }
+                catch (FormatException e)
+                {
+                    throw e;
+                }
+            }
+            else
+            {
+                Console.WriteLine(@"The vehicle does not exist in the garage
+1 - Try again 
+2 - Go back to the main manu");
+                string input = Console.ReadLine();
+                if (input == "1")
+                {
+                    Refuel();
+                }
+                else
+                {
+                    firstStep();
+                }
+
+            }
+        }
+
+        private Engine.eFuelType getEngineFuelType()
+        {
+            Console.WriteLine(
+ @"Please choose fuel type: 
+1 - Soler
+2 - Octane 95
+3 - Octane 96
+4 - Octane 98");
+            string input = Console.ReadLine();
+            try
+            {
+                Engine.eFuelType fuelType;
+                int num = int.Parse(input);
+                switch (num)
+                {
+                    case 1:
+                        fuelType = Engine.eFuelType.Soler;
+                        break;
+                    case 2:
+                        fuelType = Engine.eFuelType.Octane95;
+                        break;
+                    case 3:
+                        fuelType = Engine.eFuelType.Octane96;
+                        break;
+                    default:
+                        fuelType = Engine.eFuelType.Octane98;
+                        break;
+                }
+
+                return fuelType;
+            }
+            catch(FormatException e)
+            {
+                throw e;
+            }
         }
 
         /* Charge an electric-based vehicle (Prompting the user for the license number and number of minutes to charge) */
         public void Charge()
         {
+            Console.WriteLine("Please enter license numer");
+            string licenseNum = Console.ReadLine();
+            if (Garage.Contains(licenseNum))
+            {
+                Console.WriteLine("How long would you like to charge the engine (in minutes)");
+                try
+                {
+                    float minutesToCharge = float.Parse(Console.ReadLine());
+                    Garage.Charge(licenseNum, minutesToCharge);  
+                }
+                catch(FormatException e)
+                {
+                    throw e;
+                }
+            }
+            else
+            {
+                Console.WriteLine(@"The vehicle does not exist in the garage
+1 - Try again 
+2 - Go back to the main manu");
+                string input = Console.ReadLine();
+                if (input == "1")
+                {
+                    Charge();
+                }
+                else
+                {
+                    firstStep();
+                }
+
+            }
 
         }
 
@@ -364,7 +564,28 @@ Please choose an action
          * other relevant information based on vehicle type) */
         public void DisplayVehicleInformation()
         {
+            Console.WriteLine("Please enter license numer");
+            string licenseNum = Console.ReadLine();
+            if (Garage.Contains(licenseNum))
+            {
+                Garage.DisplayVehicleInformation(licenseNum);
+            }
+            else
+            {
+                Console.WriteLine(@"The vehicle does not exist in the garage
+1 - Try again 
+2 - Go back to the main manu");
+                string input = Console.ReadLine();
+                if (input == "1")
+                {
+                    DisplayVehicleInformation();
+                }
+                else
+                {
+                    firstStep();
+                }
 
+            }
         }
     }
 }
