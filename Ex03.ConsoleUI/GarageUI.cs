@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ex03.GarageLogic;
 using static Ex03.GarageLogic.Car;
 using static Ex03.GarageLogic.MotorCycle;
@@ -11,7 +7,6 @@ namespace Ex03.ConsoleUI
 {
     public class GarageUI
     {
-
         /**
        * inserts a new vehicle into the garage,
        * user will be asked to select a vehicle type out of the supported vehicle types
@@ -22,7 +17,8 @@ namespace Ex03.ConsoleUI
        * otherwise create a new vehicle object and the user will be prompted to input the values for the properties of his vehicle,
        * according to the type of vehicle he wishes to add. 
        * */
-        Garage Garage = new Garage();
+        internal Garage Garage = new Garage();
+
         public void StartGarage()
         {
             while (true)
@@ -30,6 +26,7 @@ namespace Ex03.ConsoleUI
                 firstStep();
             }
         }
+
         private void firstStep()
         {
             Console.WriteLine(
@@ -77,14 +74,12 @@ Please choose an action
                 {
                     firstStep();
                 }
-
             }
             catch (FormatException e)
             {
                 throw e;
             }
         }
-
 
         public void Insert()
         {
@@ -130,6 +125,7 @@ Please choose an action
                                 {
                                     Garage.Insert(VehiclesCreator.CreateElectricMotorCycle(modelName, licenseNum, manufacturerName, curPressure, type, engineVol), ownersName, phoneNumber);
                                 }
+
                                 break;
                             case 3:
                             case 4:
@@ -143,15 +139,16 @@ Please choose an action
                                 {
                                     Garage.Insert(VehiclesCreator.CreateElectricCar(modelName, licenseNum, manufacturerName, curPressure, color, numOfDoors), ownersName, phoneNumber);
                                 }
+
                                 break;
                             default:
                                 float volOfCargo = getVolOfCargo();
                                 bool dangerous = isDangerous();
                                 Garage.Insert(VehiclesCreator.CreateFuelBasedTruck(modelName, licenseNum, manufacturerName, curPressure, dangerous, volOfCargo), ownersName, phoneNumber);
                                 break;
-
                         }
-                        Console.WriteLine("Great, we are statring to fix the vehicle, thank you for choosing John's Garage");
+
+                        Console.WriteLine("Great, we are working on your vehicle! thank you for choosing John's Garage");
                     }
                 }
                 else
@@ -167,15 +164,14 @@ Please choose an action
 
         private bool isDangerous()
         {
-            bool dangerous = false;
             Console.WriteLine(
  @"The truck contains dangerous materials
 1 - Yes
 2 - No");
             string input = Console.ReadLine();
-            if(input == "1" || input == "2")
+            if (input == "1" || input == "2")
             {
-                return (dangerous = (input == "1"));
+                return input == "1";
             }
             else
             {
@@ -202,7 +198,6 @@ Please choose an action
             string input = Console.ReadLine();
             try
             {
-                
                 return int.Parse(input);
             }
             catch (FormatException e)
@@ -251,7 +246,6 @@ Please choose an action
                 {
                     throw new ArgumentException();
                 }
-                
             }
             catch (FormatException e)
             {
@@ -298,7 +292,7 @@ Please choose an action
             try
             {
                 int num = int.Parse(input);
-                if(num > 0 && num < 5)
+                if (num > 0 && num < 5)
                 {
                     eLicenseType e;
                     switch (num)
@@ -315,21 +309,19 @@ Please choose an action
                         default:
                             e = eLicenseType.B2;
                             break;
-
                     }
+
                     return e;
                 }
                 else
                 {
                     throw new ArgumentException();
                 }
-                
             }
             catch (FormatException e)
             {
                 throw e;
             }
-
         }
 
         private float getCurrentPressure()
@@ -358,22 +350,21 @@ Please choose an action
             return Console.ReadLine();
         }
 
-
-
         /* Display a list of license numbers currently in the garage, with a filtering option based on the status of each vehicle */
         public void Display()
         {
+            Console.WriteLine("List of license numbers currently in the garage: ");
+            printLicenseNumbers(Garage.DisplayAll());
             Console.WriteLine(
-@"Please pick a group for display
-1 - display vehicles in repair
+@"Please choose a filter:
+1 - display vehicles currently in-repair
 2 - display vehicles repaired
-3 - dispaly Paid vehicles
-4 - display all");
+3 - dispaly Paid vehicles");
             string input = Console.ReadLine();
             try
             {
                 int num = int.Parse(input);
-                if(num > 0 && num < 5)
+                if (num > 0 && num < 4)
                 {
                     string[] licenseNumbers;
                     switch (num)
@@ -391,15 +382,15 @@ Please choose an action
                             licenseNumbers = Garage.DisplayAll();
                             break;
                     }
+
                     printLicenseNumbers(licenseNumbers);
                 }
                 else
                 {
                     throw new ArgumentException();
                 }
-                
             }
-            catch(FormatException e)
+            catch (FormatException e)
             {
                 throw e;
             }
@@ -407,9 +398,9 @@ Please choose an action
 
         private void printLicenseNumbers(string[] i_licenseNumbers)
         {
-            foreach(string number in i_licenseNumbers)
+            foreach (string number in i_licenseNumbers)
             {
-                if(number != null)
+                if (number != null)
                 {
                     Console.WriteLine(number);
                 }
@@ -448,7 +439,6 @@ Please choose an action
                 {
                     throw new ArgumentException();
                 }
-      
             }
             else
             {
@@ -471,11 +461,7 @@ Please choose an action
                 {
                     throw new ArgumentException();
                 }
-
             }
-
-
-
         }
 
         /* Inflate tires to maximum (Prompting the user for the license number) */
@@ -510,7 +496,6 @@ Please choose an action
                     throw new ArgumentException();
                 }
             }
-
         }
 
         /* Refuel a fuel-based vehicle (Prompting the user for the license number, fuel type and amount to fill) */
@@ -526,7 +511,7 @@ Please choose an action
                     float addLiters = float.Parse(Console.ReadLine());
                     Engine.eFuelType fuelType = getEngineFuelType();
 
-                    Garage.Refuel(licenseNum, fuelType ,addLiters);
+                    Garage.Refuel(licenseNum, fuelType, addLiters);
                     Console.WriteLine("Adding fuel...");
                 }
                 catch (FormatException e)
@@ -555,7 +540,6 @@ Please choose an action
                 {
                     throw new ArgumentException();
                 }
-
             }
         }
 
@@ -590,7 +574,7 @@ Please choose an action
 
                 return fuelType;
             }
-            catch(FormatException e)
+            catch (FormatException e)
             {
                 throw e;
             }
@@ -610,7 +594,7 @@ Please choose an action
                     Garage.Charge(licenseNum, minutesToCharge);
                     Console.WriteLine("Charging...");
                 }
-                catch(FormatException e)
+                catch (FormatException e)
                 {
                     throw e;
                 }
@@ -636,10 +620,7 @@ Please choose an action
                 {
                     throw new ArgumentException();
                 }
-
-
             }
-
         }
 
         /* Display vehicle information (License number, Model name, Owner name, Status in garage,
@@ -674,7 +655,6 @@ Please choose an action
                 {
                     throw new ArgumentException();
                 }
-
             }
         }
     }
