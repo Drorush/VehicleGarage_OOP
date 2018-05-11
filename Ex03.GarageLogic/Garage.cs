@@ -33,9 +33,7 @@ namespace Ex03.GarageLogic
             VehicleDetails.OwnersName = i_OwnersName;
             VehicleDetails.OwnersPhoneNumber = i_OwnersPhoneNumber;
 
-            Console.WriteLine("inserting now this vehicle " + i_Vehicle.LicenseNumber);
             m_VehiclesList.Add(i_Vehicle.LicenseNumber, VehicleDetails);
-            Console.WriteLine("vehicles list size is: " + m_VehiclesList.Count);
         }
 
         /* Display a list of license numbers currently in the garage */
