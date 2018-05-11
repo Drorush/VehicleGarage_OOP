@@ -96,17 +96,18 @@ Please choose an action
 4 - Electric Car
 5 - Fuel-Based Truck");
             string input = Console.ReadLine();
-            Console.WriteLine("Please enter a license number");
-            string licenseNum = Console.ReadLine();
             try
             {
                 int vehicleType = int.Parse(input);
-
                 if (vehicleType > 0 && vehicleType < 6)
                 {
+                    Console.WriteLine("Please enter a license number");
+                    string licenseNum = Console.ReadLine();
+
                     if (Garage.Contains(licenseNum))
                     {
                         Garage.SetDefaultState(licenseNum);
+                        Console.WriteLine("This vehicle is already in the garage, changing status to 'in-repair'");
                     }
                     else
                     {
@@ -152,7 +153,6 @@ Please choose an action
                         }
                         Console.WriteLine("Great, we are statring to fix the vehicle, thank you for choosing John's Garage");
                     }
-
                 }
                 else
                 {
@@ -163,7 +163,6 @@ Please choose an action
             {
                 throw e;
             }
-
         }
 
         private bool isDangerous()
@@ -524,8 +523,8 @@ Please choose an action
                 Console.WriteLine("How many liters would you like to fuel");
                 try
                 {
-                    Engine.eFuelType fuelType = getEngineFuelType();
                     float addLiters = float.Parse(Console.ReadLine());
+                    Engine.eFuelType fuelType = getEngineFuelType();
 
                     Garage.Refuel(licenseNum, fuelType ,addLiters);
                     Console.WriteLine("Adding fuel...");
