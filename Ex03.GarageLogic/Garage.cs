@@ -36,8 +36,8 @@ namespace Ex03.GarageLogic
             m_VehiclesList.Add(i_Vehicle.LicenseNumber, VehicleDetails);
         }
 
-        /* Display a list of license numbers currently in the garage, with a filtering option based on the status of each vehicle */
-        public string[] Display()
+        /* Display a list of license numbers currently in the garage */
+        public string[] DisplayAll()
         {
             string[] licenseNumbers = new string[m_VehiclesList.Count];
             int i = 0;
@@ -45,6 +45,55 @@ namespace Ex03.GarageLogic
             foreach(KeyValuePair<string, VehicleDetails> pair in m_VehiclesList)
             {
                 licenseNumbers[i++] = pair.Key;
+            }
+
+            return licenseNumbers;
+        }
+
+        /* Display a list of license numbers currently in repair */
+        public string[] DisplayInRepair()
+        {
+            string[] licenseNumbers = new string[m_VehiclesList.Count];
+            int i = 0;
+
+            foreach (KeyValuePair<string, VehicleDetails> pair in m_VehiclesList)
+            {
+                if(pair.Value.VehicleStatus == VehicleDetails.eVehicleStatus.InRepair)
+                {
+                    licenseNumbers[i++] = pair.Key;
+                }
+            }
+
+            return licenseNumbers;
+        }
+
+        public string[] DisplayRepaired()
+        {
+            string[] licenseNumbers = new string[m_VehiclesList.Count];
+            int i = 0;
+
+            foreach (KeyValuePair<string, VehicleDetails> pair in m_VehiclesList)
+            {
+                if (pair.Value.VehicleStatus == VehicleDetails.eVehicleStatus.Repaired)
+                {
+                    licenseNumbers[i++] = pair.Key;
+                }
+            }
+
+            return licenseNumbers;
+        }
+
+        public string[] DisplayPaid()
+        {
+            string[] licenseNumbers = new string[m_VehiclesList.Count];
+            int i = 0;
+
+            foreach (KeyValuePair<string, VehicleDetails> pair in m_VehiclesList)
+            {
+                if (pair.Value.VehicleStatus == VehicleDetails.eVehicleStatus.PaidFor)
+                {
+                    licenseNumbers[i++] = pair.Key;
+                }
             }
 
             return licenseNumbers;
