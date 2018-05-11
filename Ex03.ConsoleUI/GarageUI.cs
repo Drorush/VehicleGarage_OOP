@@ -125,6 +125,10 @@ Please choose an action
                                 {
                                     Garage.Insert(VehiclesCreator.CreateFuelBasedMotorCycle(modelName, licenseNum, manufacturerName, curPressure, type, engineVol), ownersName, phoneNumber);
                                 }
+                                else
+                                {
+                                    Garage.Insert(VehiclesCreator.CreateElectricMotorCycle(modelName, licenseNum, manufacturerName, curPressure, type, engineVol), ownersName, phoneNumber);
+                                }
                                 break;
                             case 3:
                             case 4:
@@ -146,6 +150,7 @@ Please choose an action
                                 break;
 
                         }
+                        Console.WriteLine("Great, we are statring to fix the vehicle, thank you for choosing John's Garage");
                     }
 
                 }
@@ -280,7 +285,8 @@ Please choose an action
 1 - A
 2 - A1
 3 - B1
-4 - B2");
+4 - B2
+");
             string input = Console.ReadLine();
             try
             {
