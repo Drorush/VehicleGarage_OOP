@@ -358,25 +358,38 @@ Please choose an action
             try
             {
                 int num = int.Parse(input);
+                string[] licenseNumbers;
                 switch (num)
                 {
                     case 1:
-                        Garage.DisplayInRepair();
+                        licenseNumbers = Garage.DisplayInRepair();
                         break;
                     case 2:
-                        Garage.DisplayRepaired();
+                        licenseNumbers = Garage.DisplayRepaired();
                         break;
                     case 3:
-                        Garage.DisplayPaid();
+                        licenseNumbers = Garage.DisplayPaid();
                         break;
                     default:
-                        Garage.DisplayAll();
+                        licenseNumbers = Garage.DisplayAll();
                         break;
                 }
+                printLicenseNumbers(licenseNumbers);
             }
             catch(FormatException e)
             {
                 throw e;
+            }
+        }
+
+        private void printLicenseNumbers(string[] i_licenseNumbers)
+        {
+            foreach(string number in i_licenseNumbers)
+            {
+                if(number != null)
+                {
+                    Console.WriteLine(number);
+                }
             }
         }
 
@@ -574,7 +587,7 @@ Please choose an action
             string licenseNum = Console.ReadLine();
             if (Garage.Contains(licenseNum))
             {
-                Garage.DisplayVehicleInformation(licenseNum);
+                Console.WriteLine(Garage.DisplayVehicleInformation(licenseNum));
             }
             else
             {
