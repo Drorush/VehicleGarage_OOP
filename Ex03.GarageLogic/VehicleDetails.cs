@@ -115,10 +115,11 @@ vehicleDetails);
 
         private string getWheelDetails()
         {
-            StringBuilder WheelDetails = new StringBuilder(Environment.NewLine);
+            StringBuilder WheelDetails = new StringBuilder(string.Empty);
             foreach (Wheel wheel in m_currentVehicle.Wheels)
             {
-                WheelDetails.Append("Manufacturer name: " + wheel.ManufacturerName + ", AirPressure: " + wheel.AirPressure + Environment.NewLine);
+                WheelDetails.Append(Environment.NewLine);
+                WheelDetails.Append("Manufacturer name: " + wheel.ManufacturerName + ", AirPressure: " + wheel.AirPressure);
             }
 
             return WheelDetails.ToString();
