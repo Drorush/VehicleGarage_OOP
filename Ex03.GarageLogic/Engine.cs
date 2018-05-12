@@ -25,7 +25,6 @@ namespace Ex03.GarageLogic
             Octane95,
             Octane96,
             Octane98,
-            None
         }
 
         public float MaximalAmountOfEnergy
@@ -40,6 +39,8 @@ namespace Ex03.GarageLogic
                 m_MaximalAmountOfEnergy = value;
             }
         }
+
+        public float CurrentAmountOfEnergy { get => m_CurrentAmountOfEnergy; set => m_CurrentAmountOfEnergy = value; }
 
         // constructor for electric based engine
         public Engine(eEnergyType i_EnergyType)
@@ -57,14 +58,14 @@ namespace Ex03.GarageLogic
         internal void reFuel(float i_AmountToFill)
         {
             // case of fuel (octane, soler .. )
-            float fueledTank = m_CurrentAmountOfEnergy + i_AmountToFill;
+            float fueledTank = CurrentAmountOfEnergy + i_AmountToFill;
             if (fueledTank < 0 || fueledTank > m_MaximalAmountOfEnergy)
             {
                 throw new ValueOutOfRangeException(0, m_MaximalAmountOfEnergy, i_AmountToFill);
             }
             else
             {
-                m_CurrentAmountOfEnergy = fueledTank;
+                CurrentAmountOfEnergy = fueledTank;
             }
         }
     }

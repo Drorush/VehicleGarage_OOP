@@ -90,6 +90,7 @@ namespace Ex03.GarageLogic
         internal void reFuel(float i_AmountToFill)
         {
             this.Engine.reFuel(i_AmountToFill);
+            m_RemainingEnergyPercentage = (this.Engine.CurrentAmountOfEnergy / this.Engine.MaximalAmountOfEnergy) * 100;
         }
 
         internal void insertWheel(Wheel i_WheelToInsert)

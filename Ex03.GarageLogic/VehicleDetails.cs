@@ -32,8 +32,10 @@ Owners Name: {2}
 Owners Phone-Number: {3}
 Vehicle Status: {4}
 Tire specifications- {5}
-Charging details: {6}
-other details: {7}",
+Charging details:
+{6}
+other details:
+{7}",
 m_currentVehicle.LicenseNumber,
 m_currentVehicle.ModelName,
 m_OwnersName,
@@ -103,11 +105,11 @@ vehicleDetails);
             string fuelType = string.Empty;
             if (m_currentVehicle.Engine.m_EnergyType == Engine.eEnergyType.FuelBased)
             {
-                fuelType = "Fuel status: " + m_currentVehicle.RemainingEnergy + " Fuel type: " + m_currentVehicle.Engine.m_FuelType.ToString();
+                fuelType = "remaining fuel: " + (m_currentVehicle.RemainingEnergy + "%" + Environment.NewLine + "Fuel type: " + m_currentVehicle.Engine.m_FuelType.ToString());
             }
             else
             {
-                fuelType = "ElectricBased, battery status: " + m_currentVehicle.RemainingEnergy;
+                fuelType = "ElectricBased, remaining battery: " + m_currentVehicle.RemainingEnergy + "%";
             }
 
             return fuelType;
@@ -132,17 +134,17 @@ vehicleDetails);
             if (m_currentVehicle is MotorCycle)
             {
                 vehicleDetails = "License type: " + ((MotorCycle)m_currentVehicle).LicenseType.ToString()
-                    + " Engine Volume: " + ((MotorCycle)m_currentVehicle).EngineVolume;
+                    + Environment.NewLine + " Engine Volume: " + ((MotorCycle)m_currentVehicle).EngineVolume;
             }
             else if(m_currentVehicle is Car)
             {
                 vehicleDetails = "Color: " + ((Car)m_currentVehicle).Color.ToString() 
-                    + " Number of doors: " + ((Car)m_currentVehicle).NumOfDoors;
+                    + Environment.NewLine + " Number of doors: " + ((Car)m_currentVehicle).NumOfDoors;
             }
             else
             {
                 vehicleDetails = "is cooled? " + ((Truck)m_currentVehicle).CarriesDangerousMaterials 
-                    + " Volume of cargo: " + ((Truck)m_currentVehicle).VolumeOfCargo;
+                    + Environment.NewLine + " Volume of cargo: " + ((Truck)m_currentVehicle).VolumeOfCargo;
             }
 
             return vehicleDetails;

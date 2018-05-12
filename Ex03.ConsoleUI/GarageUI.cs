@@ -231,7 +231,7 @@ Please choose an action:
                 {
                     try
                     {
-                        return (eColor)Enum.Parse(typeof(eColor), Enum.GetName(typeof(eColor), num));
+                        return (eColor)Enum.Parse(typeof(eColor), Enum.GetName(typeof(eColor), num - 1));
                     }
                     catch (FormatException e)
                     {
@@ -292,7 +292,7 @@ Please choose an action:
                 {
                     try
                     {
-                        return (eLicenseType)Enum.Parse(typeof(eLicenseType), Enum.GetName(typeof(eLicenseType), num));
+                        return (eLicenseType)Enum.Parse(typeof(eLicenseType), Enum.GetName(typeof(eLicenseType), num - 1));
                     }
                     catch (FormatException e)
                     {
@@ -516,7 +516,7 @@ Please choose an action:
                 {
                     try
                     {
-                        return (eFuelType)Enum.Parse(typeof(eFuelType), Enum.GetName(typeof(eFuelType), num));
+                        return (eFuelType)Enum.Parse(typeof(eFuelType), Enum.GetName(typeof(eFuelType), num - 1));
                     }
                     catch (FormatException e)
                     {
