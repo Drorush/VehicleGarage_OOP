@@ -24,11 +24,11 @@ namespace Ex03.ConsoleUI
         {
             while (true)
             {
-                welcomeManu();
+                welcomeMenu();
             }
         }
 
-        private void welcomeManu()
+        private void welcomeMenu()
         {
             Console.WriteLine(
 @"Welcome to John's Garage
@@ -434,7 +434,7 @@ Please choose an action:
                 }
                 else
                 {
-                    welcomeManu();
+                    welcomeMenu();
                 }
             }
         }
@@ -457,7 +457,7 @@ Please choose an action:
                 }
                 else
                 {
-                    welcomeManu();
+                    welcomeMenu();
                 }
             }
         }
@@ -491,7 +491,7 @@ Please choose an action:
                 }
                 else
                 {
-                    welcomeManu();
+                    welcomeMenu();
                 }
             }
         }
@@ -557,7 +557,7 @@ Please choose an action:
                 }
                 else
                 {
-                    welcomeManu();
+                    welcomeMenu();
                 }
             }
         }
@@ -581,7 +581,7 @@ Please choose an action:
                 }
                 else
                 {
-                    welcomeManu();
+                    welcomeMenu();
                 }
             }
         }
@@ -591,7 +591,7 @@ Please choose an action:
             Console.WriteLine(
 @"The vehicle does not exist in the garage,
 1 - Try again 
-2 - Go back to the main manu");
+2 - Go back to the main menu");
             string input = Console.ReadLine();
             if (input == "1" || input == "2")
             {
