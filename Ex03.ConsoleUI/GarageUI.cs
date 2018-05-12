@@ -32,7 +32,7 @@ namespace Ex03.ConsoleUI
         {
             Console.WriteLine(
 @"Welcome to John's Garage
-Please choose an action
+Please choose an action:
 1 - Insert a new vehicle
 2 - Display a list of license numbers currently in the garage
 3 - Change a certain vehicle's status
@@ -85,7 +85,7 @@ Please choose an action
         public void Insert()
         {
             Console.WriteLine(
-@"Please choose the type of the vehicle
+@"Please choose the type of the vehicle:
 1 - Fuel-BasedMotorcycle
 2 - Electric Motorcycle
 3 - Fuel-BasedCar
@@ -166,7 +166,7 @@ Please choose an action
         private bool isDangerous()
         {
             Console.WriteLine(
- @"The truck contains dangerous materials
+ @"The truck contains dangerous materials:
 1 - Yes
 2 - No");
             string input = Console.ReadLine();
@@ -218,7 +218,7 @@ Please choose an action
         private eColor getCarColor()
         {
             Console.WriteLine(
- @"Please enter your car's color
+ @"Please coose your car's color:
 1 - Grey
 2 - Blue
 3 - White
@@ -278,7 +278,7 @@ Please choose an action
         private eLicenseType getLicenseType()
         {
             Console.Write(
-@"Please enter your's driving license type
+@"Please choose your's driving license type:
 1 - A
 2 - A1
 3 - B1
@@ -401,7 +401,7 @@ Please choose an action
             if (Garage.Contains(licenseNum))
             {
                 Console.WriteLine(
- @"Please choose the new status :
+ @"Please choose the new status: 
 1 - In repair
 2 - Repaired
 3 - Paid");
@@ -588,7 +588,8 @@ Please choose an action
 
         private string wrongLicenseNum()
         {
-            Console.WriteLine(@"The vehicle does not exist in the garage
+            Console.WriteLine(
+@"The vehicle does not exist in the garage,
 1 - Try again 
 2 - Go back to the main manu");
             string input = Console.ReadLine();
