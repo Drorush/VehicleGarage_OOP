@@ -176,7 +176,7 @@ Please choose an action
             }
             else
             {
-                throw new ArgumentExceptio(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 1, 2));
+                throw new ArgumentException(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 1, 2));
             }
         }
 
