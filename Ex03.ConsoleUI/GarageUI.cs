@@ -442,13 +442,7 @@ Please choose an action
             }
             else
             {
-                Console.WriteLine(@"The vehicle does not exist in the garage
-1 - Try again 
-2 - Go back to the main manu");
-                string input = Console.ReadLine();
-                if (input == "1" || input == "2")
-                {
-                    if (input == "1")
+                    if (wrongLicenseNum() == "1")
                     {
                         ChangeVehicleStatus();
                     }
@@ -456,11 +450,6 @@ Please choose an action
                     {
                         firstStep();
                     }
-                }
-                else
-                {
-                    throw new ArgumentException();
-                }
             }
         }
 
@@ -476,13 +465,7 @@ Please choose an action
             }
             else
             {
-                Console.WriteLine(@"The vehicle does not exist in the garage
-1 - Try again 
-2 - Go back to the main manu");
-                string input = Console.ReadLine();
-                if (input == "1" || input == "2")
-                {
-                    if (input == "1")
+                    if (wrongLicenseNum() == "1")
                     {
                         InflateToMaximum();
                     }
@@ -490,11 +473,6 @@ Please choose an action
                     {
                         firstStep();
                     }
-                }
-                else
-                {
-                    throw new ArgumentException();
-                }
             }
         }
 
@@ -521,13 +499,7 @@ Please choose an action
             }
             else
             {
-                Console.WriteLine(@"The vehicle does not exist in the garage
-1 - Try again 
-2 - Go back to the main manu");
-                string input = Console.ReadLine();
-                if (input == "1" || input == "2")
-                {
-                    if (input == "1")
+                    if (wrongLicenseNum() == "1")
                     {
                         Refuel();
                     }
@@ -535,11 +507,6 @@ Please choose an action
                     {
                         firstStep();
                     }
-                }
-                else
-                {
-                    throw new ArgumentException();
-                }
             }
         }
 
@@ -601,13 +568,7 @@ Please choose an action
             }
             else
             {
-                Console.WriteLine(@"The vehicle does not exist in the garage
-1 - Try again 
-2 - Go back to the main manu");
-                string input = Console.ReadLine();
-                if (input == "1" || input == "2")
-                {
-                    if (input == "1")
+                    if (wrongLicenseNum() == "1")
                     {
                         Charge();
                     }
@@ -615,11 +576,6 @@ Please choose an action
                     {
                         firstStep();
                     }
-                }
-                else
-                {
-                    throw new ArgumentException();
-                }
             }
         }
 
@@ -636,13 +592,7 @@ Please choose an action
             }
             else
             {
-                Console.WriteLine(@"The vehicle does not exist in the garage
-1 - Try again 
-2 - Go back to the main manu");
-                string input = Console.ReadLine();
-                if (input == "1" || input == "2")
-                {
-                    if (input == "1")
+                    if (wrongLicenseNum() == "1")
                     {
                         DisplayVehicleInformation();
                     }
@@ -650,11 +600,21 @@ Please choose an action
                     {
                         firstStep();
                     }
-                }
-                else
-                {
-                    throw new ArgumentException();
-                }
+            }
+        }
+        private string wrongLicenseNum()
+        {
+            Console.WriteLine(@"The vehicle does not exist in the garage
+1 - Try again 
+2 - Go back to the main manu");
+            string input = Console.ReadLine();
+            if (input == "1" || input == "2")
+            {
+                return input;
+            }
+            else
+            {
+                throw new ArgumentException();
             }
         }
     }
