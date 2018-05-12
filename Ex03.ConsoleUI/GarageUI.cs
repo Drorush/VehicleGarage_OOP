@@ -345,7 +345,7 @@ Please choose an action
 @"Please choose a filter:
 1 - display vehicles currently in-repair
 2 - display vehicles repaired
-3 - dispaly Paid vehicles");
+3 - display Paid vehicles");
             string input = Console.ReadLine();
             try
             {
@@ -369,6 +369,7 @@ Please choose an action
                             break;
                     }
 
+                    Console.WriteLine("list of vehicles according to your filter: ");
                     printLicenseNumbers(licenseNumbers);
                 }
                 else
