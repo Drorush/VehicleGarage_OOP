@@ -36,7 +36,7 @@ namespace Ex03.GarageLogic
         {
             MotorCycle MotorCycleToReturn = createMotorCycle(i_ModelName, i_LicenseNumber, i_ManufacturerName, i_CurrentPressure, i_LicenseType, i_EngineVolume);
             MotorCycleToReturn.Engine = new Engine(Engine.eEnergyType.ElectricBased);
-            MotorCycleToReturn.Engine.MaximalAmountOfEnergy = 1.8f;
+            MotorCycleToReturn.Engine.MaximalAmountOfEnergy = 1.8f * 60;
 
             return MotorCycleToReturn;
         }
@@ -56,7 +56,7 @@ namespace Ex03.GarageLogic
         {
             Car CarToReturn = createCar(i_ModelName, i_LicenseNumber, i_ManufacturerName, i_CurrentPressure, i_Color, i_NumOfDoors);
             CarToReturn.Engine = new Engine(Engine.eEnergyType.ElectricBased);
-            CarToReturn.Engine.MaximalAmountOfEnergy = 3.2f;
+            CarToReturn.Engine.MaximalAmountOfEnergy = 3.2f * 60;
 
             return CarToReturn;
         }

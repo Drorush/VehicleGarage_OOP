@@ -516,7 +516,6 @@ Please choose an action
                 {
                     throw new ArgumentException();
                 }
-
             }
             catch (FormatException e)
             {
@@ -579,6 +578,7 @@ Please choose an action
                     }
             }
         }
+
         private string wrongLicenseNum()
         {
             Console.WriteLine(@"The vehicle does not exist in the garage
