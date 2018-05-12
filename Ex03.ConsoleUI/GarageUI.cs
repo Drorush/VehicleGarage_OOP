@@ -1,7 +1,9 @@
 ﻿using System;
 using Ex03.GarageLogic;
 using static Ex03.GarageLogic.Car;
+using static Ex03.GarageLogic.Engine;
 using static Ex03.GarageLogic.MotorCycle;
+
 
 namespace Ex03.ConsoleUI
 {
@@ -505,7 +507,7 @@ Please choose an action
                 {
                     try
                     {
-                        return (Engine.eFuelType)Enum.Parse(typeof(Engine.eFuelType), Enum.GetName(typeof(Engine.eFuelType), num));
+                        return (eFuelType)Enum.Parse(typeof(eFuelType), Enum.GetName(typeof(eFuelType), num));
                     }
                     catch(FormatException e)
                     {
