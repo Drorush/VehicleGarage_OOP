@@ -4,7 +4,6 @@ using static Ex03.GarageLogic.Car;
 using static Ex03.GarageLogic.Engine;
 using static Ex03.GarageLogic.MotorCycle;
 
-
 namespace Ex03.ConsoleUI
 {
     public class GarageUI
