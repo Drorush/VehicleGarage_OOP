@@ -24,11 +24,11 @@ namespace Ex03.ConsoleUI
         {
             while (true)
             {
-                firstStep();
+                welcomeMenu();
             }
         }
 
-        private void firstStep()
+        private void welcomeMenu()
         {
             Console.WriteLine(
 @"Welcome to John's Garage
@@ -200,7 +200,7 @@ Please choose an action:
             try
             {
                 int numOfDoors = int.Parse(input);
-                if(numOfDoors > 1 && numOfDoors < 6)
+                if (numOfDoors > 1 && numOfDoors < 6)
                 {
                     return numOfDoors;
                 }
@@ -432,14 +432,14 @@ Please choose an action:
             }
             else
             {
-                    if (wrongLicenseNum() == "1")
-                    {
-                        ChangeVehicleStatus();
-                    }
-                    else
-                    {
-                        firstStep();
-                    }
+                if (wrongLicenseNum() == "1")
+                {
+                    ChangeVehicleStatus();
+                }
+                else
+                {
+                    welcomeMenu();
+                }
             }
         }
 
@@ -455,14 +455,14 @@ Please choose an action:
             }
             else
             {
-                    if (wrongLicenseNum() == "1")
-                    {
-                        InflateToMaximum();
-                    }
-                    else
-                    {
-                        firstStep();
-                    }
+                if (wrongLicenseNum() == "1")
+                {
+                    InflateToMaximum();
+                }
+                else
+                {
+                    welcomeMenu();
+                }
             }
         }
 
@@ -489,14 +489,14 @@ Please choose an action:
             }
             else
             {
-                    if (wrongLicenseNum() == "1")
-                    {
-                        Refuel();
-                    }
-                    else
-                    {
-                        firstStep();
-                    }
+                if (wrongLicenseNum() == "1")
+                {
+                    Refuel();
+                }
+                else
+                {
+                    welcomeMenu();
+                }
             }
         }
 
@@ -512,13 +512,13 @@ Please choose an action:
             try
             {
                 int num = int.Parse(input);
-                if(num > 0 && num < 5)
+                if (num > 0 && num < 5)
                 {
                     try
                     {
                         return (eFuelType)Enum.Parse(typeof(eFuelType), Enum.GetName(typeof(eFuelType), num));
                     }
-                    catch(FormatException e)
+                    catch (FormatException e)
                     {
                         throw e;
                     }
@@ -555,14 +555,14 @@ Please choose an action:
             }
             else
             {
-                    if (wrongLicenseNum() == "1")
-                    {
-                        Charge();
-                    }
-                    else
-                    {
-                        firstStep();
-                    }
+                if (wrongLicenseNum() == "1")
+                {
+                    Charge();
+                }
+                else
+                {
+                    welcomeMenu();
+                }
             }
         }
 
@@ -579,14 +579,14 @@ Please choose an action:
             }
             else
             {
-                    if (wrongLicenseNum() == "1")
-                    {
-                        DisplayVehicleInformation();
-                    }
-                    else
-                    {
-                        firstStep();
-                    }
+                if (wrongLicenseNum() == "1")
+                {
+                    DisplayVehicleInformation();
+                }
+                else
+                {
+                    welcomeMenu();
+                }
             }
         }
 
@@ -595,7 +595,7 @@ Please choose an action:
             Console.WriteLine(
 @"The vehicle does not exist in the garage,
 1 - Try again 
-2 - Go back to the main manu");
+2 - Go back to the main menu");
             string input = Console.ReadLine();
             if (input == "1" || input == "2")
             {
