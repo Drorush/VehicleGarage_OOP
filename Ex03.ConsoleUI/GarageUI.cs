@@ -219,28 +219,17 @@ Please choose an action
             string input = Console.ReadLine();
             try
             {
-                eColor color;
-
                 int num = int.Parse(input);
                 if (num > 0 && num < 5)
                 {
-                    switch (num)
+                    try
                     {
-                        case 1:
-                            color = eColor.Grey;
-                            break;
-                        case 2:
-                            color = eColor.Blue;
-                            break;
-                        case 3:
-                            color = eColor.White;
-                            break;
-                        default:
-                            color = eColor.Black;
-                            break;
+                        return (eColor)Enum.Parse(typeof(eColor), Enum.GetName(typeof(eColor), num));
                     }
-
-                    return color;
+                    catch (FormatException e)
+                    {
+                        throw e;
+                    }
                 }
                 else
                 {
@@ -294,24 +283,14 @@ Please choose an action
                 int num = int.Parse(input);
                 if (num > 0 && num < 5)
                 {
-                    eLicenseType e;
-                    switch (num)
+                    try
                     {
-                        case 1:
-                            e = eLicenseType.A;
-                            break;
-                        case 2:
-                            e = eLicenseType.A1;
-                            break;
-                        case 3:
-                            e = eLicenseType.B1;
-                            break;
-                        default:
-                            e = eLicenseType.B2;
-                            break;
+                        return (eLicenseType)Enum.Parse(typeof(eLicenseType), Enum.GetName(typeof(eLicenseType), num));
                     }
-
-                    return e;
+                    catch (FormatException e)
+                    {
+                        throw e;
+                    }
                 }
                 else
                 {
@@ -521,25 +500,23 @@ Please choose an action
             string input = Console.ReadLine();
             try
             {
-                Engine.eFuelType fuelType;
                 int num = int.Parse(input);
-                switch (num)
+                if(num > 0 && num < 5)
                 {
-                    case 1:
-                        fuelType = Engine.eFuelType.Soler;
-                        break;
-                    case 2:
-                        fuelType = Engine.eFuelType.Octane95;
-                        break;
-                    case 3:
-                        fuelType = Engine.eFuelType.Octane96;
-                        break;
-                    default:
-                        fuelType = Engine.eFuelType.Octane98;
-                        break;
+                    try
+                    {
+                        return (Engine.eFuelType)Enum.Parse(typeof(Engine.eFuelType), Enum.GetName(typeof(Engine.eFuelType), num));
+                    }
+                    catch(FormatException e)
+                    {
+                        throw e;
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException();
                 }
 
-                return fuelType;
             }
             catch (FormatException e)
             {
