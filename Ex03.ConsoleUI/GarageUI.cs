@@ -73,7 +73,7 @@ Please choose an action
                 }
                 else
                 {
-                    firstStep();
+                    throw new ArgumentException(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 1, 7));
                 }
             }
             catch (FormatException e)
@@ -154,7 +154,7 @@ Please choose an action
                 }
                 else
                 {
-                    throw new ArgumentException();
+                    throw new ArgumentException(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 1, 5));
                 }
             }
             catch (FormatException e)
@@ -176,7 +176,7 @@ Please choose an action
             }
             else
             {
-                throw new ArgumentException();
+                throw new ArgumentExceptio(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 1, 2));
             }
         }
 
@@ -199,14 +199,20 @@ Please choose an action
             string input = Console.ReadLine();
             try
             {
-                return int.Parse(input);
+                int numOfDoors = int.Parse(input);
+                if(numOfDoors > 1 && numOfDoors < 6)
+                {
+                    return numOfDoors;
+                }
+                else
+                {
+                    throw new ArgumentException(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 2, 5));
+                }
             }
             catch (FormatException e)
             {
                 throw e;
             }
-
-            throw new NotImplementedException();
         }
 
         private eColor getCarColor()
@@ -234,7 +240,7 @@ Please choose an action
                 }
                 else
                 {
-                    throw new ArgumentException();
+                    throw new ArgumentException(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 1, 4));
                 }
             }
             catch (FormatException e)
@@ -295,7 +301,7 @@ Please choose an action
                 }
                 else
                 {
-                    throw new ArgumentException();
+                    throw new ArgumentException(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 1, 4));
                 }
             }
             catch (FormatException e)
@@ -367,7 +373,7 @@ Please choose an action
                 }
                 else
                 {
-                    throw new ArgumentException();
+                    throw new ArgumentException(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 1, 3));
                 }
             }
             catch (FormatException e)
@@ -417,7 +423,7 @@ Please choose an action
                 }
                 else
                 {
-                    throw new ArgumentException();
+                    throw new ArgumentException(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 1, 3));
                 }
             }
             else
@@ -515,7 +521,7 @@ Please choose an action
                 }
                 else
                 {
-                    throw new ArgumentException();
+                    throw new ArgumentException(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 1, 4));
                 }
             }
             catch (FormatException e)
@@ -592,7 +598,7 @@ Please choose an action
             }
             else
             {
-                throw new ArgumentException();
+                throw new ArgumentException(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 1, 2));
             }
         }
     }
