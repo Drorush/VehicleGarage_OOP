@@ -8,19 +8,6 @@ namespace Ex03.GarageLogic
 {
     public class VehiclesCreator
     {
-        public enum eVehicleType
-        {
-            MotorCycle,
-            Car,
-            Truck
-        }
-
-        public enum eEnergyType
-        {
-            FuelBased,
-            ElectricBased
-        }
-
         /* 2 tires with max air pressure of 30 (psi), Octane 96 (fuel), 6 liters fuel tank */
         public static MotorCycle CreateFuelBasedMotorCycle(string i_ModelName, string i_LicenseNumber, string i_ManufacturerName, float i_CurrentPressure, MotorCycle.eLicenseType i_LicenseType, int i_EngineVolume)
         {

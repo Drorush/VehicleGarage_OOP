@@ -108,7 +108,7 @@ Please choose an action:
                     else
                     {
                         string modelName = getModelName();
-                        string manufacturerName = getmanufacturerName();
+                        string manufacturerName = getManufacturerName();
                         float curPressure = getCurrentPressure();
                         string ownersName = getOwnersName();
                         string phoneNumber = getPhoneNumber();
@@ -166,7 +166,7 @@ Please choose an action:
         private bool isDangerous()
         {
             Console.WriteLine(
- @"The truck contains dangerous materials:
+ @"The truck contains dangerous materials ?
 1 - Yes
 2 - No");
             string input = Console.ReadLine();
@@ -312,7 +312,7 @@ Please choose an action:
 
         private float getCurrentPressure()
         {
-            Console.WriteLine("Please enter your's car wheels current air pressure");
+            Console.WriteLine("Please enter your wheels current air pressure");
             string input = Console.ReadLine();
             try
             {
@@ -324,15 +324,15 @@ Please choose an action:
             }
         }
 
-        private string getmanufacturerName()
+        private string getManufacturerName()
         {
-            Console.WriteLine("Please enter your's car wheels manufacurer name");
+            Console.WriteLine("Please enter your wheels manufacturer name");
             return Console.ReadLine();
         }
 
         private string getModelName()
         {
-            Console.WriteLine("Please enter your's car model name");
+            Console.WriteLine("Please enter your vehicle model name");
             return Console.ReadLine();
         }
 
@@ -412,14 +412,17 @@ Please choose an action:
                     if (input == "1")
                     {
                         Garage.SetDefaultState(licenseNum);
+                        Console.Write("vehicle {0} status was changed to 'in-repair'", licenseNum);
                     }
                     else if (input == "2")
                     {
                         Garage.SetRepairedState(licenseNum);
+                        Console.Write("vehicle {0} status was changed to 'repaired'", licenseNum);
                     }
                     else
                     {
                         Garage.SetPaidState(licenseNum);
+                        Console.Write("vehicle {0} status was changed to 'paid'", licenseNum);
                     }
                 }
                 else
@@ -448,7 +451,7 @@ Please choose an action:
             if (Garage.Contains(licenseNum))
             {
                 Garage.InflateToMaximum(licenseNum);
-                Console.WriteLine("Inflating...");
+                Console.WriteLine("vehicle {0} tires inflated to maximum!", licenseNum);
             }
             else
             {
