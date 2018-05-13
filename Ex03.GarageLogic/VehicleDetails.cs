@@ -20,10 +20,16 @@ namespace Ex03.GarageLogic
             PaidFor
         }
 
+        internal void setOwnersDetails(string i_OwnersName, string i_OwnersPhoneNumber)
+        {
+            m_OwnersName = i_OwnersName;
+            m_OwnersPhoneNumber = i_OwnersPhoneNumber;
+        }
+
         internal string getVehicleInfo()
         {
             string wheelDetails = getWheelDetails();
-            string fuelType = getFuelTypeInfo();
+            string vehicleGetInfo = m_currentVehicle.GetInfo();
             string vehicleDetails = getVehicleDetails();
             string vehicleInfo = string.Format(
 @"License Number: {0}
@@ -42,7 +48,7 @@ m_OwnersName,
 m_OwnersPhoneNumber,
 m_VehicleStatus.ToString(),
 wheelDetails,
-fuelType,
+vehicleGetInfo,
 vehicleDetails);
 
             return vehicleInfo;
@@ -98,21 +104,6 @@ vehicleDetails);
             {
                 m_VehicleStatus = value;
             }
-        }
-
-        private string getFuelTypeInfo()
-        {
-            string fuelType = string.Empty;
-            if (m_currentVehicle.Engine.m_EnergyType == Engine.eEnergyType.FuelBased)
-            {
-                fuelType = "remaining fuel: " + (m_currentVehicle.RemainingEnergy + "%" + Environment.NewLine + "Fuel type: " + m_currentVehicle.Engine.m_FuelType.ToString());
-            }
-            else
-            {
-                fuelType = "ElectricBased, remaining battery: " + m_currentVehicle.RemainingEnergy + "%";
-            }
-
-            return fuelType;
         }
 
         private string getWheelDetails()

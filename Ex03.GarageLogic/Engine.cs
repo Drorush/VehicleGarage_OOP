@@ -6,26 +6,11 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    public class Engine
+    abstract public class Engine
     {
-        public eEnergyType m_EnergyType;
-        public eFuelType m_FuelType;
+        private FuelBasedEngine.eFuelType m_FuelType;
         private float m_CurrentAmountOfEnergy;
         private float m_MaximalAmountOfEnergy;
-
-        public enum eEnergyType
-        {
-            FuelBased,
-            ElectricBased
-        }
-        
-        public enum eFuelType
-        {
-            Soler,
-            Octane95,
-            Octane96,
-            Octane98,
-        }
 
         public float MaximalAmountOfEnergy
         {
@@ -41,21 +26,21 @@ namespace Ex03.GarageLogic
         }
 
         public float CurrentAmountOfEnergy { get => m_CurrentAmountOfEnergy; set => m_CurrentAmountOfEnergy = value; }
+        public FuelBasedEngine.eFuelType FuelType { get => m_FuelType; set => m_FuelType = value; }
 
         // constructor for electric based engine
-        public Engine(eEnergyType i_EnergyType)
+        public Engine()
         {
-            m_EnergyType = i_EnergyType;
+
         }
 
         // constructor for fuel-based engine
-        public Engine(eEnergyType i_EnergyType, eFuelType i_FuelType)
+        public Engine(FuelBasedEngine.eFuelType i_FuelType)
         {
-            m_EnergyType = i_EnergyType;
-            m_FuelType = i_FuelType;
+            FuelType = i_FuelType;
         }
 
-        internal void reFuel(float i_AmountToFill)
+        public void ReFuel(float i_AmountToFill)
         {
             // case of fuel (octane, soler .. )
             float fueledTank = CurrentAmountOfEnergy + i_AmountToFill;

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
@@ -25,15 +22,18 @@ namespace Ex03.GarageLogic
          * otherwise create a new vehicle object and the user will be prompted to input the values for the properties of his vehicle,
          * according to the type of vehicle he wishes to add. 
          * */
-        public void Insert(Vehicle i_Vehicle, string i_OwnersName, string i_OwnersPhoneNumber)
+        public void Insert(Vehicle i_Vehicle)
         {
             VehicleDetails VehicleDetails = new VehicleDetails();
             VehicleDetails.Vehicle = i_Vehicle;
             VehicleDetails.VehicleStatus = VehicleDetails.eVehicleStatus.InRepair;
-            VehicleDetails.OwnersName = i_OwnersName;
-            VehicleDetails.OwnersPhoneNumber = i_OwnersPhoneNumber;
 
             m_VehiclesList.Add(i_Vehicle.LicenseNumber, VehicleDetails);
+        }
+
+        public void setOwnerDetails(string i_LicenseNumber, string i_OwnersName, string i_OwnersPhoneNumber)
+        {
+            m_VehiclesList[i_LicenseNumber].setOwnersDetails(i_OwnersName, i_OwnersPhoneNumber);
         }
 
         /* Display a list of license numbers currently in the garage */
@@ -114,12 +114,12 @@ namespace Ex03.GarageLogic
         }
 
         /* Refuel a fuel-based vehicle (Prompting the user for the license number, fuel type and amount to fill) */
-        public void Refuel(string i_LicenseNumber, Engine.eFuelType i_FuelType, float i_AmountToFill)
+        public void Refuel(string i_LicenseNumber, FuelBasedEngine.eFuelType i_FuelType, float i_AmountToFill)
         {
             if(Contains(i_LicenseNumber))
             {
                 Vehicle VehicleToFuel = m_VehiclesList[i_LicenseNumber].Vehicle;
-                if(VehicleToFuel.Engine.m_EnergyType != Engine.eEnergyType.FuelBased || VehicleToFuel.Engine.m_FuelType != i_FuelType)
+                if(!(VehicleToFuel.Engine is FuelBasedEngine) || VehicleToFuel.Engine.FuelType != i_FuelType)
                 {
                     throw new ArgumentException("Vehicle is not FuelBased or FuelType is wrong");
                 }
@@ -140,7 +140,7 @@ namespace Ex03.GarageLogic
             if (Contains(i_LicenseNumber))
             {
                 Vehicle VehicleToFuel = m_VehiclesList[i_LicenseNumber].Vehicle;
-                if (VehicleToFuel.Engine.m_EnergyType != Engine.eEnergyType.ElectricBased)
+                if (!(VehicleToFuel.Engine is ElectricBasedEngine))
                 {
                     throw new ArgumentException("Vehicle is not ElectricBased");
                 }

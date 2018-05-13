@@ -3,7 +3,7 @@ using System;
 
 namespace Ex03.GarageLogic
 {
-    public class Vehicle
+    abstract public class Vehicle
     {
         private string m_ModelName;
         private string m_LicenseNumber;
@@ -11,9 +11,8 @@ namespace Ex03.GarageLogic
         private List<Wheel> m_Wheels;
         private Engine m_Engine;
 
-        public Vehicle(string i_ModelName, string i_LicenseNumber)
+        public Vehicle(string i_LicenseNumber)
         {
-            m_ModelName = i_ModelName;
             m_LicenseNumber = i_LicenseNumber;
             m_Wheels = new List<Wheel>();
         }
@@ -89,7 +88,7 @@ namespace Ex03.GarageLogic
          * and number of minutes to charge)  **/
         internal void reFuel(float i_AmountToFill)
         {
-            this.Engine.reFuel(i_AmountToFill);
+            this.Engine.ReFuel(i_AmountToFill);
             m_RemainingEnergyPercentage = (this.Engine.CurrentAmountOfEnergy / this.Engine.MaximalAmountOfEnergy) * 100;
         }
 
@@ -111,8 +110,11 @@ namespace Ex03.GarageLogic
          * Display vehicle information (License number, Model name, Owner name, Status in 
          * garage, Tire specifications (manufacturer and air pressure), Fuel status + Fuel type/Battery status,
          * other relevant information based on vehicle type) **/
-        internal void displayVehicleInfo()
+         internal string GetInfo()
         {
+            return "";
         }
+
+        public abstract List<string> requiredInfoForUI();
     }
 }

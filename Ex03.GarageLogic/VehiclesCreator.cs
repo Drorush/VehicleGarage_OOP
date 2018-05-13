@@ -9,53 +9,52 @@ namespace Ex03.GarageLogic
     public class VehiclesCreator
     {
         /* 2 tires with max air pressure of 30 (psi), Octane 96 (fuel), 6 liters fuel tank */
-        public static MotorCycle CreateFuelBasedMotorCycle(string i_ModelName, string i_LicenseNumber, string i_ManufacturerName, float i_CurrentPressure, MotorCycle.eLicenseType i_LicenseType, int i_EngineVolume)
+        public static MotorCycle CreateFuelBasedMotorCycle(string i_LicenseNumber)
         {
-            MotorCycle MotorCycleToReturn = createMotorCycle(i_ModelName, i_LicenseNumber, i_ManufacturerName, i_CurrentPressure, i_LicenseType, i_EngineVolume);
-            MotorCycleToReturn.Engine = new Engine(Engine.eEnergyType.FuelBased, Engine.eFuelType.Octane96);
+            MotorCycle MotorCycleToReturn = createMotorCycle(i_LicenseNumber);
+            MotorCycleToReturn.Engine = new FuelBasedEngine(FuelBasedEngine.eFuelType.Octane96);
             MotorCycleToReturn.Engine.MaximalAmountOfEnergy = 6;
 
             return MotorCycleToReturn;
         }
 
         /* 2 tires with max air pressure of 30 (psi), Max battery life – 1.8 hours */
-        public static MotorCycle CreateElectricMotorCycle(string i_ModelName, string i_LicenseNumber, string i_ManufacturerName, float i_CurrentPressure, MotorCycle.eLicenseType i_LicenseType, int i_EngineVolume)
+        public static MotorCycle CreateElectricMotorCycle(string i_LicenseNumber)
         {
-            MotorCycle MotorCycleToReturn = createMotorCycle(i_ModelName, i_LicenseNumber, i_ManufacturerName, i_CurrentPressure, i_LicenseType, i_EngineVolume);
-            MotorCycleToReturn.Engine = new Engine(Engine.eEnergyType.ElectricBased);
+            MotorCycle MotorCycleToReturn = createMotorCycle(i_LicenseNumber);
+            MotorCycleToReturn.Engine = new ElectricBasedEngine();
             MotorCycleToReturn.Engine.MaximalAmountOfEnergy = 1.8f * 60;
 
             return MotorCycleToReturn;
         }
 
         /* 4 tires with max air pressure of 32 (psi), Octane 98 fuel, 45 liter fuel tank */
-        public static Car CreateFuelBasedCar(string i_ModelName, string i_LicenseNumber, string i_ManufacturerName, float i_CurrentPressure, Car.eColor i_Color, int i_NumOfDoors)
+        public static Car CreateFuelBasedCar(string i_LicenseNumber)
         {
-            Car CarToReturn = createCar(i_ModelName, i_LicenseNumber, i_ManufacturerName, i_CurrentPressure, i_Color, i_NumOfDoors);
-            CarToReturn.Engine = new Engine(Engine.eEnergyType.FuelBased, Engine.eFuelType.Octane98);
+            Car CarToReturn = createCar(i_LicenseNumber);
+            CarToReturn.Engine = new FuelBasedEngine(FuelBasedEngine.eFuelType.Octane98);
             CarToReturn.Engine.MaximalAmountOfEnergy = 45;
 
             return CarToReturn;
         }
 
         /* 4 tires with max air pressure of 32 (psi), Max battery life – 3.2 hours */
-        public static Car CreateElectricCar(string i_ModelName, string i_LicenseNumber, string i_ManufacturerName, float i_CurrentPressure, Car.eColor i_Color, int i_NumOfDoors)
+        public static Car CreateElectricCar(string i_LicenseNumber)
         {
-            Car CarToReturn = createCar(i_ModelName, i_LicenseNumber, i_ManufacturerName, i_CurrentPressure, i_Color, i_NumOfDoors);
-            CarToReturn.Engine = new Engine(Engine.eEnergyType.ElectricBased);
+            Car CarToReturn = createCar(i_LicenseNumber);
+            CarToReturn.Engine = new ElectricBasedEngine();
             CarToReturn.Engine.MaximalAmountOfEnergy = 3.2f * 60;
 
             return CarToReturn;
         }
 
         /* 12 tires with max air pressure of 28 (psi), Octane 96 fuel, 115 liter fuel tank */
-        public static Truck CreateFuelBasedTruck(string i_ModelName, string i_LicenseNumber, string i_ManufacturerName, float i_CurrentPressure, bool i_carriesDangerousMaterials, float i_VolumeOfCargo)
+        public static Truck CreateFuelBasedTruck(string i_LicenseNumber)
         {
-            Truck TruckToReturn = new Truck(i_ModelName, i_LicenseNumber, i_carriesDangerousMaterials, i_VolumeOfCargo);
+            Truck TruckToReturn = new Truck(i_LicenseNumber);
             createTires(12, 28, TruckToReturn);
-            TruckToReturn.Engine = new Engine(Engine.eEnergyType.FuelBased, Engine.eFuelType.Octane96);
+            TruckToReturn.Engine = new FuelBasedEngine(FuelBasedEngine.eFuelType.Octane96);
             TruckToReturn.Engine.MaximalAmountOfEnergy = 115;
-            setWheelInfo(TruckToReturn, i_ManufacturerName, i_CurrentPressure);
 
             return TruckToReturn;
         }
@@ -69,24 +68,18 @@ namespace Ex03.GarageLogic
             }
         }
 
-        private static MotorCycle createMotorCycle(string i_ModelName, string i_LicenseNumber, string i_ManufacturerName, float i_CurrentPressure, MotorCycle.eLicenseType i_LicenseType, int i_EngineVolume)
+        private static MotorCycle createMotorCycle(string i_LicenseNumber)
         {
-            MotorCycle MotorCycleToReturn = new MotorCycle(i_ModelName, i_LicenseNumber, i_LicenseType, i_EngineVolume);
+            MotorCycle MotorCycleToReturn = new MotorCycle(i_LicenseNumber);
             createTires(2, 30, MotorCycleToReturn);
-            setWheelInfo(MotorCycleToReturn, i_ManufacturerName, i_CurrentPressure);
-            MotorCycleToReturn.LicenseType = i_LicenseType;
-            MotorCycleToReturn.EngineVolume = i_EngineVolume;
 
             return MotorCycleToReturn;
         }
 
-        private static Car createCar(string i_ModelName, string i_LicenseNumber, string i_ManufacturerName, float i_CurrentPressure, Car.eColor i_Color, int i_NumOfDoors)
+        private static Car createCar(string i_LicenseNumber)
         {
-            Car CarToReturn = new Car(i_ModelName, i_LicenseNumber, i_Color, i_NumOfDoors);
+            Car CarToReturn = new Car(i_LicenseNumber);
             createTires(4, 32, CarToReturn);
-            setWheelInfo(CarToReturn, i_ManufacturerName, i_CurrentPressure);
-            CarToReturn.Color = i_Color;
-            CarToReturn.NumOfDoors = i_NumOfDoors;
 
             return CarToReturn;
         }

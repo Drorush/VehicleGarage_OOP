@@ -54,7 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Car.cs" />
+    <Compile Include="ElectricBasedEngine.cs" />
     <Compile Include="Engine.cs" />
+    <Compile Include="FuelBasedEngine.cs" />
     <Compile Include="Garage.cs" />
     <Compile Include="MotorCycle.cs" />
     <Compile Include="Truck.cs" />

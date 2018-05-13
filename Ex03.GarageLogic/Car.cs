@@ -19,10 +19,8 @@ namespace Ex03.GarageLogic
             Black
         }
 
-        public Car(string i_ModelName, string i_LicenseNumber, Car.eColor i_Color, int i_NumOfDoors) : base(i_ModelName, i_LicenseNumber)
+        public Car(string i_LicenseNumber) : base(i_LicenseNumber)
         {
-            m_Color = i_Color;
-            m_NumOfDoors = i_NumOfDoors;
         }
 
         public eColor Color
@@ -49,6 +47,16 @@ namespace Ex03.GarageLogic
             {
                 m_NumOfDoors = value;
             }
+        }
+
+        public override List<string> requiredInfoForUI()
+        {
+            List<string> requiredList = new List<string>();
+            string colorList = Enum.GetNames(typeof(eColor)).ToString();
+            requiredList.Add("Color: " + colorList);
+            requiredList.Add("Number of doors: 2 / 3 / 4 / 5");
+
+            return requiredList;
         }
     }
 }

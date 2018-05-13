@@ -1,7 +1,7 @@
 ﻿using System;
 using Ex03.GarageLogic;
 using static Ex03.GarageLogic.Car;
-using static Ex03.GarageLogic.Engine;
+using static Ex03.GarageLogic.FuelBasedEngine;
 using static Ex03.GarageLogic.MotorCycle;
 
 namespace Ex03.ConsoleUI
@@ -120,11 +120,11 @@ Please choose an action:
                                 int engineVol = getEngineVolume();
                                 if (vehicleType == 1)
                                 {
-                                    Garage.Insert(VehiclesCreator.CreateFuelBasedMotorCycle(modelName, licenseNum, manufacturerName, curPressure, type, engineVol), ownersName, phoneNumber);
+                                    Garage.Insert(VehiclesCreator.CreateFuelBasedMotorCycle(licenseNum));
                                 }
                                 else
                                 {
-                                    Garage.Insert(VehiclesCreator.CreateElectricMotorCycle(modelName, licenseNum, manufacturerName, curPressure, type, engineVol), ownersName, phoneNumber);
+                                    Garage.Insert(VehiclesCreator.CreateElectricMotorCycle(licenseNum));
                                 }
 
                                 break;
@@ -134,18 +134,18 @@ Please choose an action:
                                 int numOfDoors = getNumOfDoors();
                                 if (vehicleType == 3)
                                 {
-                                    Garage.Insert(VehiclesCreator.CreateFuelBasedCar(modelName, licenseNum, manufacturerName, curPressure, color, numOfDoors), ownersName, phoneNumber);
+                                    Garage.Insert(VehiclesCreator.CreateFuelBasedCar(licenseNum));
                                 }
                                 else
                                 {
-                                    Garage.Insert(VehiclesCreator.CreateElectricCar(modelName, licenseNum, manufacturerName, curPressure, color, numOfDoors), ownersName, phoneNumber);
+                                    Garage.Insert(VehiclesCreator.CreateElectricCar(licenseNum));
                                 }
 
                                 break;
                             default:
                                 float volOfCargo = getVolOfCargo();
                                 bool dangerous = isDangerous();
-                                Garage.Insert(VehiclesCreator.CreateFuelBasedTruck(modelName, licenseNum, manufacturerName, curPressure, dangerous, volOfCargo), ownersName, phoneNumber);
+                                Garage.Insert(VehiclesCreator.CreateFuelBasedTruck(licenseNum));
                                 break;
                         }
 
@@ -477,7 +477,7 @@ Please choose an action:
                 try
                 {
                     float addLiters = float.Parse(Console.ReadLine());
-                    Engine.eFuelType fuelType = getEngineFuelType();
+                    FuelBasedEngine.eFuelType fuelType = getEngineFuelType();
 
                     Garage.Refuel(licenseNum, fuelType, addLiters);
                     Console.WriteLine("Adding fuel...");
@@ -500,7 +500,7 @@ Please choose an action:
             }
         }
 
-        private Engine.eFuelType getEngineFuelType()
+        private FuelBasedEngine.eFuelType getEngineFuelType()
         {
             Console.WriteLine(
  @"Please choose fuel type: 

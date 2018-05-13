@@ -19,10 +19,8 @@ namespace Ex03.GarageLogic
             B2
         }
 
-        public MotorCycle(string i_ModelName, string i_LicenseNumber, MotorCycle.eLicenseType i_LicenseType, int i_EngineVolume) : base(i_ModelName, i_LicenseNumber)
+        public MotorCycle(string i_LicenseNumber) : base(i_LicenseNumber)
         {
-            m_LicenseType = i_LicenseType;
-            m_EngineVolume = i_EngineVolume;
         }
 
         public eLicenseType LicenseType
@@ -49,6 +47,11 @@ namespace Ex03.GarageLogic
             {
                 m_EngineVolume = EngineVolume;
             }
+        }
+
+        public override List<string> requiredInfoForUI()
+        {
+            return null;
         }
     }
 }
