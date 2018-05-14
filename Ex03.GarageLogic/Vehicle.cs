@@ -115,6 +115,15 @@ namespace Ex03.GarageLogic
             return "";
         }
 
+        private void setWheelInfo(string i_ManufacturerName, float i_CurrentPressure)
+        {
+            foreach (Wheel wheel in m_Wheels)
+            {
+                wheel.ManufacturerName = i_ManufacturerName;
+                wheel.AirPressure = i_CurrentPressure;
+            }
+        }
+
         public abstract List<string> requiredInfoForUI();
     }
 }

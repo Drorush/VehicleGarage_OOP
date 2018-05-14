@@ -22,7 +22,11 @@ namespace Ex03.GarageLogic
 
         public override List<string> requiredInfoForUI()
         {
-            return null;
+            List<string> requiredList = new List<string>();
+            requiredList.Add("is cooled ?" + "True/False");
+            requiredList.Add("Volume of cargo");
+
+            return requiredList;
         }
     }
 

@@ -51,7 +51,12 @@ namespace Ex03.GarageLogic
 
         public override List<string> requiredInfoForUI()
         {
-            return null;
+            List<string> requiredList = new List<string>();
+            string licenseTypeList = Enum.GetNames(typeof(eLicenseType)).ToString();
+            requiredList.Add("License type: " + licenseTypeList);
+            requiredList.Add("Engine Volume");
+
+            return requiredList;
         }
     }
 }

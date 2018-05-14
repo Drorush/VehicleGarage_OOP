@@ -8,6 +8,43 @@ namespace Ex03.GarageLogic
 {
     public class VehiclesCreator
     {
+        public enum eSupportedVehicles
+        {
+            Fuel_Based_Motorcycle = 1,
+            Electric_Motorcycle,
+            Fuel_Based_Car,
+            Electric_Car,
+            Fuel_Based_Truck,
+        }
+
+        public Vehicle createVehicle(string i_SupportedVehicleNumber, string i_LicenseNumber)
+        {
+            Vehicle VehicleToReturn = null;
+            int supportedVehicleNumber = Int32.Parse(i_SupportedVehicleNumber);
+            switch (supportedVehicleNumber)
+            {
+                case 1:
+                    VehicleToReturn = CreateFuelBasedMotorCycle(i_LicenseNumber);
+                    break;
+                case 2:
+                    VehicleToReturn = CreateElectricMotorCycle(i_LicenseNumber);
+                    break;
+                case 3:
+                    VehicleToReturn = CreateFuelBasedCar(i_LicenseNumber);
+                    break;
+                case 4:
+                    VehicleToReturn = CreateElectricCar(i_LicenseNumber);
+                    break;
+                case 5:
+                    VehicleToReturn = CreateFuelBasedTruck(i_LicenseNumber);
+                    break;
+                default:
+                    throw new ArgumentException();
+            }
+
+            return VehicleToReturn;
+        }
+
         /* 2 tires with max air pressure of 30 (psi), Octane 96 (fuel), 6 liters fuel tank */
         public static MotorCycle CreateFuelBasedMotorCycle(string i_LicenseNumber)
         {
@@ -82,15 +119,6 @@ namespace Ex03.GarageLogic
             createTires(4, 32, CarToReturn);
 
             return CarToReturn;
-        }
-
-        private static void setWheelInfo(Vehicle io_Vehicle, string i_ManufacturerName, float i_CurrentPressure)
-        {
-            foreach(Wheel wheel in io_Vehicle.Wheels)
-            {
-                wheel.ManufacturerName = i_ManufacturerName;
-                wheel.AirPressure = i_CurrentPressure;
-            }
         }
     }
 }
