@@ -23,6 +23,7 @@ namespace Ex03.GarageLogic
             {
                 return m_RemainingEnergyPercentage;
             }
+
             set
             {
                 m_RemainingEnergyPercentage = value;

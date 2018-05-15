@@ -2,9 +2,7 @@
 using System.Reflection;
 using System.Text;
 using Ex03.GarageLogic;
-using static Ex03.GarageLogic.Car;
 using static Ex03.GarageLogic.FuelBasedEngine;
-using static Ex03.GarageLogic.MotorCycle;
 
 namespace Ex03.ConsoleUI
 {
@@ -31,43 +29,38 @@ namespace Ex03.ConsoleUI
             }
         }
 
+        /* welcomes the user, controls all the garage services */
         private void welcomeMenu()
         {
             printSupportedActions();
             int numOfAction = getUsersActionRequest();
-            try
+            switch (numOfAction)
             {
-                switch (numOfAction)
-                {
-                    case 1:
-                        Insert();
-                        break;
-                    case 2:
-                        Display();
-                        break;
-                    case 3:
-                        ChangeVehicleStatus();
-                        break;
-                    case 4:
-                        InflateToMaximum();
-                        break;
-                    case 5:
-                        Refuel();
-                        break;
-                    case 6:
-                        Charge();
-                        break;
-                    case 7:
-                        DisplayVehicleInformation();
-                        break;
-                }
-            }
-            catch (FormatException e)
-            {
-                throw e;
+                case 1:
+                    Insert();
+                    break;
+                case 2:
+                    Display();
+                    break;
+                case 3:
+                    ChangeVehicleStatus();
+                    break;
+                case 4:
+                    InflateToMaximum();
+                    break;
+                case 5:
+                    Refuel();
+                    break;
+                case 6:
+                    Charge();
+                    break;
+                case 7:
+                    DisplayVehicleInformation();
+                    break;
             }
         }
 
+        /* gets the requested garage service from the user */
         private int getUsersActionRequest()
         {
             string input = Console.ReadLine();
@@ -81,6 +74,7 @@ namespace Ex03.ConsoleUI
             return requestedAction;
         }
 
+        /* prints to the user the methods that the garage can perform */
         private void printSupportedActions()
         {
             Console.WriteLine(
@@ -94,6 +88,8 @@ namespace Ex03.ConsoleUI
 7 - Display a vehicle information");
         }
 
+        /* gets the unique fields of a vehicle by getting its public properties in runtime
+         * using reflection */
         public void getDetailsForVehicle(Vehicle i_Vehicle)
         {
             setEveryVehicleDetails(i_Vehicle);
@@ -118,13 +114,39 @@ namespace Ex03.ConsoleUI
                     Console.WriteLine("True/False");
                 }
 
-                object value = Console.ReadLine();
-                if (propertyInfo.PropertyType.IsEnum)
+                while (true)
                 {
-                    value = Enum.Parse(propertyInfo.PropertyType, value.ToString(), true);
-                }
+                    try
+                    {
+                        bool isPartOfEnum = false;
+                        object value = Console.ReadLine();
+                        if (propertyInfo.PropertyType.IsEnum)
+                        {
+                            foreach (var item in propertyInfo.PropertyType.GetEnumValues())
+                            {              
+                                if (value.ToString().Equals(item.ToString()))
+                                {
+                                    isPartOfEnum = true;
+                                    break;
+                                }
+                            }
 
-                propertyInfo.SetValue(i_Vehicle, Convert.ChangeType(value, propertyInfo.PropertyType), null);
+                            if (isPartOfEnum)
+                            {
+                                value = Enum.Parse(propertyInfo.PropertyType, value.ToString(), true);
+                                propertyInfo.SetValue(i_Vehicle, Convert.ChangeType(value, propertyInfo.PropertyType), null);
+                                break;
+                            }
+                        }
+
+                        propertyInfo.SetValue(i_Vehicle, Convert.ChangeType(value, propertyInfo.PropertyType), null);
+                        break;
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Please try again");
+                    }
+                }
             }
         }
 
@@ -138,10 +160,7 @@ namespace Ex03.ConsoleUI
             {
                 Console.WriteLine("Please enter the amount of battery you have in your " + i_Vehicle.GetType().Name + "approximately");
             }
-            else
-            {
-                // myb more engine types in the future..
-            }
+
             printApproximatelyPercentage();
             float energyPercentage = (float)(getApproximatelyPercentage() * 12.5);
             i_Vehicle.RemainingEnergy = energyPercentage;
@@ -172,8 +191,7 @@ namespace Ex03.ConsoleUI
 5 - 62.5%
 6 - 75%
 7 - 87.5%
-8 - 100%"
-);
+8 - 100%");
         }
 
         private void setEveryVehicleDetails(Vehicle i_Vehicle)
