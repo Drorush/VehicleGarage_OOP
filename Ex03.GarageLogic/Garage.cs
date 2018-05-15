@@ -119,7 +119,7 @@ namespace Ex03.GarageLogic
             if(Contains(i_LicenseNumber))
             {
                 Vehicle VehicleToFuel = m_VehiclesList[i_LicenseNumber].Vehicle;
-                if(!(VehicleToFuel.Engine is FuelBasedEngine) || VehicleToFuel.Engine.FuelType != i_FuelType)
+                if (!(VehicleToFuel.Engine is FuelBasedEngine) || (VehicleToFuel.Engine as FuelBasedEngine).FuelType != i_FuelType)
                 {
                     throw new ArgumentException("Vehicle is not FuelBased or FuelType is wrong");
                 }

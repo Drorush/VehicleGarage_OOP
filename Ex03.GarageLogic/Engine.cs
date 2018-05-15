@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    abstract public class Engine
+    public abstract class Engine
     {
-        private FuelBasedEngine.eFuelType m_FuelType;
         private float m_CurrentAmountOfEnergy;
         private float m_MaximalAmountOfEnergy;
 
@@ -26,19 +25,6 @@ namespace Ex03.GarageLogic
         }
 
         public float CurrentAmountOfEnergy { get => m_CurrentAmountOfEnergy; set => m_CurrentAmountOfEnergy = value; }
-        public FuelBasedEngine.eFuelType FuelType { get => m_FuelType; set => m_FuelType = value; }
-
-        // constructor for electric based engine
-        public Engine()
-        {
-
-        }
-
-        // constructor for fuel-based engine
-        public Engine(FuelBasedEngine.eFuelType i_FuelType)
-        {
-            FuelType = i_FuelType;
-        }
 
         public void ReFuel(float i_AmountToFill)
         {
@@ -46,7 +32,7 @@ namespace Ex03.GarageLogic
             float fueledTank = CurrentAmountOfEnergy + i_AmountToFill;
             if (fueledTank < 0 || fueledTank > m_MaximalAmountOfEnergy)
             {
-                throw new ValueOutOfRangeException(0, m_MaximalAmountOfEnergy, i_AmountToFill);
+                throw new ValueOutOfRangeException(0, m_MaximalAmountOfEnergy - m_CurrentAmountOfEnergy, i_AmountToFill);
             }
             else
             {

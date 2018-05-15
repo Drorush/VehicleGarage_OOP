@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Text;
 using Ex03.GarageLogic;
 using static Ex03.GarageLogic.Car;
 using static Ex03.GarageLogic.FuelBasedEngine;
@@ -71,7 +72,7 @@ namespace Ex03.ConsoleUI
         {
             string input = Console.ReadLine();
             int requestedAction = 0;
-            while (!Int32.TryParse(input, out requestedAction) || requestedAction < 1 || requestedAction > 7)
+            while (!int.TryParse(input, out requestedAction) || requestedAction < 1 || requestedAction > 7)
             {
                 Console.WriteLine("please enter valid number");
                 input = Console.ReadLine();
@@ -96,6 +97,7 @@ namespace Ex03.ConsoleUI
         public void getDetailsForVehicle(Vehicle i_Vehicle)
         {
             setEveryVehicleDetails(i_Vehicle);
+            setEnergyDetails(i_Vehicle);
             MemberInfo[] myMemberInfo;
             Type myType = i_Vehicle.GetType();
             myMemberInfo = myType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
@@ -126,13 +128,78 @@ namespace Ex03.ConsoleUI
             }
         }
 
+        private void setEnergyDetails(Vehicle i_Vehicle)
+        {
+            if (i_Vehicle.Engine is FuelBasedEngine)
+            {
+                Console.WriteLine("Please enter the amount of fuel you have in your " + i_Vehicle.GetType().Name + "approximately");
+            }
+            else if(i_Vehicle.Engine is ElectricBasedEngine)
+            {
+                Console.WriteLine("Please enter the amount of battery you have in your " + i_Vehicle.GetType().Name + "approximately");
+            }
+            else
+            {
+                // myb more engine types in the future..
+            }
+            printApproximatelyPercentage();
+            float energyPercentage = (float)(getApproximatelyPercentage() * 12.5);
+            i_Vehicle.RemainingEnergy = energyPercentage;
+            i_Vehicle.Engine.CurrentAmountOfEnergy = (energyPercentage * i_Vehicle.Engine.MaximalAmountOfEnergy) / 100;
+        }
+
+        private int getApproximatelyPercentage()
+        {
+            string input = Console.ReadLine();
+            int inputNumber = 0;
+            while(!int.TryParse(input, out inputNumber) || inputNumber < 0 || inputNumber > 8)
+            {
+                Console.WriteLine("please try again");
+                input = Console.ReadLine();
+            }
+
+            return inputNumber;
+        }
+
+        private void printApproximatelyPercentage()
+        {
+            Console.WriteLine(
+@"0 - 0%
+1 - 12.5%
+2 - 25%
+3 - 37.5%
+4 - 50%
+5 - 62.5%
+6 - 75%
+7 - 87.5%
+8 - 100%"
+);
+        }
+
         private void setEveryVehicleDetails(Vehicle i_Vehicle)
         {
             string modelName = getModelName();
             string manufacturerName = getManufacturerName();
             float curAirPressure = getCurrentPressure();
 
-            // TODO
+            i_Vehicle.ModelName = modelName;
+            i_Vehicle.setWheelsManufacturerName(manufacturerName);
+            try
+            {
+                i_Vehicle.setWheelsAirPressure(curAirPressure);
+            }
+            catch(ValueOutOfRangeException voore)
+            {
+                Console.WriteLine(voore.Message);
+                curAirPressure = getCurrentPressure();
+                while(curAirPressure < voore.MinValue || curAirPressure > voore.MaxValue)
+                {
+                    Console.WriteLine("Please try again");
+                    curAirPressure = getCurrentPressure();
+                }
+
+                i_Vehicle.setWheelsAirPressure(curAirPressure);
+            }
         }
 
         public void Insert()
@@ -203,93 +270,7 @@ namespace Ex03.ConsoleUI
                 input = Console.ReadLine();
             }
 
-            return Int32.Parse(input);
-        }
-
-        private bool isDangerous()
-        {
-            Console.WriteLine(
- @"The truck contains dangerous materials ?
-1 - Yes
-2 - No");
-            string input = Console.ReadLine();
-            if (input == "1" || input == "2")
-            {
-                return input == "1";
-            }
-            else
-            {
-                throw new ArgumentException(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 1, 2));
-            }
-        }
-
-        private float getVolOfCargo()
-        {
-            Console.WriteLine("Please enter the volume of cargo");
-            try
-            {
-                return float.Parse(Console.ReadLine());
-            }
-            catch (FormatException e)
-            {
-                throw e;
-            }
-        }
-
-        private int getNumOfDoors()
-        {
-            Console.WriteLine("How many doors do you have in your car - 2/3/4/5");
-            string input = Console.ReadLine();
-            try
-            {
-                int numOfDoors = int.Parse(input);
-                if (numOfDoors > 1 && numOfDoors < 6)
-                {
-                    return numOfDoors;
-                }
-                else
-                {
-                    throw new ArgumentException(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 2, 5));
-                }
-            }
-            catch (FormatException e)
-            {
-                throw e;
-            }
-        }
-
-        private eColor getCarColor()
-        {
-            Console.WriteLine(
- @"Please coose your car's color:
-1 - Grey
-2 - Blue
-3 - White
-4 - Black");
-            string input = Console.ReadLine();
-            try
-            {
-                int num = int.Parse(input);
-                if (num > 0 && num < 5)
-                {
-                    try
-                    {
-                        return (eColor)Enum.Parse(typeof(eColor), Enum.GetName(typeof(eColor), num - 1));
-                    }
-                    catch (FormatException e)
-                    {
-                        throw e;
-                    }
-                }
-                else
-                {
-                    throw new ArgumentException(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 1, 4));
-                }
-            }
-            catch (FormatException e)
-            {
-                throw e;
-            }
+            return int.Parse(input);
         }
 
         private string getPhoneNumber()
@@ -302,55 +283,6 @@ namespace Ex03.ConsoleUI
         {
             Console.WriteLine("Please enter your full name");
             return Console.ReadLine();
-        }
-
-        private int getEngineVolume()
-        {
-            Console.WriteLine("Please enter your motorcycle's engine volume ");
-            string input = Console.ReadLine();
-            try
-            {
-                return int.Parse(input);
-            }
-            catch (FormatException e)
-            {
-                throw e;
-            }
-        }
-
-        private eLicenseType getLicenseType()
-        {
-            Console.Write(
-@"Please choose your's driving license type:
-1 - A
-2 - A1
-3 - B1
-4 - B2
-");
-            string input = Console.ReadLine();
-            try
-            {
-                int num = int.Parse(input);
-                if (num > 0 && num < 5)
-                {
-                    try
-                    {
-                        return (eLicenseType)Enum.Parse(typeof(eLicenseType), Enum.GetName(typeof(eLicenseType), num - 1));
-                    }
-                    catch (FormatException e)
-                    {
-                        throw e;
-                    }
-                }
-                else
-                {
-                    throw new ArgumentException(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 1, 4));
-                }
-            }
-            catch (FormatException e)
-            {
-                throw e;
-            }
         }
 
         private float getCurrentPressure()
@@ -389,51 +321,66 @@ namespace Ex03.ConsoleUI
 1 - display vehicles currently in-repair
 2 - display vehicles repaired
 3 - display Paid vehicles");
-            string input = Console.ReadLine();
-            try
+            while(true)
             {
-                int num = int.Parse(input);
-                if (num > 0 && num < 4)
+                try
                 {
-                    string[] licenseNumbers;
-                    switch (num)
+                    string input = Console.ReadLine();
+                    int num = int.Parse(input);
+                    if (num >= 1 && num <= 3)
                     {
-                        case 1:
-                            licenseNumbers = Garage.DisplayInRepair();
-                            break;
-                        case 2:
-                            licenseNumbers = Garage.DisplayRepaired();
-                            break;
-                        case 3:
-                            licenseNumbers = Garage.DisplayPaid();
-                            break;
-                        default:
-                            licenseNumbers = Garage.DisplayAll();
-                            break;
-                    }
+                        string[] licenseNumbers = null;
+                        switch (num)
+                        {
+                            case 1:
+                                licenseNumbers = Garage.DisplayInRepair();
+                                break;
+                            case 2:
+                                licenseNumbers = Garage.DisplayRepaired();
+                                break;
+                            case 3:
+                                licenseNumbers = Garage.DisplayPaid();
+                                break;
+                        }
 
-                    Console.WriteLine("list of vehicles according to your filter: ");
-                    printLicenseNumbers(licenseNumbers);
+                        printLicenseNumbers(licenseNumbers);
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("please enter valid number");
+                    }
                 }
-                else
+                catch (FormatException)
                 {
-                    throw new ArgumentException(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 1, 3));
+                    Console.WriteLine("please enter valid number");
                 }
-            }
-            catch (FormatException e)
-            {
-                throw e;
             }
         }
 
         private void printLicenseNumbers(string[] i_licenseNumbers)
         {
+            StringBuilder licenseNumberList = new StringBuilder(string.Empty);
+
             foreach (string number in i_licenseNumbers)
             {
                 if (number != null)
                 {
+                    licenseNumberList.Append(number + Environment.NewLine);
+                }
+                else
+                {
                     Console.WriteLine(number);
                 }
+            }
+
+            if (licenseNumberList.ToString().Equals(string.Empty))
+            {
+                Console.WriteLine("There is no vehicles in the garage in this status");
+            }
+            else
+            {
+                Console.WriteLine(licenseNumberList.ToString());
             }
         }
 

@@ -14,7 +14,7 @@ namespace Ex03.GarageLogic
 
         public Wheel(float i_MaximalAirPressure)
         {
-            m_MaximalAirPressure = i_MaximalAirPressure;
+            MaximalAirPressure = i_MaximalAirPressure;
         }
 
         public string ManufacturerName
@@ -39,30 +39,32 @@ namespace Ex03.GarageLogic
 
             set
             {
-                if (value > 0 && value <= m_MaximalAirPressure)
+                if (value > 0 && value <= MaximalAirPressure)
                 {
                     m_CurrentAirPressure = value;
                 }
                 else
                 {
-                    throw new ValueOutOfRangeException(0, m_MaximalAirPressure, value);
+                    throw new ValueOutOfRangeException(0, MaximalAirPressure, value);
                 }
             }
         }
+
+        public float MaximalAirPressure { get => m_MaximalAirPressure; set => m_MaximalAirPressure = value; }
 
         /* inflates the air pressure with i_AirPressureToAdd if it doesnt exceed the maximal air pressure */
         private void inflate(float i_AirPressureToAdd)
         {
             float newAirPressure = m_CurrentAirPressure + i_AirPressureToAdd;
-            if (newAirPressure > m_MaximalAirPressure || newAirPressure < 0)
+            if (newAirPressure > MaximalAirPressure || newAirPressure < 0)
             {
-                throw new ValueOutOfRangeException(0, m_MaximalAirPressure, i_AirPressureToAdd);
+                throw new ValueOutOfRangeException(0, MaximalAirPressure, i_AirPressureToAdd);
             }
         }
 
         internal void inflateToMaximum()
         {
-            m_CurrentAirPressure = m_MaximalAirPressure;
+            m_CurrentAirPressure = MaximalAirPressure;
         }
     }
 }

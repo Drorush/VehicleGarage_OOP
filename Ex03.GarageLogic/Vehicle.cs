@@ -3,7 +3,7 @@ using System;
 
 namespace Ex03.GarageLogic
 {
-    abstract public class Vehicle
+    public abstract class Vehicle
     {
         private string m_ModelName;
         private string m_LicenseNumber;
@@ -22,6 +22,10 @@ namespace Ex03.GarageLogic
             get
             {
                 return m_RemainingEnergyPercentage;
+            }
+            set
+            {
+                m_RemainingEnergyPercentage = value;
             }
         }
 
@@ -101,20 +105,18 @@ namespace Ex03.GarageLogic
             }
         }
 
-        /**
-         * Display vehicle information (License number, Model name, Owner name, Status in 
-         * garage, Tire specifications (manufacturer and air pressure), Fuel status + Fuel type/Battery status,
-         * other relevant information based on vehicle type) **/
-         internal string GetInfo()
-        {
-            return "";
-        }
-
-        private void setWheelInfo(string i_ManufacturerName, float i_CurrentPressure)
+        public void setWheelsManufacturerName(string i_ManufacturerName)
         {
             foreach (Wheel wheel in m_Wheels)
             {
                 wheel.ManufacturerName = i_ManufacturerName;
+            }
+        }
+
+        public void setWheelsAirPressure(float i_CurrentPressure)
+        {
+            foreach (Wheel wheel in m_Wheels)
+            {
                 wheel.AirPressure = i_CurrentPressure;
             }
         }

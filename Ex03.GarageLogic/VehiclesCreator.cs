@@ -17,10 +17,10 @@ namespace Ex03.GarageLogic
             Fuel_Based_Truck,
         }
 
-        public Vehicle createVehicle(string i_SupportedVehicleNumber, string i_LicenseNumber)
+        public static Vehicle createVehicle(string i_SupportedVehicleNumber, string i_LicenseNumber)
         {
             Vehicle VehicleToReturn = null;
-            int supportedVehicleNumber = Int32.Parse(i_SupportedVehicleNumber);
+            int supportedVehicleNumber = int.Parse(i_SupportedVehicleNumber);
             switch (supportedVehicleNumber)
             {
                 case 1:
@@ -49,8 +49,10 @@ namespace Ex03.GarageLogic
         public static MotorCycle CreateFuelBasedMotorCycle(string i_LicenseNumber)
         {
             MotorCycle MotorCycleToReturn = createMotorCycle(i_LicenseNumber);
-            MotorCycleToReturn.Engine = new FuelBasedEngine(FuelBasedEngine.eFuelType.Octane96);
-            MotorCycleToReturn.Engine.MaximalAmountOfEnergy = 6;
+            MotorCycleToReturn.Engine = new FuelBasedEngine(FuelBasedEngine.eFuelType.Octane96)
+            {
+                MaximalAmountOfEnergy = 6
+            };
 
             return MotorCycleToReturn;
         }
@@ -59,8 +61,10 @@ namespace Ex03.GarageLogic
         public static MotorCycle CreateElectricMotorCycle(string i_LicenseNumber)
         {
             MotorCycle MotorCycleToReturn = createMotorCycle(i_LicenseNumber);
-            MotorCycleToReturn.Engine = new ElectricBasedEngine();
-            MotorCycleToReturn.Engine.MaximalAmountOfEnergy = 1.8f * 60;
+            MotorCycleToReturn.Engine = new ElectricBasedEngine
+            {
+                MaximalAmountOfEnergy = 1.8f * 60
+            };
 
             return MotorCycleToReturn;
         }
@@ -69,8 +73,10 @@ namespace Ex03.GarageLogic
         public static Car CreateFuelBasedCar(string i_LicenseNumber)
         {
             Car CarToReturn = createCar(i_LicenseNumber);
-            CarToReturn.Engine = new FuelBasedEngine(FuelBasedEngine.eFuelType.Octane98);
-            CarToReturn.Engine.MaximalAmountOfEnergy = 45;
+            CarToReturn.Engine = new FuelBasedEngine(FuelBasedEngine.eFuelType.Octane98)
+            {
+                MaximalAmountOfEnergy = 45
+            };
 
             return CarToReturn;
         }
@@ -79,8 +85,10 @@ namespace Ex03.GarageLogic
         public static Car CreateElectricCar(string i_LicenseNumber)
         {
             Car CarToReturn = createCar(i_LicenseNumber);
-            CarToReturn.Engine = new ElectricBasedEngine();
-            CarToReturn.Engine.MaximalAmountOfEnergy = 3.2f * 60;
+            CarToReturn.Engine = new ElectricBasedEngine
+            {
+                MaximalAmountOfEnergy = 3.2f * 60
+            };
 
             return CarToReturn;
         }
@@ -90,8 +98,10 @@ namespace Ex03.GarageLogic
         {
             Truck TruckToReturn = new Truck(i_LicenseNumber);
             createTires(12, 28, TruckToReturn);
-            TruckToReturn.Engine = new FuelBasedEngine(FuelBasedEngine.eFuelType.Octane96);
-            TruckToReturn.Engine.MaximalAmountOfEnergy = 115;
+            TruckToReturn.Engine = new FuelBasedEngine(FuelBasedEngine.eFuelType.Octane96)
+            {
+                MaximalAmountOfEnergy = 115
+            };
 
             return TruckToReturn;
         }
@@ -126,7 +136,7 @@ namespace Ex03.GarageLogic
             int inputNumber = 0;
             int numberOfSupportedVehicles = Enum.GetNames(typeof(eSupportedVehicles)).Length;
 
-            return (Int32.TryParse(i_Input, out inputNumber) && inputNumber >= 1 && inputNumber <= numberOfSupportedVehicles);
+            return int.TryParse(i_Input, out inputNumber) && inputNumber >= 1 && inputNumber <= numberOfSupportedVehicles;
         }
     }
 }

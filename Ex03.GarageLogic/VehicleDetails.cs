@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace Ex03.GarageLogic
     {
         private string m_OwnersName;
         private string m_OwnersPhoneNumber;
-        private Vehicle m_currentVehicle;
+        private Vehicle m_CurrentVehicle;
         private eVehicleStatus m_VehicleStatus;
 
         public enum eVehicleStatus
@@ -29,41 +30,58 @@ namespace Ex03.GarageLogic
         internal string getVehicleInfo()
         {
             string wheelDetails = getWheelDetails();
-            string vehicleGetInfo = m_currentVehicle.GetInfo();
+            string vehicleGetEngineInfo = getEngineInfo();
             string vehicleDetails = getVehicleDetails();
             string vehicleInfo = string.Format(
-@"License Number: {0}
-Model Name: {1}
-Owners Name: {2}
-Owners Phone-Number: {3}
-Vehicle Status: {4}
-Tire specifications- {5}
-Charging details:
-{6}
-other details:
-{7}",
-m_currentVehicle.LicenseNumber,
-m_currentVehicle.ModelName,
+@"*** Displaying info of vehicle with License number - {1} ***
+VehicleType: {0}
+Model Name: {2}
+Owners Name: {3}
+Owners Phone-Number: {4}
+Vehicle Status: {5}
+*** Tire specifications *** {6}
+*** Charging details ***
+{7}
+*** other details ***
+{8}",
+m_CurrentVehicle.GetType().Name,
+m_CurrentVehicle.LicenseNumber,
+m_CurrentVehicle.ModelName,
 m_OwnersName,
 m_OwnersPhoneNumber,
 m_VehicleStatus.ToString(),
 wheelDetails,
-vehicleGetInfo,
+vehicleGetEngineInfo,
 vehicleDetails);
 
             return vehicleInfo;
+        }
+
+        private string getEngineInfo()
+        {
+            StringBuilder EngineInfo = new StringBuilder(string.Empty);
+            EngineInfo.Append(m_CurrentVehicle.Engine.GetType().Name + Environment.NewLine);
+            EngineInfo.Append("Remaining energy in percentage: " + m_CurrentVehicle.RemainingEnergy + "%" + Environment.NewLine);
+            EngineInfo.Append("Current amount of energy: " + m_CurrentVehicle.Engine.CurrentAmountOfEnergy + Environment.NewLine);
+            EngineInfo.Append("Maximal amount of energy: " + m_CurrentVehicle.Engine.MaximalAmountOfEnergy);
+            if (m_CurrentVehicle.Engine is FuelBasedEngine)
+            {
+                EngineInfo.Append(Environment.NewLine + "Fuel type: " + (m_CurrentVehicle.Engine as FuelBasedEngine).FuelType);
+            }
+
+            return EngineInfo.ToString();
         }
 
         public Vehicle Vehicle
         {
             get
             {
-                return m_currentVehicle;
+                return m_CurrentVehicle;
             }
 
             set
             {
-                m_currentVehicle = value;
+                m_CurrentVehicle = value;
             }
         }
 
@@ -109,10 +127,10 @@ vehicleDetails);
         private string getWheelDetails()
         {
             StringBuilder WheelDetails = new StringBuilder(string.Empty);
-            foreach (Wheel wheel in m_currentVehicle.Wheels)
+            foreach (Wheel wheel in m_CurrentVehicle.Wheels)
             {
                 WheelDetails.Append(Environment.NewLine);
-                WheelDetails.Append("Manufacturer name: " + wheel.ManufacturerName + ", AirPressure: " + wheel.AirPressure);
+                WheelDetails.Append("Manufacturer name: " + wheel.ManufacturerName + " | Current AirPressure: " + wheel.AirPressure + " | Maximal AirPressure: " + wheel.MaximalAirPressure);
             }
 
             return WheelDetails.ToString();
@@ -120,25 +138,17 @@ vehicleDetails);
 
         private string getVehicleDetails()
         {
-            string vehicleDetails = string.Empty;
-
-            if (m_currentVehicle is MotorCycle)
+            StringBuilder vehicleDetails = new StringBuilder(string.Empty);
+            MemberInfo[] myMemberInfo;
+            Type myType = m_CurrentVehicle.GetType();
+            myMemberInfo = myType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            foreach (MemberInfo mi in myMemberInfo)
             {
-                vehicleDetails = "License type: " + ((MotorCycle)m_currentVehicle).LicenseType.ToString()
-                    + Environment.NewLine + " Engine Volume: " + ((MotorCycle)m_currentVehicle).EngineVolume;
-            }
-            else if(m_currentVehicle is Car)
-            {
-                vehicleDetails = "Color: " + ((Car)m_currentVehicle).Color.ToString() 
-                    + Environment.NewLine + " Number of doors: " + ((Car)m_currentVehicle).NumOfDoors;
-            }
-            else
-            {
-                vehicleDetails = "is cooled? " + ((Truck)m_currentVehicle).CarriesDangerousMaterials 
-                    + Environment.NewLine + " Volume of cargo: " + ((Truck)m_currentVehicle).VolumeOfCargo;
+                vehicleDetails.Append(mi.Name + ": " + ((PropertyInfo)mi).GetValue(m_CurrentVehicle, null));
+                vehicleDetails.Append(Environment.NewLine);
             }
 
-            return vehicleDetails;
+            return vehicleDetails.ToString();
         }
     }
 }
