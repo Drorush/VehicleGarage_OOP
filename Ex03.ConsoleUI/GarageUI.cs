@@ -480,18 +480,21 @@ namespace Ex03.ConsoleUI
             string licenseNum = Console.ReadLine();
             if (Garage.Contains(licenseNum))
             {
-                Console.WriteLine("How many liters would you like to fuel");
-                try
+                while (true)
                 {
-                    float addLiters = float.Parse(Console.ReadLine());
-                    FuelBasedEngine.eFuelType fuelType = getEngineFuelType();
-
-                    Garage.Refuel(licenseNum, fuelType, addLiters);
-                    Console.WriteLine("Adding fuel...");
-                }
-                catch (FormatException e)
-                {
-                    throw e;
+                    Console.WriteLine("How many liters would you like to fuel");
+                    try
+                    {
+                        float addLiters = float.Parse(Console.ReadLine());
+                        FuelBasedEngine.eFuelType fuelType = getEngineFuelType();
+                        Garage.Refuel(licenseNum, fuelType, addLiters);
+                        Console.WriteLine("Adding fuel...");
+                        break;
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Please enter a valid number");
+                    }
                 }
             }
             else
@@ -515,29 +518,25 @@ namespace Ex03.ConsoleUI
 2 - Octane 95
 3 - Octane 96
 4 - Octane 98");
-            string input = Console.ReadLine();
-            try
+            while (true)
             {
-                int num = int.Parse(input);
-                if (num > 0 && num < 5)
+                string input = Console.ReadLine();
+                try
                 {
-                    try
+                    int num = int.Parse(input);
+                    if (num > 0 && num < 5)
                     {
                         return (eFuelType)Enum.Parse(typeof(eFuelType), Enum.GetName(typeof(eFuelType), num - 1));
                     }
-                    catch (FormatException e)
+                    else
                     {
-                        throw e;
+                        Console.WriteLine("Please enter a valid number");
                     }
                 }
-                else
+                catch (FormatException)
                 {
-                    throw new ArgumentException(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 1, 4));
+                    Console.WriteLine("Please enter a valid number");
                 }
-            }
-            catch (FormatException e)
-            {
-                throw e;
             }
         }
 
