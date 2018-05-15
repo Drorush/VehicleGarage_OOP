@@ -485,7 +485,6 @@ namespace Ex03.ConsoleUI
                 {
                     float addLiters = float.Parse(Console.ReadLine());
                     FuelBasedEngine.eFuelType fuelType = getEngineFuelType();
-
                     Garage.Refuel(licenseNum, fuelType, addLiters);
                     Console.WriteLine("Adding fuel...");
                 }

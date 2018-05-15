@@ -116,21 +116,14 @@ namespace Ex03.GarageLogic
         /* Refuel a fuel-based vehicle (Prompting the user for the license number, fuel type and amount to fill) */
         public void Refuel(string i_LicenseNumber, FuelBasedEngine.eFuelType i_FuelType, float i_AmountToFill)
         {
-            if(Contains(i_LicenseNumber))
+            Vehicle VehicleToFuel = m_VehiclesList[i_LicenseNumber].Vehicle;
+            if (!(VehicleToFuel.Engine is FuelBasedEngine) || (VehicleToFuel.Engine as FuelBasedEngine).FuelType != i_FuelType)
             {
-                Vehicle VehicleToFuel = m_VehiclesList[i_LicenseNumber].Vehicle;
-                if (!(VehicleToFuel.Engine is FuelBasedEngine) || (VehicleToFuel.Engine as FuelBasedEngine).FuelType != i_FuelType)
-                {
-                    throw new ArgumentException("Vehicle is not FuelBased or FuelType is wrong");
-                }
-                else
-                {
-                    VehicleToFuel.reFuel(i_AmountToFill);
-                }
+                throw new ArgumentException("Vehicle is not FuelBased or FuelType is wrong");
             }
             else
             {
-                throw new ArgumentException("Vehicle does not exist");
+                VehicleToFuel.reFuel(i_AmountToFill);
             }
         }
 
