@@ -402,35 +402,20 @@ namespace Ex03.ConsoleUI
                     try
                     {
                         int num = int.Parse(input);
-                        if(num < 1 || num > 3)
+                        if(num >= 1 && num <= 3)
                         {
-                            switch (num)
-                            {
-                                case 1:
-                                    Garage.SetDefaultState(licenseNum);
-                                    Console.Write("vehicle {0} status was changed to 'in-repair'", licenseNum);
-                                    break;
-                                case 2:
-                                    Garage.SetRepairedState(licenseNum);
-                                    Console.Write("vehicle {0} status was changed to 'repaired'", licenseNum);
-                                    break;
-                                case 3:
-                                    Garage.SetPaidState(licenseNum);
-                                    Console.Write("vehicle {0} status was changed to 'paid'", licenseNum);
-                                    break;
-                            }
-
+                            setNewVehicleState(num, licenseNum);
+                            break;
                         }
                         else
                         {
-                            Console.WriteLine("Please eneter a valid number");
+                            Console.WriteLine("Please enter valid number");
                         }
                     }
                     catch (FormatException)
                     {
-                        Console.WriteLine("Please eneter a valid number");
+                        Console.WriteLine("Please enter valid number");
                     }
-
                 }
             }
             else
@@ -443,6 +428,25 @@ namespace Ex03.ConsoleUI
                 {
                     welcomeMenu();
                 }
+            }
+        }
+
+        private void setNewVehicleState(int i_Num, string i_LicenseNum)
+        {
+            switch (i_Num)
+            {
+                case 1:
+                    Garage.SetDefaultState(i_LicenseNum);
+                    Console.WriteLine("vehicle {0} status was changed to 'in-repair'", i_LicenseNum);
+                    break;
+                case 2:
+                    Garage.SetRepairedState(i_LicenseNum);
+                    Console.WriteLine("vehicle {0} status was changed to 'repaired'", i_LicenseNum);
+                    break;
+                case 3:
+                    Garage.SetPaidState(i_LicenseNum);
+                    Console.WriteLine("vehicle {0} status was changed to 'paid'", i_LicenseNum);
+                    break;
             }
         }
 
