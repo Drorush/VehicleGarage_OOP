@@ -13,7 +13,7 @@ namespace Ex03.GarageLogic
 
         public enum eLicenseType
         {
-            A,
+            A = 1,
             A1,
             B1,
             B2
@@ -23,31 +23,9 @@ namespace Ex03.GarageLogic
         {
         }
 
-        public eLicenseType LicenseType
-        {
-            get
-            {
-                return m_LicenseType;
-            }
+        public int EngineVolume { get => m_EngineVolume; set => m_EngineVolume = value; }
 
-            set
-            {
-                m_LicenseType = value;
-            }
-        }
-
-        public int EngineVolume
-        {
-            get
-            {
-                return m_EngineVolume;
-            }
-
-            set
-            {
-                m_EngineVolume = EngineVolume;
-            }
-        }
+        public eLicenseType LicenseType { get => m_LicenseType; set => m_LicenseType = value; }
 
         public override List<string> requiredInfoForUI()
         {
@@ -58,5 +36,6 @@ namespace Ex03.GarageLogic
 
             return requiredList;
         }
+
     }
 }

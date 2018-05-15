@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Ex03.GarageLogic;
 using static Ex03.GarageLogic.Car;
 using static Ex03.GarageLogic.FuelBasedEngine;
@@ -22,6 +23,7 @@ namespace Ex03.ConsoleUI
 
         public void StartGarage()
         {
+            Console.WriteLine("Welcome to our Garage");
             while (true)
             {
                 welcomeMenu();
@@ -30,50 +32,33 @@ namespace Ex03.ConsoleUI
 
         private void welcomeMenu()
         {
-            Console.WriteLine(
-@"Welcome to John's Garage
-Please choose an action:
-1 - Insert a new vehicle
-2 - Display a list of license numbers currently in the garage
-3 - Change a certain vehicle's status
-4 - Inflate tires to maximum
-5 - Refuel (refuel based vehicle)
-6 - Charge (an electric based vehicle)
-7 - Display a vehicle information");
-            string input = Console.ReadLine();
+            printSupportedActions();
+            int numOfAction = getUsersActionRequest();
             try
             {
-                int num = int.Parse(input);
-                if (num > 0 && num < 8)
+                switch (numOfAction)
                 {
-                    switch (num)
-                    {
-                        case 1:
-                            Insert();
-                            break;
-                        case 2:
-                            Display();
-                            break;
-                        case 3:
-                            ChangeVehicleStatus();
-                            break;
-                        case 4:
-                            InflateToMaximum();
-                            break;
-                        case 5:
-                            Refuel();
-                            break;
-                        case 6:
-                            Charge();
-                            break;
-                        default:
-                            DisplayVehicleInformation();
-                            break;
-                    }
-                }
-                else
-                {
-                    throw new ArgumentException(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 1, 7));
+                    case 1:
+                        Insert();
+                        break;
+                    case 2:
+                        Display();
+                        break;
+                    case 3:
+                        ChangeVehicleStatus();
+                        break;
+                    case 4:
+                        InflateToMaximum();
+                        break;
+                    case 5:
+                        Refuel();
+                        break;
+                    case 6:
+                        Charge();
+                        break;
+                    case 7:
+                        DisplayVehicleInformation();
+                        break;
                 }
             }
             catch (FormatException e)
@@ -82,85 +67,143 @@ Please choose an action:
             }
         }
 
-        public void Insert()
+        private int getUsersActionRequest()
+        {
+            string input = Console.ReadLine();
+            int requestedAction = 0;
+            while (!Int32.TryParse(input, out requestedAction) || requestedAction < 1 || requestedAction > 7)
+            {
+                Console.WriteLine("please enter valid number");
+                input = Console.ReadLine();
+            }
+
+            return requestedAction;
+        }
+
+        private void printSupportedActions()
         {
             Console.WriteLine(
-@"Please choose the type of the vehicle:
-1 - Fuel-BasedMotorcycle
-2 - Electric Motorcycle
-3 - Fuel-BasedCar
-4 - Electric Car
-5 - Fuel-Based Truck");
+@"Please choose an action:
+1 - Insert a new vehicle
+2 - Display a list of license numbers currently in the garage
+3 - Change a certain vehicle's status
+4 - Inflate tires to maximum
+5 - Refuel (refuel based vehicle)
+6 - Charge (an electric based vehicle)
+7 - Display a vehicle information");
+        }
+
+        public void getDetailsForVehicle(Vehicle i_Vehicle)
+        {
+            setEveryVehicleDetails(i_Vehicle);
+            MemberInfo[] myMemberInfo;
+            Type myType = i_Vehicle.GetType();
+            myMemberInfo = myType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            Console.WriteLine("please fill the following properties of your {0}", i_Vehicle.GetType().Name);
+            foreach (MemberInfo mi in myMemberInfo)
+            {
+                Console.WriteLine("{0}:", mi.Name);
+                PropertyInfo propertyInfo = (PropertyInfo)mi;
+                if (propertyInfo.PropertyType.IsEnum)
+                {
+                    foreach (var item in propertyInfo.PropertyType.GetEnumValues())
+                    {
+                        Console.WriteLine(item);
+                    }
+                }
+                else if (propertyInfo.PropertyType == typeof(bool))
+                {
+                    Console.WriteLine("True/False");
+                }
+
+                object value = Console.ReadLine();
+                if(propertyInfo.PropertyType.IsEnum)
+                {
+                    value = Enum.Parse(propertyInfo.PropertyType, value.ToString(), true);
+                }
+
+                propertyInfo.SetValue(i_Vehicle, Convert.ChangeType(value, propertyInfo.PropertyType), null);
+            }
+        }
+
+        private void setEveryVehicleDetails(Vehicle i_Vehicle)
+        {
+            string modelName = getModelName();
+            string manufacturerName = getManufacturerName();
+            float curAirPressure = getCurrentPressure();
+
+            // TODO
+        }
+
+        public void Insert()
+        {
+            Console.WriteLine("Please choose one of our supported vehicles:");
+            foreach (var value in Enum.GetValues(typeof(VehiclesCreator.eSupportedVehicles)))
+            {
+                Console.WriteLine("{0} - {1}", (int)value, value);
+            }
+
+            int ChosenSupportedVehicle = getSupportedVehicle();
+            Console.WriteLine("Please enter a license number");
+            string licenseNum = Console.ReadLine();
+
+            if (Garage.Contains(licenseNum))
+            {
+                Garage.SetDefaultState(licenseNum);
+                Console.WriteLine("This vehicle is already in the garage, changing status to 'in-repair'");
+            }
+            else
+            {
+                Vehicle vehicleToCreate = getChosenVehicle(ChosenSupportedVehicle, licenseNum);
+                getDetailsForVehicle(vehicleToCreate);
+                Garage.Insert(vehicleToCreate);
+                getAndSetOwnersDetails(licenseNum);
+                Console.WriteLine("Great, we are working on your vehicle! thank you for choosing John's Garage");
+            }
+        }
+
+        private void getAndSetOwnersDetails(string licenseNum)
+        {
+            string ownersName = getOwnersName();
+            string phoneNumber = getPhoneNumber();
+            Garage.setOwnerDetails(licenseNum, ownersName, phoneNumber);
+        }
+
+        private Vehicle getChosenVehicle(int i_ChosenSupportedVehicle, string i_LicenseNum)
+        {
+            Vehicle vehicleToCreate = null;
+            switch (i_ChosenSupportedVehicle)
+            {
+                case 1:
+                    vehicleToCreate = VehiclesCreator.CreateFuelBasedMotorCycle(i_LicenseNum);
+                    break;
+                case 2:
+                    vehicleToCreate = VehiclesCreator.CreateElectricMotorCycle(i_LicenseNum);
+                    break;
+                case 3:
+                    vehicleToCreate = VehiclesCreator.CreateFuelBasedCar(i_LicenseNum);
+                    break;
+                case 4:
+                    vehicleToCreate = VehiclesCreator.CreateElectricCar(i_LicenseNum);
+                    break;
+                case 5:
+                    vehicleToCreate = VehiclesCreator.CreateFuelBasedTruck(i_LicenseNum);
+                    break;
+            }
+
+            return vehicleToCreate;
+        }
+
+        private int getSupportedVehicle()
+        {
             string input = Console.ReadLine();
-            try
+            while (!VehiclesCreator.isSupportedVehicleNumber(input))
             {
-                int vehicleType = int.Parse(input);
-                if (vehicleType > 0 && vehicleType < 6)
-                {
-                    Console.WriteLine("Please enter a license number");
-                    string licenseNum = Console.ReadLine();
-
-                    if (Garage.Contains(licenseNum))
-                    {
-                        Garage.SetDefaultState(licenseNum);
-                        Console.WriteLine("This vehicle is already in the garage, changing status to 'in-repair'");
-                    }
-                    else
-                    {
-                        string modelName = getModelName();
-                        string manufacturerName = getManufacturerName();
-                        float curPressure = getCurrentPressure();
-                        string ownersName = getOwnersName();
-                        string phoneNumber = getPhoneNumber();
-                        switch (vehicleType)
-                        {
-                            case 1:
-                            case 2:
-                                eLicenseType type = getLicenseType();
-                                int engineVol = getEngineVolume();
-                                if (vehicleType == 1)
-                                {
-                                    Garage.Insert(VehiclesCreator.CreateFuelBasedMotorCycle(licenseNum));
-                                }
-                                else
-                                {
-                                    Garage.Insert(VehiclesCreator.CreateElectricMotorCycle(licenseNum));
-                                }
-
-                                break;
-                            case 3:
-                            case 4:
-                                eColor color = getCarColor();
-                                int numOfDoors = getNumOfDoors();
-                                if (vehicleType == 3)
-                                {
-                                    Garage.Insert(VehiclesCreator.CreateFuelBasedCar(licenseNum));
-                                }
-                                else
-                                {
-                                    Garage.Insert(VehiclesCreator.CreateElectricCar(licenseNum));
-                                }
-
-                                break;
-                            default:
-                                float volOfCargo = getVolOfCargo();
-                                bool dangerous = isDangerous();
-                                Garage.Insert(VehiclesCreator.CreateFuelBasedTruck(licenseNum));
-                                break;
-                        }
-
-                        Console.WriteLine("Great, we are working on your vehicle! thank you for choosing John's Garage");
-                    }
-                }
-                else
-                {
-                    throw new ArgumentException(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 1, 5));
-                }
+                Console.WriteLine("Please enter valid number");
+                input = Console.ReadLine();
             }
-            catch (FormatException e)
-            {
-                throw e;
-            }
+
+            return Int32.Parse(input);
         }
 
         private bool isDangerous()

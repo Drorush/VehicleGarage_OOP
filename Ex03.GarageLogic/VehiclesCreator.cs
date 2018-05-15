@@ -120,5 +120,13 @@ namespace Ex03.GarageLogic
 
             return CarToReturn;
         }
+
+        public static bool isSupportedVehicleNumber(string i_Input)
+        {
+            int inputNumber = 0;
+            int numberOfSupportedVehicles = Enum.GetNames(typeof(eSupportedVehicles)).Length;
+
+            return (Int32.TryParse(i_Input, out inputNumber) && inputNumber >= 1 && inputNumber <= numberOfSupportedVehicles);
+        }
     }
 }
