@@ -396,28 +396,41 @@ namespace Ex03.ConsoleUI
 1 - In repair
 2 - Repaired
 3 - Paid");
-                string input = Console.ReadLine();
-                if (input == "1" || input == "2" || input == "3")
+                while (true)
                 {
-                    if (input == "1")
+                    string input = Console.ReadLine();
+                    try
                     {
-                        Garage.SetDefaultState(licenseNum);
-                        Console.Write("vehicle {0} status was changed to 'in-repair'", licenseNum);
+                        int num = int.Parse(input);
+                        if(num < 1 || num > 3)
+                        {
+                            switch (num)
+                            {
+                                case 1:
+                                    Garage.SetDefaultState(licenseNum);
+                                    Console.Write("vehicle {0} status was changed to 'in-repair'", licenseNum);
+                                    break;
+                                case 2:
+                                    Garage.SetRepairedState(licenseNum);
+                                    Console.Write("vehicle {0} status was changed to 'repaired'", licenseNum);
+                                    break;
+                                case 3:
+                                    Garage.SetPaidState(licenseNum);
+                                    Console.Write("vehicle {0} status was changed to 'paid'", licenseNum);
+                                    break;
+                            }
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("Please eneter a valid number");
+                        }
                     }
-                    else if (input == "2")
+                    catch (FormatException)
                     {
-                        Garage.SetRepairedState(licenseNum);
-                        Console.Write("vehicle {0} status was changed to 'repaired'", licenseNum);
+                        Console.WriteLine("Please eneter a valid number");
                     }
-                    else
-                    {
-                        Garage.SetPaidState(licenseNum);
-                        Console.Write("vehicle {0} status was changed to 'paid'", licenseNum);
-                    }
-                }
-                else
-                {
-                    throw new ArgumentException(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 1, 3));
+
                 }
             }
             else
