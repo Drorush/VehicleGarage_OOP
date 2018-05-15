@@ -176,5 +176,36 @@ namespace Ex03.GarageLogic
         {
             m_VehiclesList[i_LicenseNumber].VehicleStatus = VehicleDetails.eVehicleStatus.PaidFor;
         }
+
+        public bool CanRefuel(float i_AddLiters, string i_LicenseNum)
+        {
+            Vehicle VehicleToCheck = m_VehiclesList[i_LicenseNum].Vehicle;
+            bool canRefuel = false;
+            float fueledTank = VehicleToCheck.Engine.CurrentAmountOfEnergy + i_AddLiters;
+            if (fueledTank <= VehicleToCheck.Engine.MaximalAmountOfEnergy && fueledTank > 0)
+            {
+                canRefuel = true;
+            }
+            else
+            {
+                throw new ValueOutOfRangeException(0, VehicleToCheck.Engine.MaximalAmountOfEnergy, i_AddLiters);
+            }
+
+            return canRefuel;
+        }
+
+        public bool IsFuelBased(string i_LicenseNum)
+        {
+            Vehicle VehicleToCheck = m_VehiclesList[i_LicenseNum].Vehicle;
+
+            return VehicleToCheck.Engine is FuelBasedEngine;
+        }
+
+        public bool IsElectricBased(string i_LicenseNum)
+        {
+            Vehicle VehicleToCheck = m_VehiclesList[i_LicenseNum].Vehicle;
+
+            return VehicleToCheck.Engine is ElectricBasedEngine;
+        }
     }
 }

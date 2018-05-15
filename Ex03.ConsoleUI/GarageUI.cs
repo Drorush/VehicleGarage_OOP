@@ -119,7 +119,7 @@ namespace Ex03.ConsoleUI
                 }
 
                 object value = Console.ReadLine();
-                if(propertyInfo.PropertyType.IsEnum)
+                if (propertyInfo.PropertyType.IsEnum)
                 {
                     value = Enum.Parse(propertyInfo.PropertyType, value.ToString(), true);
                 }
@@ -134,7 +134,7 @@ namespace Ex03.ConsoleUI
             {
                 Console.WriteLine("Please enter the amount of fuel you have in your " + i_Vehicle.GetType().Name + "approximately");
             }
-            else if(i_Vehicle.Engine is ElectricBasedEngine)
+            else if (i_Vehicle.Engine is ElectricBasedEngine)
             {
                 Console.WriteLine("Please enter the amount of battery you have in your " + i_Vehicle.GetType().Name + "approximately");
             }
@@ -152,7 +152,7 @@ namespace Ex03.ConsoleUI
         {
             string input = Console.ReadLine();
             int inputNumber = 0;
-            while(!int.TryParse(input, out inputNumber) || inputNumber < 0 || inputNumber > 8)
+            while (!int.TryParse(input, out inputNumber) || inputNumber < 0 || inputNumber > 8)
             {
                 Console.WriteLine("please try again");
                 input = Console.ReadLine();
@@ -188,11 +188,11 @@ namespace Ex03.ConsoleUI
             {
                 i_Vehicle.setWheelsAirPressure(curAirPressure);
             }
-            catch(ValueOutOfRangeException voore)
+            catch (ValueOutOfRangeException voore)
             {
                 Console.WriteLine(voore.Message);
                 curAirPressure = getCurrentPressure();
-                while(curAirPressure < voore.MinValue || curAirPressure > voore.MaxValue)
+                while (curAirPressure < voore.MinValue || curAirPressure > voore.MaxValue)
                 {
                     Console.WriteLine("Please try again");
                     curAirPressure = getCurrentPressure();
@@ -321,7 +321,7 @@ namespace Ex03.ConsoleUI
 1 - display vehicles currently in-repair
 2 - display vehicles repaired
 3 - display Paid vehicles");
-            while(true)
+            while (true)
             {
                 try
                 {
@@ -402,7 +402,7 @@ namespace Ex03.ConsoleUI
                     try
                     {
                         int num = int.Parse(input);
-                        if(num >= 1 && num <= 3)
+                        if (num >= 1 && num <= 3)
                         {
                             setNewVehicleState(num, licenseNum);
                             break;
@@ -478,14 +478,13 @@ namespace Ex03.ConsoleUI
         {
             Console.WriteLine("Please enter license numer");
             string licenseNum = Console.ReadLine();
-            if (Garage.Contains(licenseNum))
+            if (Garage.Contains(licenseNum) && Garage.IsFuelBased(licenseNum))
             {
+                float addLiters = getRequestedFuelAmountToRefuel(licenseNum);
                 while (true)
                 {
-                    Console.WriteLine("How many liters would you like to fuel");
                     try
                     {
-                        float addLiters = float.Parse(Console.ReadLine());
                         FuelBasedEngine.eFuelType fuelType = getEngineFuelType();
                         Garage.Refuel(licenseNum, fuelType, addLiters);
                         Console.WriteLine("Adding fuel...");
@@ -495,25 +494,85 @@ namespace Ex03.ConsoleUI
                     {
                         Console.WriteLine("Please enter a valid number");
                     }
+                    catch (ArgumentException ae)
+                    {
+                        Console.WriteLine(ae.Message);
+                    }
                 }
             }
             else
             {
-                if (wrongLicenseNum() == "1")
+                if (!Garage.Contains(licenseNum))
                 {
-                    Refuel();
+                    if (wrongLicenseNum() == "1")
+                    {
+                        Refuel();
+                    }
+                    else
+                    {
+                        welcomeMenu();
+                    }
                 }
                 else
                 {
+                    Console.WriteLine("Your vehicle isn't fuel based, taking you back to main menu");
                     welcomeMenu();
                 }
             }
         }
 
+        private float getRequestedFuelAmountToRefuel(string i_LicenseNum)
+        {
+            Console.WriteLine("How many liters would you like to fuel");
+            float addLiters = 0;
+            while (true)
+            {
+                try
+                {
+                    addLiters = float.Parse(Console.ReadLine());
+                    if (Garage.CanRefuel(addLiters, i_LicenseNum))
+                    {
+                        break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("please try again");
+                }
+            }
+
+            return addLiters;
+        }
+
+        private float getRequestedAmountToCharge(string i_LicenseNum)
+        {
+            Console.WriteLine("How many minutes would you like to charge");
+            float addMinutes = 0;
+            while (true)
+            {
+                try
+                {
+                    addMinutes = float.Parse(Console.ReadLine());
+                    if (Garage.CanRefuel(addMinutes, i_LicenseNum))
+                    {
+                        break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("please try again");
+                }
+            }
+
+            return addMinutes;
+        }
+
         private FuelBasedEngine.eFuelType getEngineFuelType()
         {
             Console.WriteLine(
- @"Please choose fuel type: 
+    @"Please choose fuel type: 
 1 - Soler
 2 - Octane 95
 3 - Octane 96
@@ -545,28 +604,43 @@ namespace Ex03.ConsoleUI
         {
             Console.WriteLine("Please enter license numer");
             string licenseNum = Console.ReadLine();
-            if (Garage.Contains(licenseNum))
+            if (Garage.Contains(licenseNum) && Garage.IsElectricBased(licenseNum))
             {
-                Console.WriteLine("How long would you like to charge the engine (in minutes)");
-                try
+                float addMinutes = getRequestedAmountToCharge(licenseNum);
+                while (true)
                 {
-                    float minutesToCharge = float.Parse(Console.ReadLine());
-                    Garage.Charge(licenseNum, minutesToCharge);
-                    Console.WriteLine("Charging...");
-                }
-                catch (FormatException e)
-                {
-                    throw e;
+                    try
+                    {
+                        Garage.Charge(licenseNum, addMinutes);
+                        Console.WriteLine("Charging...");
+                        break;
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Please enter a valid number");
+                    }
+                    catch (ArgumentException ae)
+                    {
+                        Console.WriteLine(ae.Message);
+                    }
                 }
             }
             else
             {
-                if (wrongLicenseNum() == "1")
+                if (!Garage.Contains(licenseNum))
                 {
-                    Charge();
+                    if (wrongLicenseNum() == "1")
+                    {
+                        Charge();
+                    }
+                    else
+                    {
+                        welcomeMenu();
+                    }
                 }
                 else
                 {
+                    Console.WriteLine("Your vehicle isn't electric based, taking you back to main menu");
                     welcomeMenu();
                 }
             }
@@ -599,18 +673,12 @@ namespace Ex03.ConsoleUI
         private string wrongLicenseNum()
         {
             Console.WriteLine(
-@"The vehicle does not exist in the garage,
+    @"The vehicle does not exist in the garage,
 1 - Try again 
-2 - Go back to the main menu");
+Otherwise, type anything to get back to main menu (and then press enter)");
             string input = Console.ReadLine();
-            if (input == "1" || input == "2")
-            {
-                return input;
-            }
-            else
-            {
-                throw new ArgumentException(string.Format("An error occured while you entered {0}, please notice that the min-value is {1} and the max value is {2}", input, 1, 2));
-            }
+
+            return input;
         }
     }
 }

@@ -28,7 +28,6 @@ namespace Ex03.GarageLogic
 
         public void ReFuel(float i_AmountToFill)
         {
-            // case of fuel (octane, soler .. )
             float fueledTank = CurrentAmountOfEnergy + i_AmountToFill;
             if (fueledTank < 0 || fueledTank > m_MaximalAmountOfEnergy)
             {
