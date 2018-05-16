@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
@@ -131,7 +127,7 @@ namespace Ex03.GarageLogic
             return CarToReturn;
         }
 
-        public static bool isSupportedVehicleNumber(string i_Input)
+        public static bool IsSupportedVehicleNumber(string i_Input)
         {
             int inputNumber = 0;
             int numberOfSupportedVehicles = Enum.GetNames(typeof(eSupportedVehicles)).Length;

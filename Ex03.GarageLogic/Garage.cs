@@ -7,9 +7,11 @@ namespace Ex03.GarageLogic
     {
         private Dictionary<string, VehicleDetails> m_VehiclesList;
 
+        public Dictionary<string, VehicleDetails> VehiclesList { get => m_VehiclesList; set => m_VehiclesList = value; }
+
         public Garage()
         {
-            m_VehiclesList = new Dictionary<string, VehicleDetails>();
+            VehiclesList = new Dictionary<string, VehicleDetails>();
         }
 
         /**
@@ -24,27 +26,44 @@ namespace Ex03.GarageLogic
          * */
         public void Insert(Vehicle i_Vehicle)
         {
-            VehicleDetails VehicleDetails = new VehicleDetails();
-            VehicleDetails.Vehicle = i_Vehicle;
-            VehicleDetails.VehicleStatus = VehicleDetails.eVehicleStatus.InRepair;
+            VehicleDetails VehicleDetails = new VehicleDetails
+            {
+                Vehicle = i_Vehicle
+            };
 
-            m_VehiclesList.Add(i_Vehicle.LicenseNumber, VehicleDetails);
+            VehicleDetails.VehicleStatus = VehicleDetails.EVehicleStatus.InRepair;
+            VehiclesList.Add(i_Vehicle.LicenseNumber, VehicleDetails);
         }
 
-        public void setOwnerDetails(string i_LicenseNumber, string i_OwnersName, string i_OwnersPhoneNumber)
+        public void SetOwnerDetails(string i_LicenseNumber, string i_OwnersName, string i_OwnersPhoneNumber)
         {
-            m_VehiclesList[i_LicenseNumber].setOwnersDetails(i_OwnersName, i_OwnersPhoneNumber);
+            VehiclesList[i_LicenseNumber].SetOwnerDetails(i_OwnersName, i_OwnersPhoneNumber);
         }
 
         /* Display a list of license numbers currently in the garage */
         public string[] DisplayAll()
         {
-            string[] licenseNumbers = new string[m_VehiclesList.Count];
+            string[] licenseNumbers = new string[VehiclesList.Count];
             int i = 0;
 
-            foreach(KeyValuePair<string, VehicleDetails> pair in m_VehiclesList)
+            foreach(KeyValuePair<string, VehicleDetails> pair in VehiclesList)
             {
                 licenseNumbers[i++] = pair.Key;
+            }
+
+            return licenseNumbers;
+        }
+
+        private string[] displayLicensesWithStatus(VehicleDetails.EVehicleStatus i_Status)
+        {
+            string[] licenseNumbers = new string[VehiclesList.Count];
+            int i = 0;
+            foreach (KeyValuePair<string, VehicleDetails> pair in VehiclesList)
+            {
+                if (pair.Value.VehicleStatus == i_Status)
+                {
+                    licenseNumbers[i++] = pair.Key;
+                }
             }
 
             return licenseNumbers;
@@ -53,50 +72,17 @@ namespace Ex03.GarageLogic
         /* Display a list of license numbers currently in repair */
         public string[] DisplayInRepair()
         {
-            string[] licenseNumbers = new string[m_VehiclesList.Count];
-            int i = 0;
-
-            foreach (KeyValuePair<string, VehicleDetails> pair in m_VehiclesList)
-            {
-                if(pair.Value.VehicleStatus == VehicleDetails.eVehicleStatus.InRepair)
-                {
-                    licenseNumbers[i++] = pair.Key;
-                }
-            }
-
-            return licenseNumbers;
+            return displayLicensesWithStatus(VehicleDetails.EVehicleStatus.InRepair);
         }
 
         public string[] DisplayRepaired()
         {
-            string[] licenseNumbers = new string[m_VehiclesList.Count];
-            int i = 0;
-
-            foreach (KeyValuePair<string, VehicleDetails> pair in m_VehiclesList)
-            {
-                if (pair.Value.VehicleStatus == VehicleDetails.eVehicleStatus.Repaired)
-                {
-                    licenseNumbers[i++] = pair.Key;
-                }
-            }
-
-            return licenseNumbers;
+            return displayLicensesWithStatus(VehicleDetails.EVehicleStatus.Repaired);
         }
 
         public string[] DisplayPaid()
         {
-            string[] licenseNumbers = new string[m_VehiclesList.Count];
-            int i = 0;
-
-            foreach (KeyValuePair<string, VehicleDetails> pair in m_VehiclesList)
-            {
-                if (pair.Value.VehicleStatus == VehicleDetails.eVehicleStatus.PaidFor)
-                {
-                    licenseNumbers[i++] = pair.Key;
-                }
-            }
-
-            return licenseNumbers;
+            return displayLicensesWithStatus(VehicleDetails.EVehicleStatus.PaidFor);
         }
 
         /* Inflate tires to maximum (Prompting the user for the license number) */
@@ -104,7 +90,7 @@ namespace Ex03.GarageLogic
         {
             if(Contains(i_LicenseNumber))
             {
-                Vehicle VehicleToFuel = m_VehiclesList[i_LicenseNumber].Vehicle;
+                Vehicle VehicleToFuel = VehiclesList[i_LicenseNumber].Vehicle;
                 VehicleToFuel.inflateWheelsToMaximum();
             }
             else
@@ -116,14 +102,14 @@ namespace Ex03.GarageLogic
         /* Refuel a fuel-based vehicle (Prompting the user for the license number, fuel type and amount to fill) */
         public void Refuel(string i_LicenseNumber, FuelBasedEngine.eFuelType i_FuelType, float i_AmountToFill)
         {
-            Vehicle VehicleToFuel = m_VehiclesList[i_LicenseNumber].Vehicle;
+            Vehicle VehicleToFuel = VehiclesList[i_LicenseNumber].Vehicle;
             if (!(VehicleToFuel.Engine is FuelBasedEngine) || (VehicleToFuel.Engine as FuelBasedEngine).FuelType != i_FuelType)
             {
                 throw new ArgumentException("Vehicle is not FuelBased or FuelType is wrong");
             }
             else
             {
-                VehicleToFuel.reFuel(i_AmountToFill);
+                VehicleToFuel.Refuel(i_AmountToFill);
             }
         }
 
@@ -132,14 +118,14 @@ namespace Ex03.GarageLogic
         {
             if (Contains(i_LicenseNumber))
             {
-                Vehicle VehicleToFuel = m_VehiclesList[i_LicenseNumber].Vehicle;
+                Vehicle VehicleToFuel = VehiclesList[i_LicenseNumber].Vehicle;
                 if (!(VehicleToFuel.Engine is ElectricBasedEngine))
                 {
                     throw new ArgumentException("Vehicle is not ElectricBased");
                 }
                 else
                 {
-                    VehicleToFuel.reFuel(i_AmountToFill);
+                    VehicleToFuel.Refuel(i_AmountToFill);
                 }
             }
             else
@@ -153,33 +139,33 @@ namespace Ex03.GarageLogic
          * other relevant information based on vehicle type) */
          public string DisplayVehicleInformation(string i_LicenseNumber)
         {
-            return m_VehiclesList[i_LicenseNumber].getVehicleInfo();
+            return VehiclesList[i_LicenseNumber].GetVehicleInfo();
         }
 
         public bool Contains(string i_LicenseNumber)
         {
-            return m_VehiclesList.ContainsKey(i_LicenseNumber);
+            return VehiclesList.ContainsKey(i_LicenseNumber);
         }
 
         /* Change a certain vehicle’s status (Prompting the user for the license number and new desired status) */
         public void SetDefaultState(string i_LicenseNumber)
         {
-            m_VehiclesList[i_LicenseNumber].VehicleStatus = VehicleDetails.eVehicleStatus.InRepair;
+            VehiclesList[i_LicenseNumber].VehicleStatus = VehicleDetails.EVehicleStatus.InRepair;
         }
 
         public void SetRepairedState(string i_LicenseNumber)
         {
-            m_VehiclesList[i_LicenseNumber].VehicleStatus = VehicleDetails.eVehicleStatus.Repaired;
+            VehiclesList[i_LicenseNumber].VehicleStatus = VehicleDetails.EVehicleStatus.Repaired;
         }
 
         public void SetPaidState(string i_LicenseNumber)
         {
-            m_VehiclesList[i_LicenseNumber].VehicleStatus = VehicleDetails.eVehicleStatus.PaidFor;
+            VehiclesList[i_LicenseNumber].VehicleStatus = VehicleDetails.EVehicleStatus.PaidFor;
         }
 
         public bool CanRefuel(float i_AddLiters, string i_LicenseNum)
         {
-            Vehicle VehicleToCheck = m_VehiclesList[i_LicenseNum].Vehicle;
+            Vehicle VehicleToCheck = VehiclesList[i_LicenseNum].Vehicle;
             bool canRefuel = false;
             float fueledTank = VehicleToCheck.Engine.CurrentAmountOfEnergy + i_AddLiters;
             if (fueledTank <= VehicleToCheck.Engine.MaximalAmountOfEnergy && fueledTank > 0)
@@ -196,14 +182,14 @@ namespace Ex03.GarageLogic
 
         public bool IsFuelBased(string i_LicenseNum)
         {
-            Vehicle VehicleToCheck = m_VehiclesList[i_LicenseNum].Vehicle;
+            Vehicle VehicleToCheck = VehiclesList[i_LicenseNum].Vehicle;
 
             return VehicleToCheck.Engine is FuelBasedEngine;
         }
 
         public bool IsElectricBased(string i_LicenseNum)
         {
-            Vehicle VehicleToCheck = m_VehiclesList[i_LicenseNum].Vehicle;
+            Vehicle VehicleToCheck = VehiclesList[i_LicenseNum].Vehicle;
 
             return VehicleToCheck.Engine is ElectricBasedEngine;
         }

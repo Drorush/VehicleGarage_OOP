@@ -12,22 +12,13 @@ namespace Ex03.GarageLogic
         private float m_CurrentAirPressure;
         private float m_MaximalAirPressure;
 
+        public float MaximalAirPressure { get => m_MaximalAirPressure; set => m_MaximalAirPressure = value; }
+
+        public string ManufacturerName { get => m_ManufacturerName; set => m_ManufacturerName = value; }
+
         public Wheel(float i_MaximalAirPressure)
         {
             MaximalAirPressure = i_MaximalAirPressure;
-        }
-
-        public string ManufacturerName
-        {
-            get
-            {
-                return m_ManufacturerName;
-            }
-
-            set
-            {
-                m_ManufacturerName = value;
-            }
         }
 
         internal float AirPressure
@@ -50,8 +41,6 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public float MaximalAirPressure { get => m_MaximalAirPressure; set => m_MaximalAirPressure = value; }
-
         /* inflates the air pressure with i_AirPressureToAdd if it doesnt exceed the maximal air pressure */
         private void inflate(float i_AirPressureToAdd)
         {
@@ -62,7 +51,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        internal void inflateToMaximum()
+        internal void InflateToMaximum()
         {
             m_CurrentAirPressure = MaximalAirPressure;
         }

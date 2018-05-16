@@ -26,15 +26,5 @@ namespace Ex03.GarageLogic
         public int EngineVolume { get => m_EngineVolume; set => m_EngineVolume = value; }
 
         public eLicenseType LicenseType { get => m_LicenseType; set => m_LicenseType = value; }
-
-        public override List<string> requiredInfoForUI()
-        {
-            List<string> requiredList = new List<string>();
-            string licenseTypeList = Enum.GetNames(typeof(eLicenseType)).ToString();
-            requiredList.Add("License type: " + licenseTypeList);
-            requiredList.Add("Engine Volume");
-
-            return requiredList;
-        }
     }
 }

@@ -8,7 +8,6 @@ namespace Ex03.GarageLogic
 {
     public class Car : Vehicle
     {
-       // private int m_NumOfDoors;
         private eColor m_Color;
         private eNumOfDoors m_NumOfDoors;
 
@@ -32,44 +31,8 @@ namespace Ex03.GarageLogic
         {
         }
 
-        public eColor Color
-        {
-            get
-            {
-                return m_Color;
-            }
-
-            set
-            {
-                m_Color = value;
-            }
-        }
-
         public eNumOfDoors NumOfDoors { get => m_NumOfDoors; set => m_NumOfDoors = value; }
 
-        /*
-        public int NumOfDoors
-        {
-            get
-            {
-                return m_NumOfDoors;
-            }
-
-            set
-            {
-                m_NumOfDoors = value;
-            }
-        }
-        */
-
-        public override List<string> requiredInfoForUI()
-        {
-            List<string> requiredList = new List<string>();
-            string colorList = Enum.GetNames(typeof(eColor)).ToString();
-            requiredList.Add("Color: " + colorList);
-            requiredList.Add("Number of doors: 2 / 3 / 4 / 5");
-
-            return requiredList;
-        }
+        public eColor Color { get => m_Color; set => m_Color = value; }
     }
 }

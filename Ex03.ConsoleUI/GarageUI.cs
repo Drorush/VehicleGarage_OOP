@@ -88,65 +88,87 @@ namespace Ex03.ConsoleUI
 7 - Display a vehicle information");
         }
 
-        /* gets the unique fields of a vehicle by getting its public properties in runtime
-         * using reflection */
         public void getDetailsForVehicle(Vehicle i_Vehicle)
         {
+            // sets the vehicle details already known for every vehicle
             setEveryVehicleDetails(i_Vehicle);
             setEnergyDetails(i_Vehicle);
+
+            // gets the unique fields
+            setVehicleByTypeDetails(i_Vehicle);
+        }
+
+        /* gets the unique fields of a vehicle by getting its public properties in runtime
+         * using reflection */
+        private void setVehicleByTypeDetails(Vehicle i_Vehicle)
+        {
             MemberInfo[] myMemberInfo;
             Type myType = i_Vehicle.GetType();
             myMemberInfo = myType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
             Console.WriteLine("please fill the following properties of your {0}", i_Vehicle.GetType().Name);
             foreach (MemberInfo mi in myMemberInfo)
             {
-                Console.WriteLine("{0}:", mi.Name);
-                PropertyInfo propertyInfo = (PropertyInfo)mi;
-                if (propertyInfo.PropertyType.IsEnum)
-                {
-                    foreach (var item in propertyInfo.PropertyType.GetEnumValues())
-                    {
-                        Console.WriteLine(item);
-                    }
-                }
-                else if (propertyInfo.PropertyType == typeof(bool))
-                {
-                    Console.WriteLine("True/False");
-                }
+                getAndSetProperty(mi, i_Vehicle);
+            }
+        }
 
-                while (true)
+        private void getAndSetProperty(MemberInfo i_MemberInfo, Vehicle i_Vehicle)
+        {
+            Console.WriteLine("{0}:", i_MemberInfo.Name);
+            PropertyInfo propertyInfo = (PropertyInfo)i_MemberInfo;
+            if (propertyInfo.PropertyType.IsEnum)
+            {
+                printEnumOptions(propertyInfo);
+            }
+            else if (propertyInfo.PropertyType == typeof(bool))
+            {
+                Console.WriteLine("True/False");
+            }
+
+            while (true)
+            {
+                try
                 {
-                    try
+                    object value = Console.ReadLine();
+                    if (propertyInfo.PropertyType.IsEnum)
                     {
-                        bool isPartOfEnum = false;
-                        object value = Console.ReadLine();
-                        if (propertyInfo.PropertyType.IsEnum)
+                        if (isValueIsPartOfEnum(value, propertyInfo))
                         {
-                            foreach (var item in propertyInfo.PropertyType.GetEnumValues())
-                            {              
-                                if (value.ToString().Equals(item.ToString()))
-                                {
-                                    isPartOfEnum = true;
-                                    break;
-                                }
-                            }
-
-                            if (isPartOfEnum)
-                            {
-                                value = Enum.Parse(propertyInfo.PropertyType, value.ToString(), true);
-                                propertyInfo.SetValue(i_Vehicle, Convert.ChangeType(value, propertyInfo.PropertyType), null);
-                                break;
-                            }
+                            value = Enum.Parse(propertyInfo.PropertyType, value.ToString(), true);
                         }
+                    }
 
-                        propertyInfo.SetValue(i_Vehicle, Convert.ChangeType(value, propertyInfo.PropertyType), null);
-                        break;
-                    }
-                    catch (Exception)
-                    {
-                        Console.WriteLine("Please try again");
-                    }
+                    propertyInfo.SetValue(i_Vehicle, Convert.ChangeType(value, propertyInfo.PropertyType), null);
+                    break;
                 }
+                catch (Exception)
+                {
+                    Console.WriteLine("Please try again");
+                }
+            }
+        }
+
+        // checks if a given string is a field in some enum
+        private bool isValueIsPartOfEnum(object i_Value, PropertyInfo i_PropertyInfo)
+        {
+            bool isPartOfEnum = false;
+            foreach (var item in i_PropertyInfo.PropertyType.GetEnumValues())
+            {
+                if (i_Value.ToString().Equals(item.ToString()))
+                {
+                    isPartOfEnum = true;
+                    break;
+                }
+            }
+
+            return isPartOfEnum;
+        }
+
+        private void printEnumOptions(PropertyInfo i_PropertyInfo)
+        {
+            foreach (var item in i_PropertyInfo.PropertyType.GetEnumValues())
+            {
+                Console.WriteLine(item);
             }
         }
 
@@ -251,7 +273,7 @@ namespace Ex03.ConsoleUI
         {
             string ownersName = getOwnersName();
             string phoneNumber = getPhoneNumber();
-            Garage.setOwnerDetails(licenseNum, ownersName, phoneNumber);
+            Garage.SetOwnerDetails(licenseNum, ownersName, phoneNumber);
         }
 
         private Vehicle getChosenVehicle(int i_ChosenSupportedVehicle, string i_LicenseNum)
@@ -282,7 +304,7 @@ namespace Ex03.ConsoleUI
         private int getSupportedVehicle()
         {
             string input = Console.ReadLine();
-            while (!VehiclesCreator.isSupportedVehicleNumber(input))
+            while (!VehiclesCreator.IsSupportedVehicleNumber(input))
             {
                 Console.WriteLine("Please enter valid number");
                 input = Console.ReadLine();
@@ -334,11 +356,7 @@ namespace Ex03.ConsoleUI
         {
             Console.WriteLine("List of license numbers currently in the garage: ");
             printLicenseNumbers(Garage.DisplayAll());
-            Console.WriteLine(
-@"Please choose a filter:
-1 - display vehicles currently in-repair
-2 - display vehicles repaired
-3 - display Paid vehicles");
+            printFilterOptions();
             while (true)
             {
                 try
@@ -366,14 +384,23 @@ namespace Ex03.ConsoleUI
                     }
                     else
                     {
-                        Console.WriteLine("please enter valid number");
+                        throw new Exception();
                     }
                 }
-                catch (FormatException)
+                catch (Exception)
                 {
                     Console.WriteLine("please enter valid number");
                 }
             }
+        }
+
+        private void printFilterOptions()
+        {
+            Console.WriteLine(
+@"Please choose a filter:
+1 - display vehicles currently in-repair
+2 - display vehicles repaired
+3 - display Paid vehicles");
         }
 
         private void printLicenseNumbers(string[] i_licenseNumbers)
@@ -409,11 +436,7 @@ namespace Ex03.ConsoleUI
             string licenseNum = Console.ReadLine();
             if (Garage.Contains(licenseNum))
             {
-                Console.WriteLine(
- @"Please choose the new status: 
-1 - In repair
-2 - Repaired
-3 - Paid");
+                printPossibleVehicleStatus();
                 while (true)
                 {
                     string input = Console.ReadLine();
@@ -427,10 +450,10 @@ namespace Ex03.ConsoleUI
                         }
                         else
                         {
-                            Console.WriteLine("Please enter valid number");
+                            throw new Exception();
                         }
                     }
-                    catch (FormatException)
+                    catch (Exception)
                     {
                         Console.WriteLine("Please enter valid number");
                     }
@@ -447,6 +470,15 @@ namespace Ex03.ConsoleUI
                     welcomeMenu();
                 }
             }
+        }
+
+        private void printPossibleVehicleStatus()
+        {
+            Console.WriteLine(
+@"Please choose the new status: 
+1 - In repair
+2 - Repaired
+3 - Paid");
         }
 
         private void setNewVehicleState(int i_Num, string i_LicenseNum)
@@ -499,24 +531,7 @@ namespace Ex03.ConsoleUI
             if (Garage.Contains(licenseNum) && Garage.IsFuelBased(licenseNum))
             {
                 float addLiters = getRequestedFuelAmountToRefuel(licenseNum);
-                while (true)
-                {
-                    try
-                    {
-                        FuelBasedEngine.eFuelType fuelType = getEngineFuelType();
-                        Garage.Refuel(licenseNum, fuelType, addLiters);
-                        Console.WriteLine("Adding fuel...");
-                        break;
-                    }
-                    catch (FormatException)
-                    {
-                        Console.WriteLine("Please enter a valid number");
-                    }
-                    catch (ArgumentException ae)
-                    {
-                        Console.WriteLine(ae.Message);
-                    }
-                }
+                getAndSetFuel(addLiters, licenseNum);
             }
             else
             {
@@ -535,6 +550,28 @@ namespace Ex03.ConsoleUI
                 {
                     Console.WriteLine("Your vehicle isn't fuel based, taking you back to main menu");
                     welcomeMenu();
+                }
+            }
+        }
+
+        private void getAndSetFuel(float i_AddLiters, string i_LicenseNum)
+        {
+            while (true)
+            {
+                try
+                {
+                    FuelBasedEngine.eFuelType fuelType = getEngineFuelType();
+                    Garage.Refuel(i_LicenseNum, fuelType, i_AddLiters);
+                    Console.WriteLine("Adding fuel...");
+                    break;
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Please enter a valid number");
+                }
+                catch (ArgumentException ae)
+                {
+                    Console.WriteLine(ae.Message);
                 }
             }
         }
@@ -589,12 +626,7 @@ namespace Ex03.ConsoleUI
 
         private FuelBasedEngine.eFuelType getEngineFuelType()
         {
-            Console.WriteLine(
-    @"Please choose fuel type: 
-1 - Soler
-2 - Octane 95
-3 - Octane 96
-4 - Octane 98");
+            printFuelTypeOptions();
             while (true)
             {
                 string input = Console.ReadLine();
@@ -607,14 +639,24 @@ namespace Ex03.ConsoleUI
                     }
                     else
                     {
-                        Console.WriteLine("Please enter a valid number");
+                        throw new Exception();
                     }
                 }
-                catch (FormatException)
+                catch (Exception)
                 {
                     Console.WriteLine("Please enter a valid number");
                 }
             }
+        }
+
+        private void printFuelTypeOptions()
+        {
+            Console.WriteLine(
+@"Please choose fuel type: 
+1 - Soler
+2 - Octane 95
+3 - Octane 96
+4 - Octane 98");
         }
 
         /* Charge an electric-based vehicle (Prompting the user for the license number and number of minutes to charge) */
@@ -624,24 +666,7 @@ namespace Ex03.ConsoleUI
             string licenseNum = Console.ReadLine();
             if (Garage.Contains(licenseNum) && Garage.IsElectricBased(licenseNum))
             {
-                float addMinutes = getRequestedAmountToCharge(licenseNum);
-                while (true)
-                {
-                    try
-                    {
-                        Garage.Charge(licenseNum, addMinutes);
-                        Console.WriteLine("Charging...");
-                        break;
-                    }
-                    catch (FormatException)
-                    {
-                        Console.WriteLine("Please enter a valid number");
-                    }
-                    catch (ArgumentException ae)
-                    {
-                        Console.WriteLine(ae.Message);
-                    }
-                }
+                chargeVehicle(licenseNum);
             }
             else
             {
@@ -660,6 +685,28 @@ namespace Ex03.ConsoleUI
                 {
                     Console.WriteLine("Your vehicle isn't electric based, taking you back to main menu");
                     welcomeMenu();
+                }
+            }
+        }
+
+        private void chargeVehicle(string i_LicenseNum)
+        {
+            float addMinutes = getRequestedAmountToCharge(i_LicenseNum);
+            while (true)
+            {
+                try
+                {
+                    Garage.Charge(i_LicenseNum, addMinutes);
+                    Console.WriteLine("Charging...");
+                    break;
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Please enter a valid number");
+                }
+                catch (ArgumentException ae)
+                {
+                    Console.WriteLine(ae.Message);
                 }
             }
         }
@@ -691,7 +738,7 @@ namespace Ex03.ConsoleUI
         private string wrongLicenseNum()
         {
             Console.WriteLine(
-    @"The vehicle does not exist in the garage,
+ @"The vehicle does not exist in the garage,
 1 - Try again 
 Otherwise, type anything to get back to main menu (and then press enter)");
             string input = Console.ReadLine();

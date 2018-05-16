@@ -19,14 +19,5 @@ namespace Ex03.GarageLogic
         public bool CarriesDangerousMaterials { get => m_CarriesDangerousMaterials; set => m_CarriesDangerousMaterials = value; }
 
         public float VolumeOfCargo { get => m_VolumeOfCargo; set => m_VolumeOfCargo = value; }
-
-        public override List<string> requiredInfoForUI()
-        {
-            List<string> requiredList = new List<string>();
-            requiredList.Add("is cooled ?" + "True/False");
-            requiredList.Add("Volume of cargo");
-
-            return requiredList;
-        }
     }
 }
