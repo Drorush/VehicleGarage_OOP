@@ -251,8 +251,7 @@ namespace Ex03.ConsoleUI
             }
 
             int ChosenSupportedVehicle = getSupportedVehicle();
-            Console.WriteLine("Please enter a license number");
-            string licenseNum = Console.ReadLine();
+            string licenseNum = getLicenseNumber();
 
             if (Garage.Contains(licenseNum))
             {
@@ -267,6 +266,19 @@ namespace Ex03.ConsoleUI
                 getAndSetOwnersDetails(licenseNum);
                 Console.WriteLine("Great, we are working on your vehicle! thank you for choosing John's Garage");
             }
+        }
+
+        private string getLicenseNumber()
+        {
+            Console.WriteLine("Please enter license number");
+            string input = Console.ReadLine();
+            while(string.IsNullOrEmpty(input))
+            {
+                Console.WriteLine("please type license number before pressing enter");
+                input = Console.ReadLine();
+            }
+
+            return input;
         }
 
         private void getAndSetOwnersDetails(string licenseNum)
@@ -329,14 +341,14 @@ namespace Ex03.ConsoleUI
         {
             Console.WriteLine("Please enter your wheels current air pressure");
             string input = Console.ReadLine();
-            try
+            float num = 0;
+            while (!float.TryParse(input, out num))
             {
-                return float.Parse(input);
+                Console.WriteLine("please try again");
+                input = Console.ReadLine();
             }
-            catch (FormatException e)
-            {
-                throw e;
-            }
+
+            return num;
         }
 
         private string getManufacturerName()
@@ -432,8 +444,7 @@ namespace Ex03.ConsoleUI
         /* Change a certain vehicle’s status (Prompting the user for the license number and new desired status) */
         public void ChangeVehicleStatus()
         {
-            Console.WriteLine("Please enter license numer");
-            string licenseNum = Console.ReadLine();
+            string licenseNum = getLicenseNumber();
             if (Garage.Contains(licenseNum))
             {
                 printPossibleVehicleStatus();
@@ -503,8 +514,7 @@ namespace Ex03.ConsoleUI
         /* Inflate tires to maximum (Prompting the user for the license number) */
         public void InflateToMaximum()
         {
-            Console.WriteLine("Please enter license numer");
-            string licenseNum = Console.ReadLine();
+            string licenseNum = getLicenseNumber();
             if (Garage.Contains(licenseNum))
             {
                 Garage.InflateToMaximum(licenseNum);
@@ -526,8 +536,7 @@ namespace Ex03.ConsoleUI
         /* Refuel a fuel-based vehicle (Prompting the user for the license number, fuel type and amount to fill) */
         public void Refuel()
         {
-            Console.WriteLine("Please enter license numer");
-            string licenseNum = Console.ReadLine();
+            string licenseNum = getLicenseNumber();
             if (Garage.Contains(licenseNum) && Garage.IsFuelBased(licenseNum))
             {
                 float addLiters = getRequestedFuelAmountToRefuel(licenseNum);
@@ -662,8 +671,7 @@ namespace Ex03.ConsoleUI
         /* Charge an electric-based vehicle (Prompting the user for the license number and number of minutes to charge) */
         public void Charge()
         {
-            Console.WriteLine("Please enter license numer");
-            string licenseNum = Console.ReadLine();
+            string licenseNum = getLicenseNumber();
             if (Garage.Contains(licenseNum) && Garage.IsElectricBased(licenseNum))
             {
                 chargeVehicle(licenseNum);
@@ -716,8 +724,7 @@ namespace Ex03.ConsoleUI
          * other relevant information based on vehicle type) */
         public void DisplayVehicleInformation()
         {
-            Console.WriteLine("Please enter license numer");
-            string licenseNum = Console.ReadLine();
+            string licenseNum = getLicenseNumber();
             if (Garage.Contains(licenseNum))
             {
                 Console.WriteLine(Garage.DisplayVehicleInformation(licenseNum));
